@@ -37,7 +37,7 @@
                     <div class="input-label" style="width:10%">
                         <i style="color: #90A4AE;" class="icon ion-transgender"></i>
                     </div>
-                    <select ng-options="o.id as o.name for o in sexOptions" ng-model="user.sex" class="placeholderLetters customSelect" style="width:100%;"></select>
+                    <select ng-options="o.id as o.name for o in sexOptions" ng-model="user.sex" class="customSelect" style="width:100%;"></select>
                 </li>
 
                 <li class="item item-input item-icon-left">
@@ -45,7 +45,8 @@
                         <i style="color: #90A4AE;" class="icon ion-android-bar"></i>
                     </div>
                     <div style="width:90%;">
-                        <input type="date" ng-model="user.birthday" placeholder="When?" class="placeholderLetters">
+                        <input type="date" name="bday" ng-model="user.birthday" placeholder="When?" required>
+                        <span ng-show="signupform.bday.$dirty && signupform.bday.$error.required" style="color:darkred; font-size:10px">Birtday is required</span>
                     </div>
                 </li>
                 <ion-checkbox ng-model="user.isJournalist"><span>Are you a journalist?</span></ion-checkbox>

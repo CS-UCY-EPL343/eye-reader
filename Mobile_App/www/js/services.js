@@ -169,12 +169,16 @@ angular
                 UserService.GetByUsername(username)
                     .then(function(user) {
                         if (user !== null && user.password === password) {
-                            response = { success: true };
+                            response = { success: true, firstTime : user.firstTime };
                         } else {
                             response = { success: false, message: 'Username or password is incorrect' };
                         }
                         $rootScope.activeUser = user;
                         callback(response);
+                        if (user!== null && user.firstTime){
+                            user.firstTime = false;
+                            UserService.Update(user);
+                        }
                     });
             }, 0);
         }

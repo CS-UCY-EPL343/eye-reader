@@ -15,7 +15,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
 
 })
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform,sharedProps, $rootScope, $window) {
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -28,6 +28,33 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
             StatusBar.styleDefault();
         }
     });
+
+    $ionicPlatform.on('pause', function(){
+        console.log("saving settings");
+        saveUserSettings();
+    });
+
+    function saveUserSettings(){
+        var tempUserSettings = [
+            {
+                username : $rootScope.globals.currentUser.username,
+                isNightmode : sharedProps.getData("isNightmode"),
+                cachenewsEnabled : sharedProps.getData("cachenewsEnabled"),
+                fontsize : sharedProps.getData("fontsize"),
+                markupEnabled : sharedProps.getData("markupEnabled"),
+                hideEnabled : sharedProps.getData("hideEnabled"),
+                tolerance : sharedProps.getData("tolerance")
+            }
+        ]
+
+        var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
+        var currentUserSettings = _.filter(usersSettings, function(userSettings){
+            userSettings.username != tempUserSettings.username;
+        });
+        usersSettings.push(tempUserSettings);
+        
+        $window.localStorage.setItem("usersSettings", JSON.stringify(usersSettings));
+    }
 })
 
 /*

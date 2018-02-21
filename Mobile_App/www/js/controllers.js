@@ -1,31 +1,10 @@
 angular
     .module("app.controllers", ["ngCordova", "ngStorage", "chart.js"])
 
-.controller("newsFeedCtrl", [
-    "$scope",
-    "$rootScope",
-    "$http",
-    "$stateParams",
-    "sharedProps",
-    "$ionicPopup",
-    "$ionicActionSheet",
-    "$timeout",
-    "$localStorage",
-    "$sessionStorage", // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-    // You can include any angular dependencies as parameters for this function
-    // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function(
-        $scope,
-        $rootScope,
-        $http,
-        $stateParams,
-        sharedProps,
-        $ionicPopup,
-        $ionicActionSheet,
-        $timeout,
-        $localStorage,
-        $sessionStorage
-    ) {
+.controller("newsFeedCtrl", ["$scope","$rootScope","$http","$stateParams","sharedProps","$ionicPopup",
+    "$ionicActionSheet","$timeout","$localStorage","$sessionStorage",
+    function($scope,$rootScope,$http,$stateParams,sharedProps,$ionicPopup,$ionicActionSheet,
+        $timeout,$localStorage,$sessionStorage) {
         var savedArticlesId = [];
         $scope.sources = {
             total: 2
@@ -36,19 +15,17 @@ angular
         });
 
         $scope.$on("$ionicView.beforeEnter", function() {
-            if (sharedProps.getData("isNightmode") != undefined) {
+            if (sharedProps.getData("isNightmode") != undefined) 
                 $scope.isNightmode = sharedProps.getData("isNightmode").value;
-            }
             getFontSize();
         });
 
         function getFontSize(){
             var f = sharedProps.getData("fontsize");
-            if (f != undefined) {
+            if (f != undefined) 
                 $scope.selectedFontsizeVal = f.value;
-            } else {
+            else 
                 $scope.selectedFontsizeVal = 100;
-            }
 
             $scope.fontsize = { 'font-size': $scope.selectedFontsizeVal + '%' }
             $scope.fontsizeSmaller = {'font-size': ($scope.selectedFontsizeVal - 20) + '%'}
@@ -75,9 +52,7 @@ angular
         };
 
         $scope.getBackgroundClass = function() {
-            return $scope.isNightmode ?
-                "nightmodeBackground" :
-                "lightmodeBackground";
+            return $scope.isNightmode ? "nightmodeBackground" : "lightmodeBackground";
         };
 
         $scope.getFontClass = function() {
@@ -85,9 +60,7 @@ angular
         };
 
         $scope.getNightmodeHeaderClass = function() {
-            return $scope.isNightmode ?
-                "nightmodeHeaderClass" :
-                "normalHeaderClass";
+            return $scope.isNightmode ? "nightmodeHeaderClass" : "normalHeaderClass";
         };
 
         $scope.saveArticle = function(id) {
@@ -171,33 +144,15 @@ angular
     }
 ])
 
-.controller("settingsCtrl", [
-    "$scope",
-    "$stateParams",
-    "$ionicPopup",
-    "$rootScope",
-    "sharedProps",
-    "$interval",
-    "$timeout", // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-    // You can include any angular dependencies as parameters for this function
-    // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function(
-        $scope,
-        $stateParams,
-        $ionicPopup,
-        $rootScope,
-        sharedProps,
-        $interval,
-        $timeout
-    ) {
+.controller("settingsCtrl", ["$scope","$stateParams","$ionicPopup","$rootScope","sharedProps",
+    "$interval","$timeout", 
+    function($scope,$stateParams,$ionicPopup,$rootScope,sharedProps,$interval,$timeout) {
         $scope.data = {
             cachenewsEnabled: sharedProps.getData("cachenewsEnabled") == undefined ?
                 false : sharedProps.getData("cachenewsEnabled").value,
             fontsize: sharedProps.getData("fontsize") == undefined ?
                 100 : sharedProps.getData("fontsize").value,
             fontsizeRange : getFontsizeRangeVal(),
-            // subFontsize: sharedProps.getData("subFontsize") == undefined ?
-            //     70 : sharedProps.getData("subFontsize").value,
             markupEnabled: sharedProps.getData("markupEnabled") == undefined ?
                 false : sharedProps.getData("markupEnabled").value,
             hideEnabled: sharedProps.getData("hideEnabled") == undefined ?
@@ -224,8 +179,6 @@ angular
 
         $scope.$on("$ionicView.beforeLeave", function() {
             sharedProps.addData("cachenewsEnabled", $scope.data.cachenewsEnabled);
-            // sharedProps.addData("fontsize", $scope.fontsize);
-            //sharedProps.addData("subFontsize", $scope.textsize - 80);
             sharedProps.addData("markupEnabled", $scope.data.markupEnabled);
             sharedProps.addData("hideEnabled", $scope.data.hideEnabled);
             sharedProps.addData("tolerance", $scope.data.tolerance);
@@ -259,45 +212,26 @@ angular
                 $scope.fontsize = 125;
             $scope.selectedFontsize = { 'font-size': $scope.fontsize + '%' }
             $rootScope.$broadcast('fontsizeChange', $scope.fontsize + 20);
-                //$scope.subSelectedFontsize = { 'font-size': $scope.textsize - 80 + '%' }
             sharedProps.addData('fontsize', $scope.fontsize);
-            //sharedProps.addData("subFontsize", $scope.textsize - 80);
         });
     }
 ])
 
-.controller("addSourcesCtrl", [
-    "$scope",
-    "$http",
-    "$stateParams",
-    "sharedProps",
-    "$ionicActionSheet",
-    "$timeout", // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-    // You can include any angular dependencies as parameters for this function
-    // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function(
-        $scope,
-        $http,
-        $stateParams,
-        sharedProps,
-        $ionicActionSheet,
-        $timeout
-    ) {
+.controller("addSourcesCtrl", ["$scope","$http","$stateParams","sharedProps","$ionicActionSheet",
+    "$timeout", 
+    function($scope,$http,$stateParams,sharedProps,$ionicActionSheet,$timeout) {
         $scope.$on("$ionicView.beforeEnter", function() {
-            if (sharedProps.getData("isNightmode") != undefined) {
+            if (sharedProps.getData("isNightmode") != undefined) 
                 $scope.isNightmode = sharedProps.getData("isNightmode").value;
-            }
             getFontSize();
         });
 
         function getFontSize(){
             var f = sharedProps.getData("fontsize");
-            if (f != undefined) {
+            if (f != undefined) 
                 $scope.selectedFontsizeVal = f.value;
-            } else {
+            else 
                 $scope.selectedFontsizeVal = 100;
-            }
-
             $scope.fontsize = { 'font-size': $scope.selectedFontsizeVal + '%' }
         }
 
@@ -312,9 +246,7 @@ angular
         });
 
         $scope.getBackgroundClass = function() {
-            return $scope.isNightmode ?
-                "nightmodeBackground" :
-                "lightmodeBackground";
+            return $scope.isNightmode ? "nightmodeBackground" : "lightmodeBackground";
         };
 
         $scope.getFontClass = function() {
@@ -347,13 +279,7 @@ angular
     }
 ])
 
-.controller("eyeReaderCtrl", [
-    "$scope",
-    "$stateParams",
-    "$rootScope",
-    "sharedProps", // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-    // You can include any angular dependencies as parameters for this function
-    // TIP: Access Route Parameters for your page via $stateParams.parameterName
+.controller("eyeReaderCtrl", ["$scope","$stateParams","$rootScope","sharedProps", 
     function($scope, $stateParams, $rootScope, sharedProps) {
         $scope.currUser = $rootScope.globals.currentUser.username;
 
@@ -378,35 +304,25 @@ angular
         };
 
         $scope.getSidemenuIconClass = function() {
-            return $scope.isNightmode ?
-                "nightmodeSidemenuIcon" :
-                "normalSidemenuIcon";
+            return $scope.isNightmode ? "nightmodeSidemenuIcon" : "normalSidemenuIcon";
         };
 
         $scope.getNightmodeHeaderClass = function() {
-            return $scope.isNightmode ?
-                "nightmodeHeaderClass" :
-                "normalHeaderClass";
+            return $scope.isNightmode ? "nightmodeHeaderClass" : "normalHeaderClass";
         };
     }
 ])
 
-.controller("profileCtrl", [
-    "$scope",
-    "$rootScope",
-    "$stateParams",
-    "sharedProps", // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-    // You can include any angular dependencies as parameters for this function
-    // TIP: Access Route Parameters for your page via $stateParams.parameterName
+.controller("profileCtrl", ["$scope","$rootScope","$stateParams","sharedProps",
     function($scope, $rootScope, $stateParams, sharedProps) {
         $scope.user = $rootScope.activeUser;
-        if ($scope.user.sex == 0) {
+        if ($scope.user.sex == 0)
             $scope.displaySex = "Female";
-        } else if ($scope.user.sex == 1) {
+        else if ($scope.user.sex == 1) 
             $scope.displaySex = "Male";
-        } else {
+        else 
             $scope.displaySex = "Other";
-        }
+        
 
         $scope.$on("$ionicView.beforeEnter", function() {
             if (sharedProps.getData("isNightmode") != undefined) {
@@ -417,11 +333,10 @@ angular
 
         function getFontSize(){
             var f = sharedProps.getData("fontsize");
-            if (f != undefined) {
+            if (f != undefined)
                 $scope.selectedFontsizeVal = f.value;
-            } else {
+            else 
                 $scope.selectedFontsizeVal = 100;
-            }
 
             $scope.fontsize = { 'font-size': $scope.selectedFontsizeVal + '%' }
         }
@@ -436,16 +351,8 @@ angular
     }
 ])
 
-.controller("editProfileCtrl", [
-    "$scope",
-    "$rootScope",
-    "$stateParams",
-    "sharedProps",
-    "$timeout",
-    "$state", 
-    "UserService",// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-    // You can include any angular dependencies as parameters for this function
-    // TIP: Access Route Parameters for your page via $stateParams.parameterName
+.controller("editProfileCtrl", ["$scope","$rootScope","$stateParams","sharedProps","$timeout",
+    "$state", "UserService",
     function($scope, $rootScope, $stateParams, sharedProps, $timeout, $state, UserService) {
         $scope.sexOptions = [
             { name: "Female", id: 0 },
@@ -458,26 +365,22 @@ angular
         $scope.editedUser.birthday = new Date($scope.editedUser.birthday);
 
         $scope.$on("$ionicView.beforeEnter", function() {
-            if (sharedProps.getData("isNightmode") != undefined) {
+            if (sharedProps.getData("isNightmode") != undefined)
                 $scope.isNightmode = sharedProps.getData("isNightmode").value;
-            }
             getFontSize();
         });
 
         function getFontSize(){
             var f = sharedProps.getData("fontsize");
-            if (f != undefined) {
+            if (f != undefined) 
                 $scope.selectedFontsizeVal = f.value;
-            } else {
+            else 
                 $scope.selectedFontsizeVal = 100;
-            }
             $scope.fontsize = { 'font-size': $scope.selectedFontsizeVal + '%' }
         }
 
         $scope.getBackgroundClass = function() {
-            return $scope.isNightmode ?
-                "nightmodeBackground" :
-                "lightmodeBackground";
+            return $scope.isNightmode ? "nightmodeBackground" : "lightmodeBackground";
         };
 
         $scope.getFontClass = function() {
@@ -487,7 +390,7 @@ angular
         $scope.editProfile = function(){
             UserService.Update($scope.editedUser).then(function(response) {
                 if (response.success) {
-                $rootScope.$broadcast("usernameChange", $scope.editedUser.username);
+                    $rootScope.$broadcast("usernameChange", $scope.editedUser.username);
                     $state.go("eyeReader.profile");
                 } else {
                     //TODO: Display error toast for failed to update profile.
@@ -497,70 +400,70 @@ angular
     }
 ])
 
-.controller("signupCtrl", [
-    "$scope",
-    "$stateParams",
-    "sharedProps",
-    "UserService",
-    "$window",
-    "$state", // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-    // You can include any angular dependencies as parameters for this function
-    // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function($scope, $stateParams, sharedProps, UserService, $window, $state) {
+.controller("signupCtrl", ["$scope","$stateParams","sharedProps","UserService","$window",
+            "$state","$ionicPopup",
+    function($scope, $stateParams, sharedProps, UserService, $window, $state, $ionicPopup) {
         //$window.localStorage.clear();
         $scope.user = {};
         $scope.sexOptions = [{ name: "Female", id: 0 }, { name: "Male", id: 1 }, { name: "Other", id: 2 }];
         $scope.user.sex = 0;
         $scope.user.birthday = new Date();
-
-        $scope.maxdate = new Date();
+        $scope.user.firstTime = true;
 
         $scope.register = function() {
             UserService.Create($scope.user).then(function(response) {
-                if (response.success) {
+                if (response.success) 
                     $state.go("login");
-                } else {
-                }
+                else
+                    showFailedToRegisterPopup(response);
+            });
+        };
+
+        function showFailedToRegisterPopup(resp) {
+            var promptAlert = $ionicPopup.show({
+                title: "Error",
+                template: '<span>Failed to register! '+resp.message+'.</span>',
+                buttons: [{
+                    text: "OK",
+                    type: "button-positive",
+                    onTap: function(e) {}
+                }]
             });
         };
     }
 ])
 
-.controller("loginCtrl", [
-    "$scope",
-    "$stateParams",
-    "sharedProps",
-    "$location",
-    "AuthenticationService",
-    "$state",
-    "$window",
-    "$ionicPopup", "$ionicActionSheet", "$timeout", // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-    // You can include any angular dependencies as parameters for this function
-    // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function(
-        $scope,
-        $stateParams,
-        sharedProps,
-        $location,
-        AuthenticationService,
-        $state,
-        $window,
-        $ionicPopup, $ionicActionSheet, $timeout
-    ) {
+.controller("loginCtrl", ["$scope","$stateParams","sharedProps","$location","AuthenticationService",
+    "$state","$window","$ionicPopup", "$ionicActionSheet", "$timeout", 
+    function($scope,$stateParams,sharedProps,$location,AuthenticationService,$state,$window,
+        $ionicPopup, $ionicActionSheet, $timeout) {
         function createUserSettings() {
             sharedProps.addData("isNightmode", false);
             sharedProps.addData("cachenewsEnabled", false);
             sharedProps.addData("fontsize", 100);
-            //sharedProps.addData("subFontsize", 70);
             sharedProps.addData("markupEnabled", false);
             sharedProps.addData("hideEnabled", false);
             sharedProps.addData("tolerance", 50);
         }
 
-        function showFailedToLoginPopup() {
+        function loadUserSettings() {
+            var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
+
+            var currentUserSettings = _.find(usersSettings, function(userSettings){
+                userSettings.username == $scope.login.username;
+            });
+            sharedProps.addData("isNightmode", currentUserSettings.isNightmode);
+            sharedProps.addData("cachenewsEnabled",  currentUserSettings.cachenewsEnabled);
+            sharedProps.addData("fontsize",  currentUserSettings.fontsize);
+            sharedProps.addData("markupEnabled",  currentUserSettings.markupEnabled);
+            sharedProps.addData("hideEnabled",  currentUserSettings.hideEnabled);
+            sharedProps.addData("tolerance",  currentUserSettings.tolerance);
+        }
+
+        function showFailedToLoginPopup(resp) {
             var promptAlert = $ionicPopup.show({
                 title: "Error",
-                template: '<span>Failed to login!</span>',
+                template: '<span>Failed to login! '+resp.message+'.</span>',
                 buttons: [{
                     text: "OK",
                     type: "button-positive",
@@ -580,9 +483,14 @@ angular
                             $scope.login.password
                         );
                         createUserSettings();
+                        //TODO: REMOVE COMMENT FROM CODE TO CHECK IN APP IF SETTINGS ARE PRESERVED
+                        // if (response.firstTime)
+                        //     createUserSettings();
+                        // else
+                        //     loadUserSettings();
                         $state.go("eyeReader.newsFeed");
                     } else {
-                        showFailedToLoginPopup();
+                        showFailedToLoginPopup(response);
                     }
                 }
             );
@@ -590,27 +498,20 @@ angular
     }
 ])
 
-.controller("articleCtrl", [
-    "$scope",
-    "$stateParams",
-    "sharedProps", // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-    // You can include any angular dependencies as parameters for this function
-    // TIP: Access Route Parameters for your page via $stateParams.parameterName
+.controller("articleCtrl", ["$scope","$stateParams","sharedProps", 
     function($scope, $stateParams, sharedProps) {
         $scope.$on("$ionicView.beforeEnter", function() {
-            if (sharedProps.getData("isNightmode") != undefined) {
+            if (sharedProps.getData("isNightmode") != undefined) 
                 $scope.isNightmode = sharedProps.getData("isNightmode").value;
-            }
             getFontSize();
         });
 
         function getFontSize(){
             var f = sharedProps.getData("fontsize");
-            if (f != undefined) {
+            if (f != undefined) 
                 $scope.selectedFontsizeVal = f.value;
-            } else {
+            else 
                 $scope.selectedFontsizeVal = 100;
-            }
 
             $scope.fontsize = { 'font-size': ($scope.selectedFontsizeVal) + '%' }
         }
@@ -618,9 +519,7 @@ angular
         $scope.article = $stateParams.article;
 
         $scope.getBackgroundClass = function() {
-            return $scope.isNightmode ?
-                "nightmodeBackground" :
-                "lightmodeBackground";
+            return $scope.isNightmode ? "nightmodeBackground" : "lightmodeBackground";
         };
 
         $scope.getFontClass = function() {
@@ -628,43 +527,32 @@ angular
         };
 
         $scope.getNightmodeHeaderClass = function() {
-            return $scope.isNightmode ?
-                "nightmodeHeaderClass" :
-                "normalHeaderClass";
+            return $scope.isNightmode ? "nightmodeHeaderClass" : "normalHeaderClass";
         };
     }
 ])
 
-.controller("savedArticlesCtrl", [
-    "$scope",
-    "$stateParams",
-    "sharedProps", // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-    // You can include any angular dependencies as parameters for this function
-    // TIP: Access Route Parameters for your page via $stateParams.parameterName
+.controller("savedArticlesCtrl", ["$scope","$stateParams","sharedProps",
     function($scope, $stateParams, sharedProps) {
         $scope.$on("$ionicView.beforeEnter", function() {
-            if (sharedProps.getData("isNightmode") != undefined) {
+            if (sharedProps.getData("isNightmode") != undefined) 
                 $scope.isNightmode = sharedProps.getData("isNightmode").value;
-            }
             getFontSize();
         });
 
         function getFontSize(){
             var f = sharedProps.getData("fontsize");
-            if (f != undefined) {
+            if (f != undefined) 
                 $scope.selectedFontsizeVal = f.value;
-            } else {
+            else 
                 $scope.selectedFontsizeVal = 100;
-            }
 
             $scope.fontsize = { 'font-size': $scope.selectedFontsizeVal + '%' }
             $scope.fontsizeSmaller = { 'font-size': ($scope.selectedFontsizeVal - 20) + '%' }
         }
 
         $scope.getBackgroundClass = function() {
-            return $scope.isNightmode ?
-                "nightmodeBackground" :
-                "lightmodeBackground";
+            return $scope.isNightmode ? "nightmodeBackground" : "lightmodeBackground";
         };
 
         $scope.getFontClass = function() {
@@ -672,20 +560,12 @@ angular
         };
 
         $scope.getNightmodeHeaderClass = function() {
-            return $scope.isNightmode ?
-                "nightmodeHeaderClass" :
-                "normalHeaderClass";
+            return $scope.isNightmode ? "nightmodeHeaderClass" : "normalHeaderClass";
         };
     }
 ])
 
-.controller("statisticsCtrl", [
-    "$scope",
-    "$stateParams",
-    "sharedProps",
-    "$timeout", // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-    // You can include any angular dependencies as parameters for this function
-    // TIP: Access Route Parameters for your page via $stateParams.parameterName
+.controller("statisticsCtrl", ["$scope","$stateParams","sharedProps","$timeout",
     function($scope, $stateParams, sharedProps, $timeout) {
         $scope.$on("$ionicView.beforeEnter", function() {
             if (sharedProps.getData("isNightmode") != undefined) {
@@ -696,20 +576,16 @@ angular
 
         function getFontSize(){
             var f = sharedProps.getData("fontsize");
-            if (f != undefined) {
+            if (f != undefined) 
                 $scope.selectedFontsizeVal = f.value;
-            } else {
+            else 
                 $scope.selectedFontsizeVal = 100;
-            }
-
             $scope.fontsize = { 'font-size': $scope.selectedFontsizeVal + '%' }
             $scope.fontsizeSmaller = { 'font-size': ($scope.selectedFontsizeVal - 20) + '%' }
         }
 
         $scope.getBackgroundClass = function() {
-            return $scope.isNightmode ?
-                "nightmodeBackground" :
-                "lightmodeBackground";
+            return $scope.isNightmode ? "nightmodeBackground" : "lightmodeBackground";
         };
 
         $scope.getFontClass = function() {
@@ -717,17 +593,20 @@ angular
         };
 
         $scope.getNightmodeHeaderClass = function() {
-            return $scope.isNightmode ?
-                "nightmodeHeaderClass" :
-                "normalHeaderClass";
+            return $scope.isNightmode ? "nightmodeHeaderClass" : "normalHeaderClass";
         };
+
+        $scope.selectSource = [{ name: "All Sources", id: 0 }, { name: "Source x", id: 1 }, { name: "Source y", id: 2 }];
+        $scope.viewStatistics = [{ name: "Report", id: 0 }, { name: "Hate Speech", id: 1 }, { name: "Sentiment Analysis", id: 2 }];
+        $scope.selectedStatistic = 0;
+        $scope.selectedSource = 0;  
 
         $scope.labels = ["January", "February", "March", "April", "May"];
         $scope.series = ['Series A'];
         $scope.data = [
           [65, 59, 80, 81, 56]
         ];
-        
+
         // Simulate async data update
         $timeout(function () {
           $scope.data = [
@@ -737,23 +616,15 @@ angular
     }
 ])
 
-.controller("reportArticleCtrl", [
-    "$scope",
-    "$stateParams",
-    "sharedProps", // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-    // You can include any angular dependencies as parameters for this function
-    // TIP: Access Route Parameters for your page via $stateParams.parameterName
+.controller("reportArticleCtrl", ["$scope","$stateParams","sharedProps",
     function($scope, $stateParams, sharedProps) {
         $scope.$on("$ionicView.beforeEnter", function() {
-            if (sharedProps.getData("isNightmode") != undefined) {
+            if (sharedProps.getData("isNightmode") != undefined)
                 $scope.isNightmode = sharedProps.getData("isNightmode").value;
-            }
         });
 
         $scope.getBackgroundClass = function() {
-            return $scope.isNightmode ?
-                "nightmodeBackground" :
-                "lightmodeBackground";
+            return $scope.isNightmode ? "nightmodeBackground" : "lightmodeBackground";
         };
     }
 ]);
