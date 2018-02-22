@@ -4,8 +4,7 @@ angular
 .controller("newsFeedCtrl", ["$scope","$rootScope","$http","$stateParams","sharedProps","$ionicPopup",
     "$ionicActionSheet","$timeout","$localStorage","$sessionStorage",
     function($scope,$rootScope,$http,$stateParams,sharedProps,$ionicPopup,$ionicActionSheet,
-        $timeout,$localStorage,$sessionStorage) {
-        var savedArticlesId = [];
+    $timeout,$localStorage,$sessionStorage) {
         $scope.sources = {
             total: 2
         };
@@ -17,7 +16,15 @@ angular
         $scope.$on("$ionicView.beforeEnter", function() {
             if (sharedProps.getData("isNightmode") != undefined) 
                 $scope.isNightmode = sharedProps.getData("isNightmode").value;
+                if (sharedProps.getData("savedArticlesIds") != undefined)
+                    $scope.savedArticlesIds = sharedProps.getData("savedArticlesIds").value;
+                else 
+                    $scope.savedArticlesIds = [];
             getFontSize();
+        });
+
+        $scope.$on("$ionicView.beforeLeave",function(){
+            sharedProps.addData("savedArticlesIds", $scope.savedArticlesIds);
         });
 
         function getFontSize(){
@@ -64,21 +71,21 @@ angular
         };
 
         $scope.saveArticle = function(id) {
-            if (_.contains(savedArticlesId, id)) {
-                savedArticlesId = unsaveArticle(id);
+            if (_.contains($scope.savedArticlesIds, id)) {
+                $scope.savedArticlesIds = unsaveArticle(id);
                 showRemovedToast();
                 return;
             }
-            savedArticlesId.push(id);
+            $scope.savedArticlesIds.push(id);
             showSavedToast();
         };
 
         $scope.isArticleSaved = function(id) {
-            if (_.contains(savedArticlesId, id))
+            if (_.contains($scope.savedArticlesIds, id))
                 return true;
             else
                 false
-        }
+        };
 
         function deleteArticle(id){
             var article = _.find($scope.articles, function(a){
@@ -121,7 +128,7 @@ angular
         }
 
         function unsaveArticle(id) {
-            return savedArticlesId.filter(e => e !== id);
+            return $scope.savedArticlesIds.filter(e => e !== id);
         }
 
         function showSavedToast() {
@@ -552,13 +559,38 @@ angular
     }
 ])
 
-.controller("savedArticlesCtrl", ["$scope","$stateParams","sharedProps",
-    function($scope, $stateParams, sharedProps) {
+.controller("savedArticlesCtrl", ["$scope","$stateParams","sharedProps","$http",
+    function($scope, $stateParams, sharedProps,$http) {
         $scope.$on("$ionicView.beforeEnter", function() {
             if (sharedProps.getData("isNightmode") != undefined) 
                 $scope.isNightmode = sharedProps.getData("isNightmode").value;
+
+                console.log($scope.savedArticlesIds);
+                $http.get("./test_data/articles/templateArticle.js").then(function(res) {
+                    $scope.articles = res.data;
+                    $scope.savedArticles = [];
+
+                    if (sharedProps.getData("savedArticlesIds") != undefined)
+                        $scope.savedArticlesIds = sharedProps.getData("savedArticlesIds").value;
+                    else 
+                        $scope.savedArticlesIds = [];
+        
+                        
+                        console.log($scope.savedArticlesIds);
+                        if ($scope.savedArticlesIds.length > 0){
+                            for (var i=0; i<$scope.savedArticlesIds.length; i++){
+                                $scope.savedArticles.push(_.find($scope.articles, function(el){
+                                    return el.Id == $scope.savedArticlesIds[i];
+                                }));
+                            }
+                        }
+                        
+                        
+                });    
             getFontSize();
         });
+
+        
 
         function getFontSize(){
             var f = sharedProps.getData("fontsize");

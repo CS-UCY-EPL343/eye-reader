@@ -43,7 +43,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
                 fontsize : sharedProps.getData("fontsize"),
                 markupEnabled : sharedProps.getData("markupEnabled"),
                 hideEnabled : sharedProps.getData("hideEnabled"),
-                tolerance : sharedProps.getData("tolerance")
+                tolerance : sharedProps.getData("tolerance"),
+                savedArticlesIds : sharedProps.getData("savedArticlesIds")
             }
         ]
 
