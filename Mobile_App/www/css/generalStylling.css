@@ -114,12 +114,12 @@ sub{
 
 /*CSS for Mainition animation from nightmode to normalmode and back*/
 
-.normalBackgroundMain-add,
+/* .normalBackgroundMain-add,
 .normalBackgroundMain-remove,
 .nightmodeBackgroundMain-add,
 .nightmodeBackgroundMain-remove {
     transition: background-color 150ms linear;
-}
+} */
 
 /*
 * Popup class

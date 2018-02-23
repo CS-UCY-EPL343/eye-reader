@@ -23,9 +23,11 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
             cordova.plugins.Keyboard.disableScroll(true);
         }
+        ionic.Platform.fullScreen();
         if (window.StatusBar) {
             // org.apache.cordova.statusbar required
-            StatusBar.styleDefault();
+            // StatusBar.styleDefault();
+            return StatusBar.hide();
         }
     });
 

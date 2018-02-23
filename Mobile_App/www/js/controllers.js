@@ -1,30 +1,42 @@
 angular
-    .module("app.controllers", ["ngCordova", "ngStorage", "chart.js"])
+    .module("app.controllers", ["ngCordova", "ngStorage", "chart.js","toaster", "ngAnimate"])
 
 .controller("newsFeedCtrl", ["$scope","$rootScope","$http","$stateParams","sharedProps","$ionicPopup",
-    "$ionicActionSheet","$timeout","$localStorage","$sessionStorage",
+    "$ionicActionSheet","$timeout","$localStorage","$sessionStorage","$ionicLoading","toaster", "$window",
     function($scope,$rootScope,$http,$stateParams,sharedProps,$ionicPopup,$ionicActionSheet,
-    $timeout,$localStorage,$sessionStorage) {
+    $timeout,$localStorage,$sessionStorage, $ionicLoading,toaster,$window) {
+        $ionicLoading.show({
+            template: '<ion-spinner icon="spiral"></ion-spinner>',
+        });
+        
         $scope.sources = {
             total: 2
         };
 
-        $http.get("./test_data/articles/templateArticle.js").then(function(res) {
-            $scope.articles = res.data;
-        });
-
         $scope.$on("$ionicView.beforeEnter", function() {
             if (sharedProps.getData("isNightmode") != undefined) 
                 $scope.isNightmode = sharedProps.getData("isNightmode").value;
-                if (sharedProps.getData("savedArticlesIds") != undefined)
-                    $scope.savedArticlesIds = sharedProps.getData("savedArticlesIds").value;
-                else 
-                    $scope.savedArticlesIds = [];
+            var temp = $window.localStorage.getItem("savedArticles");
+            if (temp)
+                $scope.savedArticles = JSON.parse($window.localStorage.getItem("savedArticles"));
+            else 
+                $scope.savedArticles = [];
             getFontSize();
+        });
+        
+        // $http.get("https://eye-reader.herokuapp.com/articles/").then(function(res){
+        //     $scope.articles = res.data;
+        //     $ionicLoading.hide();
+        // });
+
+        $http.get("./test_data/articles/templateArticle.js").then(function(res) {
+            $scope.articles = res.data;
+            $ionicLoading.hide();
         });
 
         $scope.$on("$ionicView.beforeLeave",function(){
-            sharedProps.addData("savedArticlesIds", $scope.savedArticlesIds);
+            sharedProps.addData("savedArticles", $scope.savedArticles);
+            $window.localStorage.setItem("savedArticles", JSON.stringify($scope.savedArticles));
         });
 
         function getFontSize(){
@@ -43,12 +55,12 @@ angular
                 title: "Report",
                 templateUrl: "templates/reportTemplate.html",
                 buttons: [{
-                        text: "Cancel",
-                        type: "button-stable button-outline",
-                        onTap: function(e) {
-                            //e.preventDefault();
-                        }
-                    },
+                    text: "Cancel",
+                    type: "button-stable button-outline",
+                    onTap: function(e) {
+                        //e.preventDefault();
+                    }
+                },
                     {
                         text: "Confirm",
                         type: "button-positive",
@@ -71,20 +83,36 @@ angular
         };
 
         $scope.saveArticle = function(id) {
-            if (_.contains($scope.savedArticlesIds, id)) {
-                $scope.savedArticlesIds = unsaveArticle(id);
+            if ($scope.isArticleSaved(id)){
+                unsaveArticle(id);
                 showRemovedToast();
                 return;
             }
-            $scope.savedArticlesIds.push(id);
+            // if (_.contains($scope.savedArticles, id)) {
+            //     $scope.savedArticles = unsaveArticle(id);
+            //     showRemovedToast();
+            //     return;
+            // }
+            saveArticle(id);
             showSavedToast();
         };
 
+        function saveArticle(id){
+            $scope.articles.find(function(s) {
+                if (s.Id === id) {
+                    $scope.savedArticles.push(s);
+                }
+            });
+            sharedProps.addData("savedArticles", $scope.savedArticles);
+        }
+
         $scope.isArticleSaved = function(id) {
-            if (_.contains($scope.savedArticlesIds, id))
-                return true;
-            else
-                false
+            return $scope.savedArticles.find(function(s) {
+                if (s.Id === id) {
+                    return true;
+                }
+            });
+            return false;
         };
 
         function deleteArticle(id){
@@ -100,12 +128,12 @@ angular
                 title: "Warning",
                 template: "<span>Are you sure you want to delete this article?</span>",
                 buttons: [{
-                        text: "Cancel",
-                        type: "button-stable button-outline",
-                        onTap: function(e) {
-                            //e.preventDefault();
-                        }
-                    },
+                    text: "Cancel",
+                    type: "button-stable button-outline",
+                    onTap: function(e) {
+                        //e.preventDefault();
+                    }
+                },
                     {
                         text: "Confirm",
                         type: "button-positive",
@@ -117,7 +145,7 @@ angular
                 ]
             });
         };
-
+        
         function showDeletedToast() {
             var hideSheet = $ionicActionSheet.show({
                 titleText: "Article deleted"
@@ -126,27 +154,74 @@ angular
                 hideSheet();
             }, 500);
         }
-
+        
         function unsaveArticle(id) {
-            return $scope.savedArticlesIds.filter(e => e !== id);
+            //TODO: FIX HERE
+            $scope.savedArticles.find(function(s, index) {
+                if (s.Id == id) {
+                    $scope.savedArticles.splice(index, 1);
+                }
+            });
+            sharedProps.addData("savedArticles", $scope.savedArticles);
+
+            // for (var i = 0; i < $scope.savedArticles.length; i++){
+            //     if ($scope.savedArticles[i].Id == id){
+            //         $scope.savedArticles.splice(i, 1);
+            //         return;
+            //     }
+            // }
         }
 
         function showSavedToast() {
-            var hideSheet = $ionicActionSheet.show({
-                titleText: "Article saved"
+            // var hideSheet = $ionicActionSheet.show({
+            //     titleText: "Article saved"
+            // });
+            // $timeout(function() {
+            //     hideSheet();
+            // }, 500);
+            toaster.pop({
+                type: 'info',
+                title: 'Article added to saved',
+                timeout: 1200,
+                tapToDismiss: true,
+                'newest-on-top':true,
             });
-            $timeout(function() {
-                hideSheet();
-            }, 500);
         }
 
         function showRemovedToast() {
-            var hideSheet = $ionicActionSheet.show({
-                titleText: "Article unsaved"
+            // var hideSheet = $ionicActionSheet.show({
+            //     titleText: "Article unsaved"
+            // });
+            // $timeout(function() {
+            //     hideSheet();
+            // }, 500);
+            toaster.pop({
+                type: 'info',
+                title: 'Article removed from saved',
+                timeout: 1200,
+                tapToDismiss: true,
+                'newest-on-top':true,
             });
-            $timeout(function() {
-                hideSheet();
-            }, 500);
+        }
+
+        $scope.doRefresh = function(){
+            $http.get("./test_data/articles/templateArticle.js").then(function(res) {
+                $scope.articles = res.data;
+                $scope.$broadcast('scroll.refreshComplete');
+            });
+        }
+
+        $scope.loadMore = function(){
+            
+            // $http.post('<url>', {})
+            // .success(function(res){
+            //   $scope.posts = $scope.posts.concat(res.posts);  
+            // })
+            // .finally(function() {
+            //   $scope.$broadcast('scroll.infiniteScrollComplete');
+            //   $scope.$broadcast('scroll.refreshComplete');
+            // });
+            $scope.$broadcast('scroll.infiniteScrollComplete');
         }
     }
 ])
@@ -171,17 +246,17 @@ angular
         function getFontsizeRangeVal(){
             var f = sharedProps.getData("fontsize");
             if (f == undefined)
+                return 16;
+            else{
+                if (f.value == 87.5)
+                    return 14;
+                else if (f.value == 100)
                     return 16;
-                else{
-                    if (f.value == 87.5)
-                        return 14;
-                    else if (f.value == 100)
-                        return 16;
-                    else if (f.value == 112.5)
-                        return 18;
-                    else 
-                        return 20;
-                }      
+                else if (f.value == 112.5)
+                    return 18;
+                else 
+                    return 20;
+            }      
         }
 
         $scope.$on("$ionicView.beforeLeave", function() {
@@ -559,38 +634,18 @@ angular
     }
 ])
 
-.controller("savedArticlesCtrl", ["$scope","$stateParams","sharedProps","$http",
-    function($scope, $stateParams, sharedProps,$http) {
+.controller("savedArticlesCtrl", ["$scope","$stateParams","sharedProps","$http", "$window",
+    function($scope, $stateParams, sharedProps,$http, $window) {
+
         $scope.$on("$ionicView.beforeEnter", function() {
+            var temp = sharedProps.getData("savedArticles");
+            if (temp)
+                $scope.savedArticles = temp.value;
             if (sharedProps.getData("isNightmode") != undefined) 
                 $scope.isNightmode = sharedProps.getData("isNightmode").value;
 
-                console.log($scope.savedArticlesIds);
-                $http.get("./test_data/articles/templateArticle.js").then(function(res) {
-                    $scope.articles = res.data;
-                    $scope.savedArticles = [];
-
-                    if (sharedProps.getData("savedArticlesIds") != undefined)
-                        $scope.savedArticlesIds = sharedProps.getData("savedArticlesIds").value;
-                    else 
-                        $scope.savedArticlesIds = [];
-        
-                        
-                        console.log($scope.savedArticlesIds);
-                        if ($scope.savedArticlesIds.length > 0){
-                            for (var i=0; i<$scope.savedArticlesIds.length; i++){
-                                $scope.savedArticles.push(_.find($scope.articles, function(el){
-                                    return el.Id == $scope.savedArticlesIds[i];
-                                }));
-                            }
-                        }
-                        
-                        
-                });    
             getFontSize();
         });
-
-        
 
         function getFontSize(){
             var f = sharedProps.getData("fontsize");
@@ -653,10 +708,16 @@ angular
         $scope.selectedStatistic = 0;
         $scope.selectedSource = 0;  
 
-        $scope.labels = ["January", "February", "March", "April", "May"];
+        $scope.barLbls = ["January", "February", "March", "April", "May"];
         $scope.series = ['Series A'];
-        $scope.data = [
+        $scope.barData = [
           [65, 59, 80, 81, 56]
+        ];
+
+        $scope.doughnutLbls = ["January", "February"];
+        $scope.series = ['Series A'];
+        $scope.doughnutData = [
+          [65, 59]
         ];
 
         // Simulate async data update
