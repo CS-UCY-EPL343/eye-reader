@@ -7,9 +7,10 @@
     </ion-header-bar>
     <ion-content padding="false" overflow-scroll="false" class="has-header generalPadding" ng-controller="newsFeedCtrl" ng-class="getBackgroundClass()">
         <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
-        <div ng-if="savedArticles.length > 0"  ng-class="getBackgroundClass()">
+        <div ng-if="savedArticles.length > 0" ng-class="getBackgroundClass()">
             <ion-list id="savedArticles-list16" ng-repeat="article in savedArticles | filter: { Title:userSearch }" ng-class="getBackgroundClass()">
-                <ion-item ng-show="!{{article.Deleted}}" class="item-thumbnail-left item-icon-right" ui-sref="eyeReader.article({article : article})" ng-class="getBackgroundClass()">
+                <ion-item ng-show="!{{article.Deleted}}" class="item-thumbnail-left item-icon-right" ui-sref="eyeReader.article({article : article})"
+                    ng-class="getBackgroundClass()">
                     <img alt="img" ng-src="{{article.PictureSrc}}">
                     <h2 ng-style="fontsize" ng-class="getFontClass()">{{article.Title}}</h2>
                     <p ng-style="fontsizeSmaller" class="sideLetters">{{article.Content}}</p>

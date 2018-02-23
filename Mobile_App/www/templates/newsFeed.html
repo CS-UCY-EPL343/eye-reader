@@ -7,9 +7,10 @@
     </ion-header-bar>
     <ion-content padding="false" overflow-scroll="false" class="has-header generalPadding" ng-controller="newsFeedCtrl" ng-class="getBackgroundClass()">
         <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
-        <div ng-if="sources.total > 0"  ng-class="getBackgroundClass()">
+        <div ng-if="sources.total > 0" ng-class="getBackgroundClass()">
             <ion-list id="newsFeed-list9" ng-repeat="article in articles | filter: { Title:userSearch }" ng-class="getBackgroundClass()">
-                <ion-item ng-show="!{{article.Deleted}}" class="item-thumbnail-left item-icon-right" ui-sref="eyeReader.article({article : article})" ng-class="getBackgroundClass()">
+                <ion-item ng-show="!{{article.Deleted}}" class="item-thumbnail-left item-icon-right" ui-sref="eyeReader.article({article : article})"
+                    ng-class="getBackgroundClass()">
                     <img alt="img" ng-src="{{article.PictureSrc}}">
                     <h2 ng-style="fontsize" ng-class="getFontClass()">{{article.Title}}</h2>
                     <p ng-style="fontsizeSmaller" class="sideLetters">{{article.Content}}</p>
@@ -28,8 +29,8 @@
                     </ion-option-button>
                 </ion-item>
             </ion-list>
-            <toaster-container toaster-options="{'position-class': 'toast-top-full-width'}"></toaster-container>
-            
+            <div class="snackbar-container" data-snackbar="true"></div>
+
             <ion-infinite-scroll on-infinite="loadMore()" distance="1%">
             </ion-infinite-scroll>
         </div>

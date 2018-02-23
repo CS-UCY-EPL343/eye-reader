@@ -49,7 +49,9 @@
                         <span ng-show="signupform.bday.$dirty && signupform.bday.$error.required" style="color:darkred; font-size:10px">Birtday is required</span>
                     </div>
                 </li>
-                <ion-checkbox ng-model="user.isJournalist"><span>Are you a journalist?</span></ion-checkbox>
+                <ion-checkbox ng-model="user.isJournalist">
+                    <span>Are you a journalist?</span>
+                </ion-checkbox>
             </ul>
             <button ng-disabled="signupform.$invalid" id="signup-button2" class="button button-stable button-block" ng-click="register()">Sign up</button>
         </form>
