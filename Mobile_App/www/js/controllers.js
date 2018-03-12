@@ -1,5 +1,5 @@
 angular
-    .module("app.controllers", ["ngCordova", "ngStorage", "chart.js", "ngAnimate"])
+    .module("app.controllers", ["ngCordova", "ngStorage", "chart.js", "ngAnimate", "ionic-notification-bar"])
     /**
      * @module controllerjs
      * @description Default module create by Ionic v1 and AngularJS for controlling the views in the app.
@@ -12,9 +12,9 @@ angular
      */
     .controller("newsFeedCtrl", ["$scope", "$http", "$stateParams", "sharedProps", "$ionicPopup",
         "$ionicActionSheet", "$timeout", "$localStorage", "$sessionStorage", "$ionicLoading", "$window",
+        "$notificationBar",
         function ($scope, $http, $stateParams, sharedProps, $ionicPopup, $ionicActionSheet,
-            $timeout, $localStorage, $sessionStorage, $ionicLoading, $window) {
-
+            $timeout, $localStorage, $sessionStorage, $ionicLoading, $window, $notificationBar) {
             init();
 
             //currently selected sources
@@ -191,12 +191,8 @@ angular
               * was deleted from the feed.
               */
             function showDeletedToast() {
-                var hideSheet = $ionicActionSheet.show({
-                    titleText: "Article deleted"
-                });
-                $timeout(function () {
-                    hideSheet();
-                }, 500);
+                $notificationBar.setDuration(700);
+                $notificationBar.show("Article deleted!", $notificationBar.EYEREADERCUSTOM);
             }
 
             /**
@@ -222,12 +218,10 @@ angular
               * when the article is saved.
               */
             function showSavedToast() {
-                var hideSheet = $ionicActionSheet.show({
-                    titleText: "Article saved"
-                });
-                $timeout(function () {
-                    hideSheet();
-                }, 500);
+                //set duration is not working. must be set from within the plugin's js file 
+                //default value = 700ms
+                $notificationBar.setDuration(700);
+                $notificationBar.show("Article added to saved!", $notificationBar.EYEREADERCUSTOM);
             }
 
             /**
@@ -237,12 +231,10 @@ angular
               * when the article is removed from saved.
               */
             function showRemovedToast() {
-                var hideSheet = $ionicActionSheet.show({
-                    titleText: "Article unsaved"
-                });
-                $timeout(function () {
-                    hideSheet();
-                }, 500);
+                //set duration is not working. must be set from within the plugin's js file.
+                //default value = 700ms
+                $notificationBar.setDuration(700);
+                $notificationBar.show("Article removed from saved!", $notificationBar.EYEREADERCUSTOM);
             }
 
             /**
@@ -276,7 +268,35 @@ angular
                 // });
                 $scope.$broadcast('scroll.infiniteScrollComplete');
             }
+            /**
+              * @function
+              * @memberof controllerjs.newsFeedCtrl
+              * @description This function is responsible for retrieving the class used in the the background 
+              * in order to set the background to nightmode/normalmode.
+              */
+            $scope.getBackgroundClass = function () {
+                return $scope.isNightmode ? "nightmodeBackground" : "normalmodeBackground";
+            };
 
+            /**
+              * @function
+              * @memberof controllerjs.newsFeedCtrl
+              * @description This function is responsible for retrieving the class used in the font style 
+              * in order to set the font style to nightmode/lightmode.
+              */
+            $scope.getFontClass = function () {
+                return $scope.isNightmode ? "nightmodeFontColor" : "normalBlackLetters";
+            };
+
+            /**
+              * @function
+              * @memberof controllerjs.newsFeedCtrl
+              * @description This function is responsible for retrieving the class used in the header  
+              * in order to set the header to nightmode/lightmode.
+              */
+            $scope.getNightmodeHeaderClass = function () {
+                return $scope.isNightmode ? "nightmodeHeaderClass" : "normalHeaderClass";
+            };
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
@@ -303,35 +323,7 @@ angular
                     $scope.articles = res.data;
                 });
 
-                /**
-                  * @function
-                  * @memberof controllerjs.newsFeedCtrl
-                  * @description This function is responsible for retrieving the class used in the the background 
-                  * in order to set the background to nightmode/normalmode.
-                  */
-                $scope.getBackgroundClass = function () {
-                    return $scope.isNightmode ? "nightmodeBackground" : "normalmodeBackground";
-                };
 
-                /**
-                  * @function
-                  * @memberof controllerjs.newsFeedCtrl
-                  * @description This function is responsible for retrieving the class used in the font style 
-                  * in order to set the font style to nightmode/lightmode.
-                  */
-                $scope.getFontClass = function () {
-                    return $scope.isNightmode ? "nightmodeFontColor" : "normalBlackLetters";
-                };
-
-                /**
-                  * @function
-                  * @memberof controllerjs.newsFeedCtrl
-                  * @description This function is responsible for retrieving the class used in the header  
-                  * in order to set the header to nightmode/lightmode.
-                  */
-                $scope.getNightmodeHeaderClass = function () {
-                    return $scope.isNightmode ? "nightmodeHeaderClass" : "normalHeaderClass";
-                };
                 $ionicLoading.hide();
             }
         }
@@ -359,8 +351,6 @@ angular
                 tolerance: sharedProps.getData("tolerance") == undefined ?
                     50 : sharedProps.getData("tolerance").value
             };
-
-            init();
 
             /**
              * @function
@@ -435,18 +425,11 @@ angular
             });
 
             /**
-              * @function
-              * @memberof controllerjs.settingsCtrl
-              * @description This function is responsible for calling all the functions that need to 
-              * be executed when the page is initialized.
-              */
-            function init(){
-                            /**
-              * @function
-              * @memberof controllerjs.settingsCtrl
-              * @description This function is responsible for retrieving the class used in the background
-              * in order to set the background to nightmode/lightmode.
-              */
+             * @function
+             * @memberof controllerjs.settingsCtrl
+             * @description This function is responsible for retrieving the class used in the background
+             * in order to set the background to nightmode/lightmode.
+             */
             $scope.getBackgroundClass = function () {
                 return $scope.data.isNightmode ?
                     "nightmodeBackgroundMain" :
@@ -464,7 +447,6 @@ angular
                     "nightmodeFontColor" :
                     "normalBlackLetters";
             };
-            }
         }
     ])
 
@@ -474,9 +456,8 @@ angular
      * @description Controller controlling the functionalities implemented for the Add Sources page.
      */
     .controller("addSourcesCtrl", ["$scope", "$http", "$stateParams", "sharedProps", "$ionicActionSheet",
-        "$timeout",
-        function ($scope, $http, $stateParams, sharedProps, $ionicActionSheet, $timeout) {
-
+        "$timeout", "$notificationBar", "$ionicLoading",
+        function ($scope, $http, $stateParams, sharedProps, $ionicActionSheet, $timeout, $notificationBar, $ionicLoading) {
             /**
              * @name $ionic.on.beforeEnter
              * @memberof controllerjs.addSourcesCtrl
@@ -489,6 +470,8 @@ angular
                     $scope.isNightmode = sharedProps.getData("isNightmode").value;
                 getFontSize();
             });
+
+            init();
 
             /**
              * @function
@@ -510,23 +493,6 @@ angular
                 total: 0,
                 sites: []
             };
-
-            /**
-             * @name $http.get
-             * @memberof controllerjs.addSourcesCtrl
-             * @description Executes a request to the application's server in order to retrieve the sources and their 
-             * details. The server's response is saved in a scope variable in order to be accessible from 
-             * the html.
-             */
-            $http.get("https://eye-reader.herokuapp.com/sources/").then(function (res) {
-                $scope.sources.sites = res.data;
-            });
-
-            // $http.get("./test_data/sources.js").then(function (res) {
-            //     $scope.sources.sites = res.data;
-            //     $scope.sources.total = $scope.sources.sites.length;
-            // });
-
 
             /**
               * @function
@@ -576,12 +542,8 @@ angular
               * informational message.
               */
             function showSuccessToast(sourceTitle) {
-                var hideSheet = $ionicActionSheet.show({
-                    titleText: sourceTitle + " selected"
-                });
-                $timeout(function () {
-                    hideSheet();
-                }, 500);
+                $notificationBar.setDuration(700);
+                $notificationBar.show(sourceTitle + " selected!", $notificationBar.EYEREADERCUSTOM);
             }
 
             /**
@@ -592,12 +554,38 @@ angular
               * to selected the given source.
               */
             function showFailureToast(sourceTitle) {
-                var hideSheet = $ionicActionSheet.show({
-                    titleText: "Failed to select " + sourceTitle
+
+                $notificationBar.setDuration(700);
+                $notificationBar.show("Failed to select " + sourceTitle + "!", $notificationBar.EYEREADERCUSTOM);
+            }
+
+            /**
+              * @function
+              * @memberof controllerjs.addSourcesCtrl
+              * @description This function is responsible for calling all the functions that need to 
+              * be executed when the page is initialized.
+              */
+            function init() {
+                $ionicLoading.show({
+                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
                 });
-                $timeout(function () {
-                    hideSheet();
-                }, 500);
+
+                /**
+                 * @name $http.get
+                 * @memberof controllerjs.addSourcesCtrl
+                 * @description Executes a request to the application's server in order to retrieve the sources and their 
+                 * details. The server's response is saved in a scope variable in order to be accessible from 
+                 * the html.
+                 */
+                $http.get("https://eye-reader.herokuapp.com/sources/").then(function (res) {
+                    $scope.sources.sites = res.data;
+                });
+
+                // $http.get("./test_data/sources.js").then(function (res) {
+                //     $scope.sources.sites = res.data;
+                //     $scope.sources.total = $scope.sources.sites.length;
+                // }); 
+                $ionicLoading.hide();
             }
         }
     ])
@@ -787,21 +775,9 @@ angular
      * @description Controller controlling the functionalities implemented for the edit profile view.
      */
     .controller("editProfileCtrl", ["$scope", "$rootScope", "$stateParams", "sharedProps", "$timeout",
-        "$state", "UserService",
-        function ($scope, $rootScope, $stateParams, sharedProps, $timeout, $state, UserService) {
-
-            //sets the value of the user's sex based on their decision
-            $scope.sexOptions = [
-                { name: "Female", id: 0 },
-                { name: "Male", id: 1 },
-                { name: "Other", id: 2 }
-            ];
-            //sets the name of the currently active user
-            $scope.user = $rootScope.activeUser;
-            //creates a new objects with the current user details
-            $scope.editedUser = $scope.user;
-            $scope.selectedSex = $scope.editedUser.sex;
-            $scope.editedUser.birthday = new Date($scope.editedUser.birthday);
+        "$state", "UserService", "$ionicLoading",
+        function ($scope, $rootScope, $stateParams, sharedProps, $timeout, $state, UserService, $ionicLoading) {
+            init();
 
             /**
              * @name $ionic.on.beforeEnter
@@ -865,9 +841,44 @@ angular
                         $rootScope.$broadcast("usernameChange", $scope.editedUser.username);
                         $state.go("eyeReader.profile");
                     } else {
-                        //TODO: Display error toast for failed to update profile.
+                        var promptAlert = $ionicPopup.show({
+                            title: "Error",
+                            template: "<span>Failed to update user's profile!</span>",
+                            buttons: [{
+                                text: "Retry",
+                                type: "button-positive",
+                                onTap: function (e) { }
+                            }]
+                        });
                     }
                 });
+            }
+
+            /**
+              * @function
+              * @memberof controllerjs.editProfileCtrl
+              * @description This function is responsible for calling all the functions that need to 
+              * be executed when the page is initialized.
+              */
+             function init() {
+                $ionicLoading.show({
+                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
+                });
+
+                //sets the value of the user's sex based on their decision
+                $scope.sexOptions = [
+                    { name: "Female", id: 0 },
+                    { name: "Male", id: 1 },
+                    { name: "Other", id: 2 }
+                ];
+                //sets the name of the currently active user
+                $scope.user = $rootScope.activeUser;
+                //creates a new objects with the current user details
+                $scope.editedUser = $scope.user;
+                $scope.selectedSex = $scope.editedUser.sex;
+                $scope.editedUser.birthday = new Date($scope.editedUser.birthday);
+
+                $ionicLoading.hide();
             }
         }
     ])
@@ -878,15 +889,9 @@ angular
      * @description Controller controlling the functionalities implemented for the edit sign up view.
      */
     .controller("signupCtrl", ["$scope", "$stateParams", "sharedProps", "UserService", "$window",
-        "$state", "$ionicPopup",
-        function ($scope, $stateParams, sharedProps, UserService, $window, $state, $ionicPopup) {
-            //$window.localStorage.clear();
-            //creates ojects for the new user's profile
-            $scope.user = {};
-            $scope.sexOptions = [{ name: "Female", id: 0 }, { name: "Male", id: 1 }, { name: "Other", id: 2 }];
-            $scope.user.sex = 0;
-            $scope.user.birthday = new Date();
-            $scope.user.firstTime = true;
+        "$state", "$ionicPopup", "$ionicLoading",
+        function ($scope, $stateParams, sharedProps, UserService, $window, $state, $ionicPopup, $ionicLoading) {
+            init();
 
             /**
               * @function
@@ -922,6 +927,25 @@ angular
                     }]
                 });
             };
+            
+            /**
+            * @function
+            * @memberof controllerjs.signupCtrl
+            * @description This function is responsible for calling all the functions that need to 
+            * be executed when the page is initialized.
+            */
+          function init() {
+              $ionicLoading.show({
+                  template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
+              });
+                //$window.localStorage.clear();
+                //creates ojects for the new user's profile
+                $scope.user = {};
+                $scope.sexOptions = [{ name: "Female", id: 0 }, { name: "Male", id: 1 }, { name: "Other", id: 2 }];
+                $scope.user.sex = 0;
+                $scope.user.birthday = new Date();
+                $scope.user.firstTime = true;
+            }
         }
     ])
 
@@ -931,9 +955,9 @@ angular
      * @description Controller controlling the functionalities implemented for the edit login view.
      */
     .controller("loginCtrl", ["$scope", "$stateParams", "sharedProps", "$location", "AuthenticationService",
-        "$state", "$window", "$ionicPopup", "$ionicActionSheet", "$timeout",
+        "$state", "$window", "$ionicPopup", "$ionicActionSheet", "$timeout", "$ionicLoading",
         function ($scope, $stateParams, sharedProps, $location, AuthenticationService, $state, $window,
-            $ionicPopup, $ionicActionSheet, $timeout) {
+            $ionicPopup, $ionicActionSheet, $timeout, $ionicLoading) {
 
             /**
               * @function
@@ -996,6 +1020,9 @@ angular
               * the news feed view. Else an informative message is displayed.
               */
             $scope.login = function () {
+                $ionicLoading.show({
+                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
+                });
                 AuthenticationService.Login(
                     $scope.login.username,
                     $scope.login.password,
@@ -1011,6 +1038,7 @@ angular
                             //     createUserSettings();
                             // else
                             //     loadUserSettings();
+                            $ionicLoading.hide();
                             $state.go("eyeReader.newsFeed");
                         } else {
                             showFailedToLoginPopup(response);
@@ -1026,8 +1054,8 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the article view.
      */
-    .controller("articleCtrl", ["$scope", "$stateParams", "sharedProps",
-        function ($scope, $stateParams, sharedProps) {
+    .controller("articleCtrl", ["$scope", "$stateParams", "sharedProps", "$ionicLoading",
+        function ($scope, $stateParams, sharedProps, $ionicLoading) {
 
             /**
              * @name $ionic.on.beforeEnter
@@ -1041,6 +1069,8 @@ angular
                     $scope.isNightmode = sharedProps.getData("isNightmode").value;
                 getFontSize();
             });
+
+            init();
 
             /**
              * @function
@@ -1058,8 +1088,6 @@ angular
 
                 $scope.fontsize = { 'font-size': ($scope.selectedFontsizeVal) + '%' }
             }
-
-            $scope.article = $stateParams.article;
 
             /**
               * @function
@@ -1090,6 +1118,22 @@ angular
             $scope.getNightmodeHeaderClass = function () {
                 return $scope.isNightmode ? "nightmodeHeaderClass" : "normalHeaderClass";
             };
+
+            /**
+              * @function
+              * @memberof controllerjs.articleCtrl
+              * @description This function is responsible for calling all the functions that need to 
+              * be executed when the page is initialized.
+              */
+             function init() {
+                $ionicLoading.show({
+                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
+                });
+
+                $scope.article = $stateParams.article;
+
+                $ionicLoading.hide();
+            }
         }
     ])
 
@@ -1177,8 +1221,8 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the statistics view.
      */
-    .controller("statisticsCtrl", ["$scope", "$stateParams", "sharedProps", "$timeout",
-        function ($scope, $stateParams, sharedProps, $timeout) {
+    .controller("statisticsCtrl", ["$scope", "$stateParams", "sharedProps", "$timeout", "$ionicLoading",
+        function ($scope, $stateParams, sharedProps, $timeout, $ionicLoading) {
 
             /**
              * @name $ionic.on.beforeEnter
@@ -1193,6 +1237,8 @@ angular
                 }
                 getFontSize();
             });
+
+            init();
 
             /**
              * @function
@@ -1265,6 +1311,21 @@ angular
                     [28, 48, 40, 19, 86]
                 ];
             }, 3000);
+            
+            /**
+              * @function
+              * @memberof controllerjs.statisticsCtrl
+              * @description This function is responsible for calling all the functions that need to 
+              * be executed when the page is initialized.
+              */
+             function init() {
+                $ionicLoading.show({
+                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
+                });
+                
+
+                $ionicLoading.hide();
+            }
         }
     ])
 

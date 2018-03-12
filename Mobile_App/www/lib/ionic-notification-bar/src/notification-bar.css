@@ -1,0 +1,92 @@
+/**
+ * Guillaume Emery - https://github.com/guysmv/ionic-notification-bar
+ * Licensed under the MIT License
+ */
+@-webkit-keyframes appear {
+  from {
+    -webkit-transform: translate3d(0, 100%, 0);
+            transform: translate3d(0, 100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes appear {
+  from {
+    -webkit-transform: translate3d(0, 100%, 0);
+            transform: translate3d(0, 100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+  }
+}
+@-webkit-keyframes disp {
+  from {
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+  }
+  to {
+    visibility: hidden;
+    -webkit-transform: translate3d(0, 100%, 0);
+            transform: translate3d(0, 100%, 0);
+  }
+}
+@keyframes disp {
+  from {
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+  }
+  to {
+    visibility: hidden;
+    -webkit-transform: translate3d(0, 100%, 0);
+            transform: translate3d(0, 100%, 0);
+  }
+}
+
+.snack{
+	height: 50px;
+	display:-webkit-flex;
+	display:-ms-flexbox;
+	display:flex;
+	-webkit-justify-content:center;
+	    -ms-flex-pack:center;
+	        justify-content:center;
+	-webkit-align-items:center;
+	    -ms-flex-align:center;
+	        align-items:center;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 11;
+	padding:5px;
+	color:white;
+	font-weight:bold;
+	background-color:grey;
+	-webkit-animation-name:appear;
+	        animation-name:appear;
+	-webkit-animation-duration: 0.3s;
+	        animation-duration: 0.3s;
+}
+@media(min-width:768px){
+  .snack{
+    bottom: 7px;
+    right: 7px;
+    left:auto;
+    width: 400px;
+    height: 60px;
+    border-radius: 5px;
+  }
+}
+.snack-exit{
+	-webkit-animation-name:disp;
+	        animation-name:disp;
+	-webkit-animation-duration: 0.3s;
+	        animation-duration: 0.3s;
+}

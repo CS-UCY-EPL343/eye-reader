@@ -1,0 +1,41 @@
+{
+  "name": "ionic-notification-bar",
+  "version": "0.3.0",
+  "description": "Simple cross-platform notification bar using just CSS for Ionic Projects",
+  "main": [
+    "./dist/notification-bar.js",
+    "./dist/notification-bar.css"
+  ],
+  "keywords": [
+    "notification",
+    "snackbar",
+    "toast",
+    "plugin",
+    "bar"
+  ],
+  "authors": [
+    "Guillaume Emery"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/guysmv/ionic-notification-bar",
+  "ignore": [
+    "node_modules",
+    "demo",
+    ".gitignore",
+    "bower.json",
+    "demo.gif",
+    "gulpfile.js",
+    "package.json",
+    "README.md"
+  ],
+  "_release": "0.3.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.3.0",
+    "commit": "9cd79b7b15f33bc75bd1fa56fb32a16d86179b4a"
+  },
+  "_source": "https://github.com/guysmv/ionic-notification-bar.git",
+  "_target": "^0.3.0",
+  "_originalSource": "ionic-notification-bar",
+  "_direct": true
+}
