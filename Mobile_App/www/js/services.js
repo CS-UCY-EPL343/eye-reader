@@ -251,6 +251,7 @@ angular
                             $rootScope.activeUser = user;
                             callback(response);
                             if (user !== null && user.firstTime) {
+                                //TODO: FIX HERE THE FIRST TIME THING
                                 user.firstTime = false;
                                 UserService.Update(user);
                             }
@@ -284,10 +285,9 @@ angular
              * @description This function is responsible for clearing the global username and password values.
              */
             function ClearCredentials() {
-                $rootScope.globals = {};
+                $rootScope.globals = {
+                    currentUser: {}
+                };
             }
-
-
-
         }
     ]);

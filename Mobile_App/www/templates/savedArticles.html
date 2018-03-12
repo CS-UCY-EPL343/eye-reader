@@ -18,9 +18,6 @@
                     <ion-option-button class="button-energized" ng-click="showReportOptions()">
                         <ion-icon name="report" class="icon ion-alert-circled"></ion-icon>
                     </ion-option-button>
-                    <ion-option-button class="button-assertive" ng-click="showDeleteConfirm({{article.Id}})">
-                        <ion-icon name="delete" class="icon ion-trash-a"></ion-icon>
-                    </ion-option-button>
                     <ion-option-button ng-show="isArticleSaved({{article.Id}})" class="button-balanced" ng-click="saveArticle({{article.Id}})">
                         <ion-icon name="favorite" class="icon ion-android-star"></ion-icon>
                     </ion-option-button>

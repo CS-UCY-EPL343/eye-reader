@@ -8,7 +8,16 @@ angular.module('app.routes', [])
     // Each state's controller can be found in controllers.js
     $stateProvider
 
-        .state("eyeReader.newsFeed", {
+
+    .state("welcome", {
+
+        url: "/welcome",
+        templateUrl: "templates/welcome.html",
+        controller: "welcomeCtrl",
+        cache: false
+    })
+
+    .state("eyeReader.newsFeed", {
 
         url: "/newsfeed",
         views: {
@@ -81,7 +90,8 @@ angular.module('app.routes', [])
 
         url: "/login",
         templateUrl: "templates/login.html",
-        controller: "loginCtrl"
+        controller: "loginCtrl",
+        cache: false
     })
 
     .state("eyeReader.article", {

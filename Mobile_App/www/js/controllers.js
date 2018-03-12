@@ -17,11 +17,6 @@ angular
             $timeout, $localStorage, $sessionStorage, $ionicLoading, $window, $notificationBar) {
             init();
 
-            //currently selected sources
-            $scope.sources = {
-                total: 2
-            };
-
             /**
              * @name $ionic.on.beforeEnter
              * @memberof controllerjs.newsFeedCtrl
@@ -74,14 +69,15 @@ angular
                     buttons: [{
                         text: "Cancel",
                         type: "button-stable button-outline",
-                        onTap: function (e) {
-                            //e.preventDefault();
-                        }
+                        onTap: function (e) { }
                     },
                     {
                         text: "Confirm",
                         type: "button-positive",
-                        onTap: function (e) { }
+                        onTap: function (e) {
+                            $notificationBar.setDuration(700);
+                            $notificationBar.show("Article reported!", $notificationBar.EYEREADERCUSTOM);
+                        }
                     }
                     ]
                 });
@@ -307,6 +303,15 @@ angular
                 $ionicLoading.show({
                     template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
                 });
+
+                $scope.selectedSources = JSON.parse($window.localStorage.getItem("selectedSources"));
+
+                if (!$scope.selectedSources)
+                  $scope.selectedSources = [];
+
+                //TODO: REMOVE THIS LINE 
+                $scope.selectedSources = ["test", "test2", "test3"];
+
                 // $http.get("https://eye-reader.herokuapp.com/articles/").then(function(res){
                 //     $scope.articles = res.data;
                 //     $ionicLoading.hide();
@@ -335,22 +340,32 @@ angular
      * @description Controller controlling the functionalities implemented for the Settings page.
      */
     .controller("settingsCtrl", ["$scope", "$stateParams", "$ionicPopup", "$rootScope", "sharedProps",
-        "$interval", "$timeout",
-        function ($scope, $stateParams, $ionicPopup, $rootScope, sharedProps, $interval, $timeout) {
-            //object holding all the values in the settings page from all the toggles and range bars
-            $scope.data = {
-                cachenewsEnabled: sharedProps.getData("cachenewsEnabled") == undefined ?
-                    false : sharedProps.getData("cachenewsEnabled").value,
-                fontsize: sharedProps.getData("fontsize") == undefined ?
-                    100 : sharedProps.getData("fontsize").value,
-                fontsizeRange: getFontsizeRangeVal(),
-                markupEnabled: sharedProps.getData("markupEnabled") == undefined ?
-                    false : sharedProps.getData("markupEnabled").value,
-                hideEnabled: sharedProps.getData("hideEnabled") == undefined ?
-                    false : sharedProps.getData("hideEnabled").value,
-                tolerance: sharedProps.getData("tolerance") == undefined ?
-                    50 : sharedProps.getData("tolerance").value
-            };
+        "$interval", "$timeout", "$window", "$ionicLoading",
+        function ($scope, $stateParams, $ionicPopup, $rootScope, sharedProps, $interval, $timeout, $window, $ionicLoading) {
+            var usersSettings = {};
+            var currentUserSettings = {};
+            init();
+
+            /**
+              * @function
+              * @memberof controllerjs.settingsCtrl
+              * @description This function is responsible for saving the selected settings in the user's 
+              * settings in the device's local storage
+              */
+            function saveUserSettings() {
+                currentUserSettings.settings.cachenewsEnabled = $scope.data.cachenewsEnabled;
+                currentUserSettings.settings.fontsize = $scope.data.fontsizeRange;
+                currentUserSettings.settings.markupEnabled = $scope.data.markupEnabled;
+                currentUserSettings.settings.hideEnabled = $scope.data.hideEnabled;
+                currentUserSettings.settings.tolerance = $scope.data.tolerance;
+
+                var usersSettings = _.filter(usersSettings, function (userSettings) {
+                    return userSettings.username != $rootScope.activeUser.username;
+                });
+                usersSettings.push(currentUserSettings);
+
+                $window.localStorage.setItem("usersSettings", JSON.stringify(usersSettings));
+            }
 
             /**
              * @function
@@ -359,8 +374,9 @@ angular
              * range bar to the actual font size value.
              * (font size of range bar is in pixel values and the actual font size metric used is percentage)
              */
-            function getFontsizeRangeVal() {
-                var f = sharedProps.getData("fontsize");
+            function getFontsizeRangeVal(f) {
+                if (!f)
+                    f = sharedProps.getData("fontsize");
                 if (f == undefined)
                     return 16;
                 else {
@@ -389,6 +405,8 @@ angular
                 sharedProps.addData("markupEnabled", $scope.data.markupEnabled);
                 sharedProps.addData("hideEnabled", $scope.data.hideEnabled);
                 sharedProps.addData("tolerance", $scope.data.tolerance);
+
+                saveUserSettings();
             });
 
             /**
@@ -426,9 +444,13 @@ angular
 
             /**
              * @function
-             * @memberof controllerjs.settingsCtrl
+             * @memberof controllerjs.setting$scope.loginsCtrl
              * @description This function is responsible for retrieving the class used in the background
-             * in order to set the background to nightmode/lightmode.
+             * in order to set the ba
+                sharedProps.addData("cachenewsEnabled", $scope.data.cachenewsEnabled);
+                sharedProps.addData("markupEnabled", $scope.data.markupEnabled);
+                sharedProps.addData("hideEnabled", $scope.data.hideEnabled);
+                sharedProps.addData("tolerance", $scope.data.tolerance);ckground to nightmode/lightmode.
              */
             $scope.getBackgroundClass = function () {
                 return $scope.data.isNightmode ?
@@ -447,6 +469,57 @@ angular
                     "nightmodeFontColor" :
                     "normalBlackLetters";
             };
+
+            /**
+              * @function
+              * @memberof controllerjs.settingsCtrl
+              * @description This function is responsible for calling all the functions that need to 
+              * be executed when the page is initialized.
+              */
+            function init() {
+                $ionicLoading.show({
+                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
+                });
+
+                usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
+                if (usersSettings == null || usersSettings == undefined) {
+                    usersSettings = {};
+                }
+
+                currentUserSettings = _.find(usersSettings, function (userSettings) {
+                    return userSettings.username == $rootScope.activeUser.username;
+                });
+
+                if (currentUserSettings == null || currentUserSettings == undefined) {
+                    currentUserSettings = {
+                        username: $rootScope.activeUser.username,
+                        settings: {
+                            cachenewsEnabled: false,
+                            fontsize: "16",
+                            markupEnabled: false,
+                            hideEnabled: false,
+                            tolerance: 50
+                        }
+                    };
+                } else {
+                    $scope.data = {
+                        cachenewsEnabled: currentUserSettings.settings.cachenewsEnabled,
+                        fontsize: currentUserSettings.settings.fontsize,
+                        fontsizeRange: getFontsizeRangeVal(),
+                        markupEnabled: currentUserSettings.settings.markupEnabled,
+                        hideEnabled: currentUserSettings.settings.hideEnabled,
+                        tolerance: currentUserSettings.settings.tolerance,
+                    };
+                }
+
+                sharedProps.addData("cachenewsEnabled", $scope.data.cachenewsEnabled);
+                sharedProps.addData("fontsize", $scope.data.fontsize);
+                sharedProps.addData("markupEnabled", $scope.data.markupEnabled);
+                sharedProps.addData("hideEnabled", $scope.data.hideEnabled);
+                sharedProps.addData("tolerance", $scope.data.tolerance);
+
+                $ionicLoading.hide();
+            }
         }
     ])
 
@@ -456,8 +529,11 @@ angular
      * @description Controller controlling the functionalities implemented for the Add Sources page.
      */
     .controller("addSourcesCtrl", ["$scope", "$http", "$stateParams", "sharedProps", "$ionicActionSheet",
-        "$timeout", "$notificationBar", "$ionicLoading",
-        function ($scope, $http, $stateParams, sharedProps, $ionicActionSheet, $timeout, $notificationBar, $ionicLoading) {
+        "$timeout", "$ionicLoading", "$window", "$rootScope",
+        function ($scope, $http, $stateParams, sharedProps, $ionicActionSheet, $timeout, $ionicLoading, $window, $rootScope) {
+            var usersSources = {};
+            init();
+
             /**
              * @name $ionic.on.beforeEnter
              * @memberof controllerjs.addSourcesCtrl
@@ -466,12 +542,31 @@ angular
              *           2) Gets the font size selected by the user in order to set it to the whole page
              */
             $scope.$on("$ionicView.beforeEnter", function () {
+                $ionicLoading.show({
+                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
+                });
                 if (sharedProps.getData("isNightmode") != undefined)
                     $scope.isNightmode = sharedProps.getData("isNightmode").value;
                 getFontSize();
+                $ionicLoading.hide();
             });
 
-            init();
+            /**
+             * @name $ionic.on.beforeLeave
+             * @memberof controllerjs.addSourcesCtrl
+             * @description Executes actions before this page leaves the view.
+             *  Actions taken: 1) Saves selected sources in the local storage
+             */
+            $scope.$on("$ionicView.beforeLeave", function () {
+                usersSources = _.filter(usersSources, function (userSources) {
+                    console.log(userSources.username + " " + $rootScope.activeUser.username + " " + $scope.currentUserSources.username);
+                    return userSources.username != $rootScope.activeUser.username;
+                });
+                usersSources.push($scope.currentUserSources);
+
+                $window.localStorage.setItem("usersSources", JSON.stringify(usersSources));
+            });
+
 
             /**
              * @function
@@ -489,10 +584,6 @@ angular
                 $scope.fontsize = { 'font-size': $scope.selectedFontsizeVal + '%' }
             }
 
-            $scope.sources = {
-                total: 0,
-                sites: []
-            };
 
             /**
               * @function
@@ -521,9 +612,18 @@ angular
               * @description This function is responsible for selecting a source and displaying an 
               * informational message.
               */
-            $scope.selectSource = function (sourceTitle) {
-                showSuccessToast(sourceTitle);
+            $scope.select_deselectSource = function (sourceURL) {
+                var index = $scope.currentUserSources.sources.indexOf(sourceURL);
+                if (index > -1) {
+                    deselectSource(sourceURL, index);
+                } else {
+                    selectSource(sourceURL);
+                }
             };
+
+            function selectSource(sourceURL) {
+                $scope.currentUserSources.sources.push(sourceURL);
+            }
 
             /**
               * @function
@@ -532,32 +632,12 @@ angular
               * @description This function is responsible for deselecting a source and displaying an 
               * informational message.
               */
-            $scope.deselectSource = function (sourceTitle) { };
-
-            /**
-              * @function
-              * @memberof controllerjs.addSourcesCtrl
-              * @param {string} sourceTitle - The title of the selected source
-              * @description This function is responsible for selecting a source and displaying an 
-              * informational message.
-              */
-            function showSuccessToast(sourceTitle) {
-                $notificationBar.setDuration(700);
-                $notificationBar.show(sourceTitle + " selected!", $notificationBar.EYEREADERCUSTOM);
-            }
-
-            /**
-              * @function
-              * @memberof controllerjs.addSourcesCtrl
-              * @param {string} sourceTitle - The name of the source that was saved/unsaved
-              * @description This function is responsible for displaying an informational message about failing 
-              * to selected the given source.
-              */
-            function showFailureToast(sourceTitle) {
-
-                $notificationBar.setDuration(700);
-                $notificationBar.show("Failed to select " + sourceTitle + "!", $notificationBar.EYEREADERCUSTOM);
-            }
+            function deselectSource(sourceURL, index) {
+                $scope.currentUserSources.sources.splice(index, 1);
+                // $scope.currentUserSources.sources = _.find($scope.currentUserSources.sources, function(source){
+                //     return source != sourceURL;
+                // })
+            };
 
             /**
               * @function
@@ -572,14 +652,31 @@ angular
 
                 /**
                  * @name $http.get
-                 * @memberof controllerjs.addSourcesCtrl
+                 * @memberof controllerjs.addsourcesaddSourcesCtrl
                  * @description Executes a request to the application's server in order to retrieve the sources and their 
                  * details. The server's response is saved in a scope variable in order to be accessible from 
                  * the html.
                  */
                 $http.get("https://eye-reader.herokuapp.com/sources/").then(function (res) {
-                    $scope.sources.sites = res.data;
+                    $scope.sources = res.data;
                 });
+
+                usersSources = JSON.parse($window.localStorage.getItem("usersSources"));
+                if (usersSources == null || usersSources == undefined) {
+                    usersSources = {};
+                } else {
+                    console.log("currently active: " + $rootScope.activeUser.username);
+                    $scope.currentUserSources = _.find(usersSources, function (userSources) {
+                        return userSources.username == $rootScope.activeUser.username;
+                    });
+                }
+
+                if ($scope.currentUserSources == null || $scope.currentUserSources == undefined) {
+                    $scope.currentUserSources = {
+                        username: $rootScope.activeUser.username,
+                        sources: []
+                    };
+                }
 
                 // $http.get("./test_data/sources.js").then(function (res) {
                 //     $scope.sources.sites = res.data;
@@ -598,12 +695,12 @@ angular
     .controller("eyeReaderCtrl", ["$scope", "$stateParams", "$rootScope", "sharedProps", "$ionicPopup",
         "$state", "AuthenticationService",
         function ($scope, $stateParams, $rootScope, sharedProps, $ionicPopup, $state, AuthenticationService) {
-            //the currently active user
-            $scope.currUser = $rootScope.globals.currentUser.username;
+            //the currently active usernewsfeed
+            $scope.currUser = $rootScope.activeUser.username;
 
             /**
              * @name $rootScope.$on.usernameChange
-             * @memberof controllerjs.newsFeedCtrl
+             * @memberof controllerjs.eyeReaderCtrl
              * @description Executes actions when the message "usernameChange" is broadcasted in the controllers.
              *  Actions taken: 1) Gets the new username of the currently active user.
              */
@@ -613,7 +710,7 @@ angular
 
             /**
              * @name $rootScope.$on.nightmodeChange
-             * @memberof controllerjs.newsFeedCtrl
+             * @memberof controllerjs.eyeReaderCtrl
              * @description Executes actions when the message "nightmodeChange" is broadcasted in the controllers.
              *  Actions taken: 1) Gets the new value of the nightmode toggle that was set in the settings page.
              */
@@ -623,7 +720,7 @@ angular
 
             /**
              * @name $rootScope.$on.fontsizeChange
-             * @memberof controllerjs.newsFeedCtrl
+             * @memberof controllerjs.eyeReaderCtrl
              * @description Executes actions when the message "fontsizeChange" is broadcasted in the controllers.
              *  Actions taken: 1) Gets the new value of the font size that was set in the settings page.
              */
@@ -691,7 +788,7 @@ angular
                         type: "button-positive",
                         onTap: function (e) {
                             AuthenticationService.ClearCredentials();
-                            $state.go("login");
+                            $state.go("login", $stateParams, {reload: true, inherit: false});
                         }
                     }]
                 });
@@ -860,7 +957,7 @@ angular
               * @description This function is responsible for calling all the functions that need to 
               * be executed when the page is initialized.
               */
-             function init() {
+            function init() {
                 $ionicLoading.show({
                     template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
                 });
@@ -927,17 +1024,17 @@ angular
                     }]
                 });
             };
-            
+
             /**
             * @function
             * @memberof controllerjs.signupCtrl
             * @description This function is responsible for calling all the functions that need to 
             * be executed when the page is initialized.
             */
-          function init() {
-              $ionicLoading.show({
-                  template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
-              });
+            function init() {
+                $ionicLoading.show({
+                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
+                });
                 //$window.localStorage.clear();
                 //creates ojects for the new user's profile
                 $scope.user = {};
@@ -945,6 +1042,7 @@ angular
                 $scope.user.sex = 0;
                 $scope.user.birthday = new Date();
                 $scope.user.firstTime = true;
+                $ionicLoading.hide();
             }
         }
     ])
@@ -1041,6 +1139,7 @@ angular
                             $ionicLoading.hide();
                             $state.go("eyeReader.newsFeed");
                         } else {
+                            $ionicLoading.hide();
                             showFailedToLoginPopup(response);
                         }
                     }
@@ -1054,8 +1153,8 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the article view.
      */
-    .controller("articleCtrl", ["$scope", "$stateParams", "sharedProps", "$ionicLoading",
-        function ($scope, $stateParams, sharedProps, $ionicLoading) {
+    .controller("articleCtrl", ["$scope", "$stateParams", "sharedProps", "$ionicLoading", "$rootScope",
+        function ($scope, $stateParams, sharedProps, $ionicLoading, $rootScope) {
 
             /**
              * @name $ionic.on.beforeEnter
@@ -1125,11 +1224,11 @@ angular
               * @description This function is responsible for calling all the functions that need to 
               * be executed when the page is initialized.
               */
-             function init() {
+            function init() {
                 $ionicLoading.show({
                     template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
                 });
-
+                $scope.user = $rootScope.activeUser;
                 $scope.article = $stateParams.article;
 
                 $ionicLoading.hide();
@@ -1311,18 +1410,18 @@ angular
                     [28, 48, 40, 19, 86]
                 ];
             }, 3000);
-            
+
             /**
               * @function
               * @memberof controllerjs.statisticsCtrl
               * @description This function is responsible for calling all the functions that need to 
               * be executed when the page is initialized.
               */
-             function init() {
+            function init() {
                 $ionicLoading.show({
                     template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
                 });
-                
+
 
                 $ionicLoading.hide();
             }
