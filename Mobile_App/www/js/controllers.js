@@ -14,10 +14,8 @@ angular
         "$ionicActionSheet", "$timeout", "$localStorage", "$sessionStorage", "$ionicLoading", "$window",
         function ($scope, $http, $stateParams, sharedProps, $ionicPopup, $ionicActionSheet,
             $timeout, $localStorage, $sessionStorage, $ionicLoading, $window) {
-            //activate loading icon
-            $ionicLoading.show({
-                template: '<ion-spinner icon="spiral"></ion-spinner>',
-            });
+
+            init();
 
             //currently selected sources
             $scope.sources = {
@@ -41,36 +39,6 @@ angular
                 else
                     $scope.savedArticles = [];
                 getFontSize();
-            });
-
-            // $http.get("https://eye-reader.herokuapp.com/articles/").then(function(res){
-            //     $scope.articles = res.data;
-            //     $ionicLoading.hide();
-            // });
-
-            /**
-             * @name $http.get
-             * @memberof controllerjs.newsFeedCtrl
-             * @description Executes a request to the application's server in order to retrieve the articles and their 
-             * details. The server's response is saved in a scope variable in order to be accessible from 
-             * the html.
-             */
-            $http.get("./test_data/articles/templateArticle.js").then(function (res) {
-                $scope.articles = res.data;
-                $ionicLoading.hide();
-            });
-
-
-            /**
-             * @name $ionic.on.beforeLeave
-             * @memberof controllerjs.newsFeedCtrl
-             * @description Executes actions before this page leaves the view.
-             *  Actions taken: 1) Stores the currently selected articles in the shared properties space
-             *                 2) Stores the currently selected articles in the local storage of the device
-             */
-            $scope.$on("$ionicView.beforeLeave", function () {
-                sharedProps.addData("savedArticles", $scope.savedArticles);
-                $window.localStorage.setItem("savedArticles", JSON.stringify($scope.savedArticles));
             });
 
             /**
@@ -122,36 +90,6 @@ angular
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
-              * @description This function is responsible for retrieving the class used in the the background 
-              * in order to set the background to nightmode/normalmode.
-              */
-            $scope.getBackgroundClass = function () {
-                return $scope.isNightmode ? "nightmodeBackground" : "normalmodeBackground";
-            };
-
-            /**
-              * @function
-              * @memberof controllerjs.newsFeedCtrl
-              * @description This function is responsible for retrieving the class used in the font style 
-              * in order to set the font style to nightmode/lightmode.
-              */
-            $scope.getFontClass = function () {
-                return $scope.isNightmode ? "nightmodeFontColor" : "normalBlackLetters";
-            };
-
-            /**
-              * @function
-              * @memberof controllerjs.newsFeedCtrl
-              * @description This function is responsible for retrieving the class used in the header  
-              * in order to set the header to nightmode/lightmode.
-              */
-            $scope.getNightmodeHeaderClass = function () {
-                return $scope.isNightmode ? "nightmodeHeaderClass" : "normalHeaderClass";
-            };
-
-            /**
-              * @function
-              * @memberof controllerjs.newsFeedCtrl
               * @param {int} id - The id of the article to save/unsave
               * @description This function is responsible for deciding wether to add an article to saved 
               * or remove an article from saved. Firstly, it checks if the article is saved. If it is then 
@@ -164,11 +102,6 @@ angular
                     showRemovedToast();
                     return;
                 }
-                // if (_.contains($scope.savedArticles, id)) {
-                //     $scope.savedArticles = unsaveArticle(id);
-                //     showRemovedToast();
-                //     return;
-                // }
                 saveArticle(id);
                 showSavedToast();
             };
@@ -185,7 +118,7 @@ angular
                         $scope.savedArticles.push(s);
                     }
                 });
-                sharedProps.addData("savedArticles", $scope.savedArticles);
+                $window.localStorage.setItem("savedArticles", JSON.stringify($scope.savedArticles));
             }
 
             /**
@@ -275,19 +208,11 @@ angular
               */
             function unsaveArticle(id) {
                 //TODO: FIX HERE
-                $scope.savedArticles.find(function (s, index) {
-                    if (s.Id == id) {
-                        $scope.savedArticles.splice(index, 1);
-                    }
+                var articleIndex = $scope.savedArticles.findIndex(function (s) {
+                    return s.Id == id;
                 });
-                sharedProps.addData("savedArticles", $scope.savedArticles);
-
-                // for (var i = 0; i < $scope.savedArticles.length; i++){
-                //     if ($scope.savedArticles[i].Id == id){
-                //         $scope.savedArticles.splice(i, 1);
-                //         return;
-                //     }
-                // }
+                $scope.savedArticles.splice(articleIndex, 1);
+                $window.localStorage.setItem("savedArticles", JSON.stringify($scope.savedArticles));
             }
 
             /**
@@ -351,6 +276,64 @@ angular
                 // });
                 $scope.$broadcast('scroll.infiniteScrollComplete');
             }
+
+            /**
+              * @function
+              * @memberof controllerjs.newsFeedCtrl
+              * @description This function is responsible for calling all the functions that need to 
+              * be executed when the page is initialized.
+              */
+            function init() {
+                $ionicLoading.show({
+                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
+                });
+                // $http.get("https://eye-reader.herokuapp.com/articles/").then(function(res){
+                //     $scope.articles = res.data;
+                //     $ionicLoading.hide();
+                // });
+
+                /**
+                 * @name $http.get
+                 * @memberof controllerjs.newsFeedCtrl
+                 * @description Executes a request to the application's server in order to retrieve the articles and their 
+                 * details. The server's response is saved in a scope variable in order to be accessible from 
+                 * the html.
+                 */
+                $http.get("./test_data/articles/templateArticle.js").then(function (res) {
+                    $scope.articles = res.data;
+                });
+
+                /**
+                  * @function
+                  * @memberof controllerjs.newsFeedCtrl
+                  * @description This function is responsible for retrieving the class used in the the background 
+                  * in order to set the background to nightmode/normalmode.
+                  */
+                $scope.getBackgroundClass = function () {
+                    return $scope.isNightmode ? "nightmodeBackground" : "normalmodeBackground";
+                };
+
+                /**
+                  * @function
+                  * @memberof controllerjs.newsFeedCtrl
+                  * @description This function is responsible for retrieving the class used in the font style 
+                  * in order to set the font style to nightmode/lightmode.
+                  */
+                $scope.getFontClass = function () {
+                    return $scope.isNightmode ? "nightmodeFontColor" : "normalBlackLetters";
+                };
+
+                /**
+                  * @function
+                  * @memberof controllerjs.newsFeedCtrl
+                  * @description This function is responsible for retrieving the class used in the header  
+                  * in order to set the header to nightmode/lightmode.
+                  */
+                $scope.getNightmodeHeaderClass = function () {
+                    return $scope.isNightmode ? "nightmodeHeaderClass" : "normalHeaderClass";
+                };
+                $ionicLoading.hide();
+            }
         }
     ])
 
@@ -376,6 +359,8 @@ angular
                 tolerance: sharedProps.getData("tolerance") == undefined ?
                     50 : sharedProps.getData("tolerance").value
             };
+
+            init();
 
             /**
              * @function
@@ -431,6 +416,34 @@ angular
             /**
               * @function
               * @memberof controllerjs.settingsCtrl
+              * @description This function is responsible for matching the selected value from the font size 
+              * range bar to the actual font size value in order to display it in pixels in the page. 
+              * (font size of range bar is in pixel values and the actual font size metric used is percentage)
+              */
+            $scope.$watch("data.fontsizeRange", function () {
+                if ($scope.data.fontsizeRange == 14)
+                    $scope.fontsize = 87.5;
+                else if ($scope.data.fontsizeRange == 16)
+                    $scope.fontsize = 100;
+                else if ($scope.data.fontsizeRange == 18)
+                    $scope.fontsize = 112.5;
+                else
+                    $scope.fontsize = 125;
+                $scope.selectedFontsize = { 'font-size': $scope.fontsize + '%' }
+                $rootScope.$broadcast('fontsizeChange', $scope.fontsize + 20);
+                sharedProps.addData('fontsize', $scope.fontsize);
+            });
+
+            /**
+              * @function
+              * @memberof controllerjs.settingsCtrl
+              * @description This function is responsible for calling all the functions that need to 
+              * be executed when the page is initialized.
+              */
+            function init(){
+                            /**
+              * @function
+              * @memberof controllerjs.settingsCtrl
               * @description This function is responsible for retrieving the class used in the background
               * in order to set the background to nightmode/lightmode.
               */
@@ -451,27 +464,7 @@ angular
                     "nightmodeFontColor" :
                     "normalBlackLetters";
             };
-
-            /**
-              * @function
-              * @memberof controllerjs.settingsCtrl
-              * @description This function is responsible for matching the selected value from the font size 
-              * range bar to the actual font size value in order to display it in pixels in the page. 
-              * (font size of range bar is in pixel values and the actual font size metric used is percentage)
-              */
-            $scope.$watch("data.fontsizeRange", function () {
-                if ($scope.data.fontsizeRange == 14)
-                    $scope.fontsize = 87.5;
-                else if ($scope.data.fontsizeRange == 16)
-                    $scope.fontsize = 100;
-                else if ($scope.data.fontsizeRange == 18)
-                    $scope.fontsize = 112.5;
-                else
-                    $scope.fontsize = 125;
-                $scope.selectedFontsize = { 'font-size': $scope.fontsize + '%' }
-                $rootScope.$broadcast('fontsizeChange', $scope.fontsize + 20);
-                sharedProps.addData('fontsize', $scope.fontsize);
-            });
+            }
         }
     ])
 
@@ -525,7 +518,7 @@ angular
              * details. The server's response is saved in a scope variable in order to be accessible from 
              * the html.
              */
-            $http.get("https://eye-reader.herokuapp.com/sources/").then(function(res){
+            $http.get("https://eye-reader.herokuapp.com/sources/").then(function (res) {
                 $scope.sources.sites = res.data;
             });
 
@@ -1116,9 +1109,12 @@ angular
              *           2) Gets the font size selected by the user in order to set it to the whole page
              */
             $scope.$on("$ionicView.beforeEnter", function () {
-                var temp = sharedProps.getData("savedArticles");
+                var temp = $window.localStorage.getItem("savedArticles");
+                // var temp = sharedProps.getData("savedArticles");
                 if (temp)
-                    $scope.savedArticles = temp.value;
+                    $scope.savedArticles = JSON.parse(temp);
+                else
+                    $scope.savedArticles = [];
                 if (sharedProps.getData("isNightmode") != undefined)
                     $scope.isNightmode = sharedProps.getData("isNightmode").value;
 
