@@ -307,11 +307,7 @@ angular
                 $scope.selectedSources = JSON.parse($window.localStorage.getItem("selectedSources"));
 
                 if (!$scope.selectedSources)
-                  $scope.selectedSources = [];
-
-                //TODO: REMOVE THIS LINE 
-                $scope.selectedSources = ["test", "test2", "test3"];
-
+                    $scope.selectedSources = [];
                 // $http.get("https://eye-reader.herokuapp.com/articles/").then(function(res){
                 //     $scope.articles = res.data;
                 //     $ionicLoading.hide();
@@ -1153,8 +1149,8 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the article view.
      */
-    .controller("articleCtrl", ["$scope", "$stateParams", "sharedProps", "$ionicLoading", "$rootScope",
-        function ($scope, $stateParams, sharedProps, $ionicLoading, $rootScope) {
+    .controller("articleCtrl", ["$scope", "$stateParams", "sharedProps", "$ionicLoading",
+        function ($scope, $stateParams, sharedProps, $ionicLoading) {
 
             /**
              * @name $ionic.on.beforeEnter
@@ -1228,7 +1224,7 @@ angular
                 $ionicLoading.show({
                     template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
                 });
-                $scope.user = $rootScope.activeUser;
+
                 $scope.article = $stateParams.article;
 
                 $ionicLoading.hide();
