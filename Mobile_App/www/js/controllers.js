@@ -307,10 +307,10 @@ angular
                 $scope.selectedSources = JSON.parse($window.localStorage.getItem("selectedSources"));
 
                 if (!$scope.selectedSources)
-                  $scope.selectedSources = [];
+                    $scope.selectedSources = [];
 
                 //TODO: REMOVE THIS LINE 
-                $scope.selectedSources = ["test", "test2", "test3"];
+                // $scope.selectedSources = ["test", "test2", "test3"];
 
                 // $http.get("https://eye-reader.herokuapp.com/articles/").then(function(res){
                 //     $scope.articles = res.data;
@@ -477,6 +477,7 @@ angular
               * be executed when the page is initialized.
               */
             function init() {
+                //TODO: FIX HERE
                 $ionicLoading.show({
                     template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
                 });
@@ -501,16 +502,16 @@ angular
                             tolerance: 50
                         }
                     };
-                } else {
-                    $scope.data = {
-                        cachenewsEnabled: currentUserSettings.settings.cachenewsEnabled,
-                        fontsize: currentUserSettings.settings.fontsize,
-                        fontsizeRange: getFontsizeRangeVal(),
-                        markupEnabled: currentUserSettings.settings.markupEnabled,
-                        hideEnabled: currentUserSettings.settings.hideEnabled,
-                        tolerance: currentUserSettings.settings.tolerance,
-                    };
                 }
+                $scope.data = {
+                    cachenewsEnabled: currentUserSettings.settings.cachenewsEnabled,
+                    fontsize: currentUserSettings.settings.fontsize,
+                    fontsizeRange: getFontsizeRangeVal(),
+                    markupEnabled: currentUserSettings.settings.markupEnabled,
+                    hideEnabled: currentUserSettings.settings.hideEnabled,
+                    tolerance: currentUserSettings.settings.tolerance,
+                };
+
 
                 sharedProps.addData("cachenewsEnabled", $scope.data.cachenewsEnabled);
                 sharedProps.addData("fontsize", $scope.data.fontsize);
@@ -788,7 +789,7 @@ angular
                         type: "button-positive",
                         onTap: function (e) {
                             AuthenticationService.ClearCredentials();
-                            $state.go("login", $stateParams, {reload: true, inherit: false});
+                            $state.go("login", $stateParams, { reload: true, inherit: false });
                         }
                     }]
                 });
@@ -1457,5 +1458,17 @@ angular
             $scope.getBackgroundClass = function () {
                 return $scope.isNightmode ? "nightmodeBackground" : "normalmodeBackground";
             };
+        }
+    ])
+
+    /**
+     * @module welcomeCtrl
+     * @memberof controllerjs
+     * @description Controller controlling the functionalities implemented for the welcome template.
+     */
+    .controller("welcomeCtrl", ["$scope", "$stateParams", "sharedProps",
+        function ($scope, $stateParams, sharedProps) {
+
+
         }
     ]);

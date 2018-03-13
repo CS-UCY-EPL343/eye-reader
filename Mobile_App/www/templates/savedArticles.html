@@ -27,10 +27,14 @@
                 </ion-item>
             </ion-list>
         </div>
-        <div ng-if="savedArticles.length == 0">
-            <ion-list>
-                NO SOURCE SELECTED
-            </ion-list>
+        <div ng-if="savedArticles.length == 0" >
+                <p style="color: #90A4AE;  font-size: 137.5%; text-align: center; padding-top: 8%;" > Bookmark an article to view it here</p>
+                <div style="width:inherit; text-align: center; padding-top: 25%">
+                    <i style="color: #90A4AE; font-size:1250%!important" class="icon ion-ios-bookmarks"></i>
+                </div>
+                <h1 style="color: #90A4AE; font-size: 375%; text-align: center"> Oops!</h1>  
+                <h1 style="color: #90A4AE; font-size: 93.75%; text-align: center">There is no article to read from.</h1>  
+               
         </div>
     </ion-content>
 </ion-view>
