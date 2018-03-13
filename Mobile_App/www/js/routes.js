@@ -134,7 +134,7 @@ angular.module('app.routes', [])
         controller: "reportArticleCtrl"
     });
 
-    $urlRouterProvider.otherwise('/login')
-    // $urlRouterProvider.otherwise('/welcome');
+    // $urlRouterProvider.otherwise('/login')
+    $urlRouterProvider.otherwise('/welcome');
 
 });

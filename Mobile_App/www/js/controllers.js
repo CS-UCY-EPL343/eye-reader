@@ -1466,9 +1466,12 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the welcome template.
      */
-    .controller("welcomeCtrl", ["$scope", "$stateParams", "sharedProps",
-        function ($scope, $stateParams, sharedProps) {
+    .controller("welcomeCtrl", ["$scope", "$stateParams", "sharedProps", "$state",
+        function ($scope, $stateParams, sharedProps, $state) {
 
+            $scope.goToLogin = function(){
+                $state.go("login");
+            }
 
         }
     ]);

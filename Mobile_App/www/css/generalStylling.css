@@ -6,6 +6,11 @@
 sub{
     color:#90A4AE;
 }
+
+.background-img {
+    background: url("../img/WelcomeView.jpg") no-repeat;
+    background-size: cover;
+}
 /* BASE FONT SIZE IS 16px*/
 
 .header {
