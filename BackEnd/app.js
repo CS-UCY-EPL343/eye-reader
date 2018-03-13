@@ -21,8 +21,16 @@ app.get('/sources/', function (req, res) {
   res.json(Source);
 });
 
-app.get('/articles/', function (req, res) {
-  res.json(Article);
+app.get('/articles/:id/click/', function (req, res) {
+	//req.params.id
+	//click_count++
+  res.json({"Message" : "Success"});
+});
+
+app.get('/articles/:id/report/', function (req, res) {
+	//req.params.id
+	//report_count++
+  res.json({"Message" : "Success"});
 });
 
 app.listen(PORT, function () {
