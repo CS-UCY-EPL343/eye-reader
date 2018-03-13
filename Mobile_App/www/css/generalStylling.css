@@ -8,7 +8,7 @@ sub{
 }
 
 .background-img {
-    background: url("../img/WelcomeView.jpg") no-repeat;
+    background: url("../img/welcome.jpg") no-repeat;
     background-size: cover;
 }
 /* BASE FONT SIZE IS 16px*/

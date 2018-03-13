@@ -9,7 +9,7 @@
         <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
         <div ng-if="selectedSources.length > 0" ng-class="getBackgroundClass()">
             <ion-list id="newsFeed-list9" ng-repeat="article in articles | filter: { Title:userSearch }" ng-class="getBackgroundClass()">
-                <ion-item ng-show="!{{article.Deleted}}" class="item-thumbnail-left item-icon-right" ui-sref="eyeReader.article({article : article})"
+                <ion-item ng-show="!{{article.Deleted}}" class="item-thumbnail-left item-icon-right" ng-click="articleTapped()" ui-sref="eyeReader.article({article : article})"
                     ng-class="getBackgroundClass()">
                     <img alt="img" ng-src="{{article.PictureSrc}}">
                     <h2 ng-style="fontsize" ng-class="getFontClass()">{{article.Title}}</h2>

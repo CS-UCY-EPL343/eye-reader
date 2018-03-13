@@ -62,7 +62,7 @@ angular
               * @description This function is responsible for displaying the popup when a user wants to report 
               * an article. The popup is ionic's default and uses the reportTemplate.html temlpate.
               */
-            $scope.showReportOptions = function () {
+            $scope.showReportOptions = function (url) {
                 var promptAlert = $ionicPopup.show({
                     title: "Report",
                     templateUrl: "templates/reportTemplate.html",
@@ -75,6 +75,8 @@ angular
                         text: "Confirm",
                         type: "button-positive",
                         onTap: function (e) {
+                            //we have to put an id for each source so we can calculate the reporrts of each source
+                            // $http.post("https://eye-reader.herokuapp.com/?url="+url+"?report");
                             $notificationBar.setDuration(700);
                             $notificationBar.show("Article reported!", $notificationBar.EYEREADERCUSTOM);
                         }
@@ -293,6 +295,17 @@ angular
             $scope.getNightmodeHeaderClass = function () {
                 return $scope.isNightmode ? "nightmodeHeaderClass" : "normalHeaderClass";
             };
+
+            /**
+              * @function
+              * @memberof controllerjs.newsFeedCtrl
+              * @description This function is responsible for rsending a request to the server in order 
+              * to increase the click counter of a source
+              */
+            $scope.articleTapped = function(url){
+                // $http.post("https://eye-reader.herokuapp.com/?url="+url+"?click");
+            }
+
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
@@ -310,7 +323,7 @@ angular
                     $scope.selectedSources = [];
 
                 //TODO: REMOVE THIS LINE 
-                // $scope.selectedSources = ["test", "test2", "test3"];
+                $scope.selectedSources = ["test", "test2", "test3"];
 
                 // $http.get("https://eye-reader.herokuapp.com/articles/").then(function(res){
                 //     $scope.articles = res.data;
@@ -326,10 +339,10 @@ angular
                  */
                 $http.get("./test_data/articles/templateArticle.js").then(function (res) {
                     $scope.articles = res.data;
+                    $ionicLoading.hide();
                 });
 
 
-                $ionicLoading.hide();
             }
         }
     ])
