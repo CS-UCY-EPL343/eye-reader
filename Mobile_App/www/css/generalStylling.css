@@ -7,10 +7,25 @@ sub{
     color:#90A4AE;
 }
 
-.background-img {
+.custom-background-img {
     background: url("../img/welcome.jpg") no-repeat;
-    background-size: cover;
+    background-size: transparent;
+    -wekbit-background-size:cover;
 }
+
+.welcome-logo{
+    max-width:100%;
+    width:auto/2; 
+    height:auto/4; 
+}
+
+.welcome-button{
+    background-color:#455A64!important; 
+    color:white!important; 
+    max-width:100%;
+    width: (auto/2) * 2;
+}
+
 /* BASE FONT SIZE IS 16px*/
 
 .header {

@@ -1,12 +1,11 @@
-<ion-view hide-nav-bar="true" hide-back-button="false" id="page13">
-    <ion-content padding="true" class="background-img" ng-controller="welcomeCtrl">
+<ion-view hide-nav-bar="true" hide-back-button="false" id="page13" class="custom-background-img">
+    <ion-content padding="true" ng-controller="welcomeCtrl">
 
 
-       <img src="img/logo.png" style="width:45%; height:25%; margin-top:45%; margin-left: auto; margin-right: auto; display: block;">
-
+        <img src="img/logo.png" class="welcome-logo" style="margin-top:45%; margin-left: auto; margin-right: auto; display: block;">
 
         <div style="text-align: center; padding-top:40%;">
-             <button style="background-color:#455A64; color:white; width:36%;" class="button button-stable" ng-click="goToLogin()">GET STARTED</button>
+             <button class="button button-stable welcome-button" ng-click="goToLogin()">GET STARTED</button>
         </div>
       
     </ion-content>

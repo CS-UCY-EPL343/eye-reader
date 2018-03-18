@@ -17,7 +17,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
      * @memberof appjs
      * @description Operations executed during runtime.
      */
-    .run(function ($ionicPlatform, sharedProps, $rootScope, $window) {
+    .run(function ($ionicPlatform, sharedProps, $rootScope, $window, Application, $state) {
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -31,6 +31,16 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
                 // StatusBar.styleDefault();
                 return StatusBar.hide();
             }
+
+            // if this is the first run of the application then show welcome screen,
+            // else skip to the login page
+            if (Application.isInitialRun()){
+                $state.go('welcome');
+            }else{
+                $state.go('login');
+            }
+        
+
         });
 
         /**
@@ -39,7 +49,6 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
          * @memberof appjs.run
          */
         $ionicPlatform.on('pause', function () {
-            console.log("saving settings");
             saveUserSettings();
         });
 

@@ -4,13 +4,18 @@ angular
      * @module servicesjs
      * @description Default module create by Ionic v1 and AngularJS for app services.
      */
-    /**
-     * @module factory
-     * @memberof servicesjs
-     */
-    .factory("BlankFactory", [function () { }])
 
-    .service("BlankService", [function () { }])
+     .factory('Application', ["$window", function($window){
+         return{
+             setInitialRun : function(initial){
+                 $window.localStorage.setItem("initialRun", initial ? "true" : "false");
+             },
+             isInitialRun : function(){
+                 var value = $window.localStorage.getItem("initialRun") || "true";
+                 return value == "true";
+             }
+         }
+     }])
 
     /**
      * @module sharedProps

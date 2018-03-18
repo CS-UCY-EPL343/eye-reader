@@ -20,6 +20,7 @@ angular.module('app.routes', [])
     .state("eyeReader.newsFeed", {
 
         url: "/newsfeed",
+        cache: "false",
         views: {
             "side-menu21": {
                 templateUrl: "templates/newsFeed.html",
@@ -31,6 +32,7 @@ angular.module('app.routes', [])
     .state("eyeReader.settings", {
 
         url: "/settings",
+        cache: "false",
         views: {
             "side-menu21": {
                 templateUrl: "templates/settings.html",
@@ -42,6 +44,7 @@ angular.module('app.routes', [])
     .state("eyeReader.addSources", {
 
         url: "/addsources",
+        cache: "false",
         views: {
             "side-menu21": {
                 templateUrl: "templates/addSources.html",
@@ -53,6 +56,7 @@ angular.module('app.routes', [])
     .state("eyeReader", {
 
         url: "/side-menu",
+        cache: "false",
         templateUrl: "templates/eyeReader.html",
         controller: "eyeReaderCtrl"
     })
@@ -60,6 +64,7 @@ angular.module('app.routes', [])
     .state("eyeReader.profile", {
 
         url: "/Profile",
+        cache: "false",
         views: {
             "side-menu21": {
                 templateUrl: "templates/profile.html",
@@ -71,6 +76,7 @@ angular.module('app.routes', [])
     .state("eyeReader.editProfile", {
 
         url: "/EditProfile",
+        cache: "false",
         views: {
             "side-menu21": {
                 templateUrl: "templates/editProfile.html",
@@ -82,6 +88,7 @@ angular.module('app.routes', [])
     .state("signup", {
 
         url: "/signup",
+        cache: "false",
         templateUrl: "templates/signup.html",
         controller: "signupCtrl"
     })
@@ -89,6 +96,7 @@ angular.module('app.routes', [])
     .state("login", {
 
         url: "/login",
+        cache: "false",
         templateUrl: "templates/login.html",
         controller: "loginCtrl",
         cache: false
@@ -97,6 +105,7 @@ angular.module('app.routes', [])
     .state("eyeReader.article", {
 
         url: "/article/{article:json}",
+        cache: "false",
         views: {
             "side-menu21": {
                 templateUrl: "templates/article.html",
@@ -108,6 +117,7 @@ angular.module('app.routes', [])
     .state("eyeReader.savedArticles", {
 
         url: "/savedArticles",
+        cache: "false",
         views: {
             "side-menu21": {
                 templateUrl: "templates/savedArticles.html",
@@ -119,6 +129,7 @@ angular.module('app.routes', [])
     .state("eyeReader.statistics", {
 
         url: "/Statistics",
+        cache: "false",
         views: {
             "side-menu21": {
                 templateUrl: "templates/statistics.html",
@@ -130,11 +141,8 @@ angular.module('app.routes', [])
     .state("reportArticleTemplate", {
 
         url: "/reportTemplate",
+        cache: "false",
         templateUrl: "templates/reportTemplate.html",
         controller: "reportArticleCtrl"
     });
-
-    // $urlRouterProvider.otherwise('/login')
-    $urlRouterProvider.otherwise('/welcome');
-
 });

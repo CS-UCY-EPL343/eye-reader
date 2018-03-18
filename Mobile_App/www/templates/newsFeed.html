@@ -1,12 +1,12 @@
 <ion-view title="News Feed" id="page1">
-    <ion-header-bar ng-class="getBackgroundClass()" class="bar bar-subheader item-input-inset">
+    <ion-header-bar ng-if="selectedSources.length > 0" ng-class="getBackgroundClass()" class="bar bar-subheader item-input-inset">
         <label class="item-input-wrapper" id="newsFeed-search1" name="searchArticles">
             <i class="icon ion-search placeholder-icon"></i>
             <input type="search" class="placeholderLetters" placeholder="Search articles" ng-model="userSearch">
         </label>
     </ion-header-bar>
     <ion-content padding="false" overflow-scroll="false" class="has-header generalPadding" ng-controller="newsFeedCtrl" ng-class="getBackgroundClass()">
-        <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
+        <ion-refresher ng-if="selectedSources.length > 0" pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
         <div ng-if="selectedSources.length > 0" ng-class="getBackgroundClass()">
             <ion-list id="newsFeed-list9" ng-repeat="article in articles | filter: { Title:userSearch }" ng-class="getBackgroundClass()">
                 <ion-item ng-show="!{{article.Deleted}}" class="item-thumbnail-left item-icon-right" ng-click="articleTapped()" ui-sref="eyeReader.article({article : article})"
