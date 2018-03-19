@@ -1,6 +1,6 @@
 <ion-view title="News Feed" id="page1">
-    <ion-header-bar ng-if="selectedSources.length > 0" ng-class="getBackgroundClass()" class="bar bar-subheader item-input-inset">
-        <label class="item-input-wrapper" id="newsFeed-search1" name="searchArticles">
+    <ion-header-bar ng-class="getBackgroundClass()" class="bar bar-subheader item-input-inset">
+        <label  ng-if="selectedSources.length > 0" class="item-input-wrapper" id="newsFeed-search1" name="searchArticles">
             <i class="icon ion-search placeholder-icon"></i>
             <input type="search" class="placeholderLetters" placeholder="Search articles" ng-model="userSearch">
         </label>

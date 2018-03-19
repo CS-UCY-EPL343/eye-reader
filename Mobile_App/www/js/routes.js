@@ -138,11 +138,11 @@ angular.module('app.routes', [])
         }
     })
 
-    .state("reportArticleTemplate", {
+    .state("reportArticle", {
 
-        url: "/reportTemplate",
+        url: "/reportArticle",
         cache: "false",
-        templateUrl: "templates/reportTemplate.html",
+        templateUrl: "templates/reportArticle.html",
         controller: "reportArticleCtrl"
     });
 });

@@ -1,14 +1,14 @@
 
 angular
-.module("app.controllers")
-   /**
-     * @module eyeReaderCtrl
-     * @memberof controllerjs
-     * @description Controller controlling the functionalities implemented for the Side menu.
-     */
+    .module("app.controllers")
+    /**
+      * @module eyeReaderCtrl
+      * @memberof controllerjs
+      * @description Controller controlling the functionalities implemented for the Side menu.
+      */
     .controller("eyeReaderCtrl", ["$scope", "$stateParams", "$rootScope", "sharedProps", "$ionicPopup",
-        "$state", "AuthenticationService",
-        function ($scope, $stateParams, $rootScope, sharedProps, $ionicPopup, $state, AuthenticationService) {
+        "$state", "AuthenticationService", "$ionicModal",
+        function ($scope, $stateParams, $rootScope, sharedProps, $ionicPopup, $state, AuthenticationService, $ionicModal) {
             //the currently active usernewsfeed
             $scope.currUser = $rootScope.activeUser.username;
 
@@ -107,5 +107,30 @@ angular
                     }]
                 });
             };
+
+            $ionicModal.fromTemplateUrl('templates/tutorial.html', {
+                scope: $scope,
+                animation: 'slide-in-up'
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+            $scope.openModal = function () {
+                $scope.modal.show();
+            };
+            $scope.closeModal = function () {
+                $scope.modal.hide();
+            };
+            // Cleanup the modal when we're done with it!
+            $scope.$on('$destroy', function () {
+                $scope.modal.remove();
+            });
+            // Execute action on hide modal
+            $scope.$on('modal.hidden', function () {
+                // Execute action
+            });
+            // Execute action on remove modal
+            $scope.$on('modal.removed', function () {
+                // Execute action
+            });
         }
     ])

@@ -1,3 +1,4 @@
+
 angular
     .module("app.controllers")
 
@@ -6,8 +7,7 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the report article template.
      */
-    .controller("reportArticleCtrl", ["$scope", "$stateParams", "sharedProps",
+    .controller("tutorialCtrl", ["$scope", "$stateParams", "sharedProps",
         function ($scope, $stateParams, sharedProps) {
 
-        }
-    ])
+        }])

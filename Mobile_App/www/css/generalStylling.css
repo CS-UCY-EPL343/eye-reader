@@ -1,30 +1,48 @@
 * {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif!important;
-    font-size : 16px;
+    font-size: 16px;
 }
 
-sub{
-    color:#90A4AE;
+sub {
+    color: #90A4AE;
+}
+
+.tutorialModal {
+    width: 80% !important;
+    min-height: 80% !important;
+
+    top:10%;
+    bottom:10%;
+    right: 10%;
+    left: 10%;
+}
+
+.generalTutorial{
+    padding-top: 5%!important;
+    padding-bottom: 2%!important;
+    padding-left: 5%!important;
+    padding-right: 5%!important;
 }
 
 .custom-background-img {
     background: url("../img/welcome.jpg") no-repeat;
     background-size: transparent;
-    -wekbit-background-size:cover;
+    -wekbit-background-size: cover;
 }
 
-.welcome-logo{
-    max-width:100%;
-    width:auto/2; 
-    height:auto/4; 
+.welcome-logo {
+    max-width: 100%;
+    width: auto/2;
+    height: auto/4;
 }
 
-.welcome-button{
-    background-color:#455A64!important; 
-    color:white!important; 
-    max-width:100%;
+.welcome-button {
+    background-color: #455A64!important;
+    color: white!important;
+    max-width: 100%;
     width: (auto/2) * 2;
 }
+
 
 /* BASE FONT SIZE IS 16px*/
 
@@ -49,7 +67,7 @@ sub{
 }
 
 .placeholderLetters {
-    font-size: 100% ;
+    font-size: 100%;
     color: #90a4ae!important;
 }
 
@@ -65,7 +83,7 @@ sub{
 
 .nightmodeFontColor {
     color: white!important;
-    font-size: 125% ;
+    font-size: 125%;
 }
 
 
@@ -89,6 +107,7 @@ sub{
 .normalBackgroundMain {
     background-color: white!important;
 }
+
 
 /*sidemenu icons color*/
 
@@ -124,15 +143,16 @@ sub{
     background-color: rgb(68, 68, 68);
 }
 
-.item .item-content .item-select{
-    padding-top:1%!important;
+.item .item-content .item-select {
+    padding-top: 1%!important;
     padding-bottom: 1%!important;
-    padding-left:5%!important;
-    padding-right:5%!important;
+    padding-left: 5%!important;
+    padding-right: 5%!important;
 }
 
 
 /*CSS for Mainition animation from nightmode to normalmode and back*/
+
 
 /* .normalBackgroundMain-add,
 .normalBackgroundMain-remove,
@@ -140,6 +160,7 @@ sub{
 .nightmodeBackgroundMain-remove {
     transition: background-color 150ms linear;
 } */
+
 
 /*
 * Popup class
@@ -172,22 +193,26 @@ sub{
     border-color: #455A64;
 }
 
+
 /*Popup background*/
-.popup-container > .popup{
+
+.popup-container>.popup {
     background: white;
 }
 
+
 /*Select options*/
-.customSelect{
-    right:auto!important;
-    direction:ltr!important;
-    padding-left:0%!important;
-    padding-right:0%!important;
+
+.customSelect {
+    right: auto!important;
+    direction: ltr!important;
+    padding-left: 0%!important;
+    padding-right: 0%!important;
 }
 
 .button.button-positive {
     border-color: transparent;
-    background-color:#455A64 !important;
+    background-color: #455A64 !important;
     color: #fff;
 }
 
@@ -196,7 +221,6 @@ sub{
     border-color: #a2a2a2;
     background-color: #0c60ee;
 }
-
 
 .button.button-positive.button-icon {
     border-color: transparent;

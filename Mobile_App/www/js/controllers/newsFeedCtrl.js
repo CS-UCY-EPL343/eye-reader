@@ -51,12 +51,12 @@
               * @function
               * @memberof controllerjs.newsFeedCtrl
               * @description This function is responsible for displaying the popup when a user wants to report 
-              * an article. The popup is ionic's default and uses the reportTemplate.html temlpate.
+              * an article. The popup is ionic's default and uses the reportArticle.html temlpate.
               */
             $scope.showReportOptions = function (url) {
                 var promptAlert = $ionicPopup.show({
                     title: "Report",
-                    templateUrl: "templates/reportTemplate.html",
+                    templateUrl: "templates/reportArticle.html",
                     buttons: [{
                         text: "Cancel",
                         type: "button-stable button-outline",
