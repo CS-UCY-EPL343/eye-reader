@@ -2,7 +2,7 @@
  * @module appjs
  * @description Default module create by Ionic v1 and and AngularJS for app operations.
  */
-angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives', 'app.services'])
+angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'app.directives', 'app.services'])
 
     .config(function ($ionicConfigProvider, $sceDelegateProvider) {
 
@@ -17,7 +17,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
      * @memberof appjs
      * @description Operations executed during runtime.
      */
-    .run(function ($ionicPlatform, sharedProps, $rootScope, $window, Application, $state) {
+    .run(function ($ionicPlatform, sharedProps, $rootScope, $window, Application, $state, $cordovaNetwork) {
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -39,8 +39,6 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
             }else{
                 $state.go('login');
             }
-        
-
         });
 
         /**

@@ -1,16 +1,15 @@
 
-    angular
+angular
     .module("app.controllers")
-   
+
     /**
      * @module newsFeedCtrl
      * @description Controller controlling the functionalities implemented for the News Feed page.
      */
-    .controller("newsFeedCtrl", ["$scope", "$http", "$stateParams", "sharedProps", "$ionicPopup",
-        "$ionicActionSheet", "$timeout", "$localStorage", "$sessionStorage", "$ionicLoading", "$window",
-        "$notificationBar", "$rootScope",
-        function ($scope, $http, $stateParams, sharedProps, $ionicPopup, $ionicActionSheet,
-            $timeout, $localStorage, $sessionStorage, $ionicLoading, $window, $notificationBar, $rootScope) {
+    .controller("newsFeedCtrl", ["$scope", "$http", "sharedProps", "$ionicPopup",
+        "$localStorage", "$ionicLoading", "$window", "$notificationBar", "$rootScope", "ConnectionMonitor",
+        function ($scope, $http, sharedProps, $ionicPopup,
+            $localStorage, $ionicLoading, $window, $notificationBar, $rootScope, ConnectionMonitor) {
             var data = {};
             init();
 
@@ -53,7 +52,7 @@
               * @description This function is responsible for displaying the popup when a user wants to report 
               * an article. The popup is ionic's default and uses the reportArticle.html temlpate.
               */
-            $scope.showReportOptions = function (url) {
+            $scope.showReportOptions = function (sourceid) {
                 var promptAlert = $ionicPopup.show({
                     title: "Report",
                     templateUrl: "templates/reportArticle.html",
@@ -67,7 +66,8 @@
                         type: "button-positive",
                         onTap: function (e) {
                             //we have to put an id for each source so we can calculate the reporrts of each source
-                            // $http.post("https://eye-reader.herokuapp.com/?url="+url+"?report");
+                            //TODO
+                            // $http.post("https://eye-reader.herokuapp.com/"+sourceid+"/report");
                             $notificationBar.setDuration(700);
                             $notificationBar.show("Article reported!", $notificationBar.EYEREADERCUSTOM);
                         }
@@ -293,8 +293,8 @@
               * @description This function is responsible for rsending a request to the server in order 
               * to increase the click counter of a source
               */
-            $scope.articleTapped = function(url){
-                // $http.post("https://eye-reader.herokuapp.com/?url="+url+"?click");
+            $scope.articleTapped = function (sourceid) {
+                // $http.post("https://eye-reader.herokuapp.com/"+sourceid+"/click");
             }
 
             /**
@@ -322,11 +322,11 @@
                 // });
 
                 var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
-                
+
                 var currentUserSettings = _.find(usersSettings, function (userSettings) {
                     return userSettings.username == $rootScope.activeUser.username;
                 });
-                
+
                 data = {
                     cachenewsEnabled: currentUserSettings.settings.cachenewsEnabled,
                     fontsize: currentUserSettings.settings.fontsize,
@@ -336,7 +336,7 @@
                 };
 
                 $rootScope.$broadcast('fontsizeChange', data.fontsize + 20);
-                
+
                 /**
                  * @name $http.get
                  * @memberof controllerjs.newsFeedCtrl

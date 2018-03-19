@@ -6,8 +6,8 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the statistics view.
      */
-    .controller("statisticsCtrl", ["$scope", "$stateParams", "sharedProps", "$timeout", "$ionicLoading", "$window", "$rootScope",
-        function ($scope, $stateParams, sharedProps, $timeout, $ionicLoading, $window, $rootScope) {
+    .controller("statisticsCtrl", ["$scope", "sharedProps", "$timeout", "$ionicLoading", "$window", "$rootScope",
+        function ($scope, sharedProps, $timeout, $ionicLoading, $window, $rootScope) {
 
             /**
              * @name $ionic.on.beforeEnter
@@ -37,7 +37,7 @@ angular
                 $scope.fontsize = { 'font-size': data.fontsize + '%' }
                 //font size for smaller letters than the normal ones
                 $scope.fontsizeSmaller = { 'font-size': (data.fontsize - 20) + '%' }
-           }
+            }
 
             /**
               * @function
@@ -105,11 +105,11 @@ angular
                     template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
                 });
                 var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
-                
+
                 var currentUserSettings = _.find(usersSettings, function (userSettings) {
                     return userSettings.username == $rootScope.activeUser.username;
                 });
-                
+
                 data = {
                     // cachenewsEnabled: currentUserSettings.settings.cachenewsEnabled,
                     fontsize: currentUserSettings.settings.fontsize,

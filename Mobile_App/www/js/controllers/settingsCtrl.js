@@ -1,15 +1,15 @@
 
-    angular
+angular
     .module("app.controllers")
-    
+
     /**
      * @module settingsCtrl
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the Settings page.
      */
-    .controller("settingsCtrl", ["$scope", "$stateParams", "$ionicPopup", "$rootScope", "sharedProps",
-        "$interval", "$timeout", "$window", "$ionicLoading","$ionicSideMenuDelegate",
-        function ($scope, $stateParams, $ionicPopup, $rootScope, sharedProps, $interval, $timeout, $window, $ionicLoading, $ionicSideMenuDelegate) {
+    .controller("settingsCtrl", ["$scope", "$rootScope", "sharedProps",
+        "$window", "$ionicLoading", "$ionicSideMenuDelegate",
+        function ($scope, $rootScope, sharedProps, $window, $ionicLoading, $ionicSideMenuDelegate) {
             var usersSettings = {};
             var currentUserSettings = {};
             var tempSettings = {};
@@ -25,6 +25,7 @@
                 $ionicLoading.show({
                     template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Saving Settings</p>',
                 });
+                sharedProps.addData("isNightmode", $scope.data.isNightmode);
                 sharedProps.addData("cachenewsEnabled", $scope.data.cachenewsEnabled);
                 sharedProps.addData("fontsize", $scope.data.fontsize);
                 sharedProps.addData("fontsizeRange", $scope.data.fontsizeRange);
@@ -42,7 +43,7 @@
                 usersSettings = _.filter(usersSettings, function (us) {
                     return us.username != currentUserSettings.username;
                 });
-                
+
                 usersSettings.push(currentUserSettings);
                 $window.localStorage.setItem("usersSettings", JSON.stringify(usersSettings));
                 $ionicLoading.hide();
@@ -74,8 +75,8 @@
 
             $scope.$watch(function () {
                 return $ionicSideMenuDelegate.getOpenRatio();
-            },function (ratio) {
-                if (ratio == 1){
+            }, function (ratio) {
+                if (ratio == 1) {
                     saveUserSettings();
                 }
             });
@@ -161,6 +162,7 @@
                 });
 
                 $scope.data = {
+                    isNightmode: sharedProps.getData("isNightmode").value,
                     cachenewsEnabled: currentUserSettings.settings.cachenewsEnabled,
                     fontsize: currentUserSettings.settings.fontsize,
                     fontsizeRange: currentUserSettings.settings.fontsizeRange,

@@ -7,8 +7,8 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the saved articles view.
      */
-    .controller("savedArticlesCtrl", ["$scope", "$stateParams", "sharedProps", "$http", "$window", "$rootScope", "$ionicLoading",
-        function ($scope, $stateParams, sharedProps, $http, $window, $rootScope, $ionicLoading) {
+    .controller("savedArticlesCtrl", ["$scope", "sharedProps", "$http", "$window", "$rootScope", "$ionicLoading",
+        function ($scope, sharedProps, $http, $window, $rootScope, $ionicLoading) {
             var data = {};
             init();
             /**

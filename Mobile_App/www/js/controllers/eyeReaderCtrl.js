@@ -6,9 +6,9 @@ angular
       * @memberof controllerjs
       * @description Controller controlling the functionalities implemented for the Side menu.
       */
-    .controller("eyeReaderCtrl", ["$scope", "$stateParams", "$rootScope", "sharedProps", "$ionicPopup",
+    .controller("eyeReaderCtrl", ["$scope", "$stateParams", "$rootScope", "$ionicPopup",
         "$state", "AuthenticationService", "$ionicModal",
-        function ($scope, $stateParams, $rootScope, sharedProps, $ionicPopup, $state, AuthenticationService, $ionicModal) {
+        function ($scope, $stateParams, $rootScope, $ionicPopup, $state, AuthenticationService, $ionicModal) {
             //the currently active usernewsfeed
             $scope.currUser = $rootScope.activeUser.username;
 

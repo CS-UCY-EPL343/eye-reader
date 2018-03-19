@@ -1,15 +1,15 @@
 angular
     .module("app.controllers")
-   
+
 
     /**
      * @module signupCtrl
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the edit sign up view.
      */
-    .controller("signupCtrl", ["$scope", "$stateParams", "sharedProps", "UserService", "$window",
+    .controller("signupCtrl", ["$scope", "UserService", "$window",
         "$state", "$ionicPopup", "$ionicLoading",
-        function ($scope, $stateParams, sharedProps, UserService, $window, $state, $ionicPopup, $ionicLoading) {
+        function ($scope, UserService, $window, $state, $ionicPopup, $ionicLoading) {
             init();
 
             /**

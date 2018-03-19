@@ -6,9 +6,9 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the edit profile view.
      */
-    .controller("editProfileCtrl", ["$scope", "$rootScope", "$stateParams", "sharedProps", "$timeout",
+    .controller("editProfileCtrl", ["$scope", "$rootScope", "sharedProps",
         "$state", "UserService", "$ionicLoading", "$window", "$rootScope",
-        function ($scope, $rootScope, $stateParams, sharedProps, $timeout, $state, UserService, $ionicLoading, $window, $rootScope) {
+        function ($scope, $rootScope, sharedProps, $state, UserService, $ionicLoading, $window, $rootScope) {
             var data = {};
             init();
 
@@ -110,11 +110,11 @@ angular
                 $scope.editedUser.birthday = new Date($scope.editedUser.birthday);
 
                 var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
-                
+
                 var currentUserSettings = _.find(usersSettings, function (userSettings) {
                     return userSettings.username == $rootScope.activeUser.username;
                 });
-                
+
                 data = {
                     cachenewsEnabled: currentUserSettings.settings.cachenewsEnabled,
                     fontsize: currentUserSettings.settings.fontsize,

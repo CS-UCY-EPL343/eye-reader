@@ -5,17 +5,17 @@ angular
      * @description Default module create by Ionic v1 and AngularJS for app services.
      */
 
-     .factory('Application', ["$window", function($window){
-         return{
-             setInitialRun : function(initial){
-                 $window.localStorage.setItem("initialRun", initial ? "true" : "false");
-             },
-             isInitialRun : function(){
-                 var value = $window.localStorage.getItem("initialRun") || "true";
-                 return value == "true";
-             }
-         }
-     }])
+    .factory('Application', ["$window", function ($window) {
+        return {
+            setInitialRun: function (initial) {
+                $window.localStorage.setItem("initialRun", initial ? "true" : "false");
+            },
+            isInitialRun: function () {
+                var value = $window.localStorage.getItem("initialRun") || "true";
+                return value == "true";
+            }
+        }
+    }])
 
     /**
      * @module sharedProps
@@ -295,4 +295,47 @@ angular
                 };
             }
         }
-    ]);
+
+    ])
+
+    .factory('ConnectionMonitor', function ($rootScope, $cordovaNetwork) {
+
+        return {
+            isOnline: function () {
+                if (ionic.Platform.isWebView()) {
+                    return $cordovaNetwork.isOnline();
+                } else {
+                    return navigator.onLine;
+                }
+            },
+            isOffline: function () {
+                if (ionic.Platform.isWebView()) {
+                    return !$cordovaNetwork.isOnline();
+                } else {
+                    return !navigator.onLine;
+                }
+            },
+            startWatching: function () {
+                if (ionic.Platform.isWebView()) {
+
+                    $rootScope.$on('$cordovaNetwork:online', function (event, networkState) {
+                        console.log("went online");
+                    });
+
+                    $rootScope.$on('$cordovaNetwork:offline', function (event, networkState) {
+                        console.log("went offline");
+                    });
+
+                } else {
+
+                    window.addEventListener("online", function (e) {
+                        console.log("went online");
+                    }, false);
+
+                    window.addEventListener("offline", function (e) {
+                        console.log("went offline");
+                    }, false);
+                }
+            }
+        }
+    });

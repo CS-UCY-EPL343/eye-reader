@@ -1,15 +1,15 @@
 angular
     .module("app.controllers")
-  
+
     /**
      * @module loginCtrl
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the edit login view.
      */
-    .controller("loginCtrl", ["$scope", "$stateParams", "sharedProps", "$location", "AuthenticationService",
-        "$state", "$window", "$ionicPopup", "$ionicActionSheet", "$timeout", "$ionicLoading", "$rootScope",
-        function ($scope, $stateParams, sharedProps, $location, AuthenticationService, $state, $window,
-            $ionicPopup, $ionicActionSheet, $timeout, $ionicLoading, $rootScope) {
+    .controller("loginCtrl", ["$scope", "sharedProps", "AuthenticationService",
+        "$state", "$window", "$ionicPopup", "$ionicLoading", "$rootScope",
+        function ($scope, sharedProps, AuthenticationService, $state, $window,
+            $ionicPopup, $ionicLoading, $rootScope) {
             var usersSettings;
             /**
               * @function
@@ -23,7 +23,7 @@ angular
                     username: $rootScope.activeUser.username,
                     settings: {
                         cachenewsEnabled: false,
-                        fontsize: "100",
+                        fontsize: 100,
                         fontsizeRange: "16",
                         markupEnabled: false,
                         hideEnabled: false,
@@ -55,15 +55,15 @@ angular
                 var currentUserSettings = _.find(usersSettings, function (userSettings) {
                     return userSettings.username == $scope.login.username;
                 });
-                if (currentUserSettings != null || currentUserSettings != undefined){
-                    sharedProps.addData("isNightmode", currentUserSettings.isNightmode);
+                if (currentUserSettings != null || currentUserSettings != undefined) {
+                    sharedProps.addData("isNightmode", false);
                     sharedProps.addData("cachenewsEnabled", currentUserSettings.cachenewsEnabled);
                     sharedProps.addData("fontsize", currentUserSettings.fontsize);
                     sharedProps.addData("fontsizeRange", currentUserSettings.fontsizeRange);
                     sharedProps.addData("markupEnabled", currentUserSettings.markupEnabled);
                     sharedProps.addData("hideEnabled", currentUserSettings.hideEnabled);
                     sharedProps.addData("tolerance", currentUserSettings.tolerance);
-                }else{
+                } else {
                     createUserSettings();
                 }
             }

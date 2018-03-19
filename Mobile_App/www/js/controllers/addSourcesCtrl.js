@@ -1,16 +1,16 @@
 
 
-    angular
+angular
     .module("app.controllers")
-    
+
     /**
      * @module addSourcesCtrl
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the Add Sources page.
      */
-    .controller("addSourcesCtrl", ["$scope", "$http", "$stateParams", "sharedProps", "$ionicActionSheet",
-        "$timeout", "$ionicLoading", "$window", "$rootScope",
-        function ($scope, $http, $stateParams, sharedProps, $ionicActionSheet, $timeout, $ionicLoading, $window, $rootScope) {
+    .controller("addSourcesCtrl", ["$scope", "$http", "sharedProps",
+        "$ionicLoading", "$window", "$rootScope",
+        function ($scope, $http, sharedProps, $ionicLoading, $window, $rootScope) {
             var usersSources = {};
             var data = {};
             init();
@@ -40,7 +40,6 @@
              */
             $scope.$on("$ionicView.beforeLeave", function () {
                 usersSources = _.filter(usersSources, function (userSources) {
-                    console.log(userSources.username + " " + $rootScope.activeUser.username + " " + $scope.currentUserSources.username);
                     return userSources.username != $rootScope.activeUser.username;
                 });
                 usersSources.push($scope.currentUserSources);
@@ -144,7 +143,6 @@
                 if (usersSources == null || usersSources == undefined) {
                     usersSources = {};
                 } else {
-                    console.log("currently active: " + $rootScope.activeUser.username);
                     $scope.currentUserSources = _.find(usersSources, function (userSources) {
                         return userSources.username == $rootScope.activeUser.username;
                     });
@@ -158,11 +156,11 @@
                 }
 
                 var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
-                
+
                 var currentUserSettings = _.find(usersSettings, function (userSettings) {
                     return userSettings.username == $rootScope.activeUser.username;
                 });
-                
+
                 data = {
                     cachenewsEnabled: currentUserSettings.settings.cachenewsEnabled,
                     fontsize: currentUserSettings.settings.fontsize,

@@ -1,13 +1,13 @@
 angular
     .module("app.controllers")
- 
+
     /**
      * @module profileCtrl
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the profile view.
      */
-    .controller("profileCtrl", ["$scope", "$rootScope", "$stateParams", "sharedProps", "$window", "$ionicLoading", "$rootScope",
-        function ($scope, $rootScope, $stateParams, sharedProps, $window, $ionicLoading, $rootScope) {
+    .controller("profileCtrl", ["$scope", "$rootScope", "sharedProps", "$window", "$ionicLoading", "$rootScope",
+        function ($scope, $rootScope, sharedProps, $window, $ionicLoading, $rootScope) {
             var data = {};
             init();
             //sets the value of the user's sex based on their decision
@@ -72,7 +72,7 @@ angular
               * @description This function is responsible for calling all the functions that need to 
               * be executed when the page is initialized.
               */
-            function init(){
+            function init() {
                 $ionicLoading.show({
                     template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading articles...</p>',
                 });
@@ -81,11 +81,11 @@ angular
                 $scope.user = $rootScope.activeUser;
 
                 var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
-                
+
                 var currentUserSettings = _.find(usersSettings, function (userSettings) {
                     return userSettings.username == $rootScope.activeUser.username;
                 });
-                
+
                 data = {
                     cachenewsEnabled: currentUserSettings.settings.cachenewsEnabled,
                     fontsize: currentUserSettings.settings.fontsize,
