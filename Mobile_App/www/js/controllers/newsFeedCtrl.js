@@ -10,6 +10,7 @@ angular
         "$localStorage", "$ionicLoading", "$window", "$notificationBar", "$rootScope", "ConnectionMonitor",
         function ($scope, $http, sharedProps, $ionicPopup,
             $localStorage, $ionicLoading, $window, $notificationBar, $rootScope, ConnectionMonitor) {
+            $scope.isOnline = ConnectionMonitor.isOnline();
             var data = {};
             init();
 
@@ -24,11 +25,11 @@ angular
             $scope.$on("$ionicView.beforeEnter", function () {
                 if (sharedProps.getData("isNightmode") != undefined)
                     $scope.isNightmode = sharedProps.getData("isNightmode").value;
-                var temp = $window.localStorage.getItem("savedArticles");
-                if (temp)
-                    $scope.savedArticles = JSON.parse($window.localStorage.getItem("savedArticles"));
-                else
-                    $scope.savedArticles = [];
+
+                $scope.savedArticles = JSON.parse($window.localStorage.getItem("savedArticles"));
+                if ($scope.savedArticles == null || $scope.savedArticles == undefined) {
+                    $scope.savedArticles = {};
+                }
                 getFontSize();
             });
 
@@ -65,7 +66,6 @@ angular
                         text: "Confirm",
                         type: "button-positive",
                         onTap: function (e) {
-                            //we have to put an id for each source so we can calculate the reporrts of each source
                             //TODO
                             // $http.post("https://eye-reader.herokuapp.com/"+sourceid+"/report");
                             $notificationBar.setDuration(700);
@@ -102,11 +102,19 @@ angular
               * @description This function is responsible for adding the article to the saved articles.
               */
             function saveArticle(id) {
-                $scope.articles.find(function (s) {
-                    if (s.Id === id) {
-                        $scope.savedArticles.push(s);
-                    }
-                });
+                if ($scope.isOnline) {
+                    $scope.articles.find(function (s) {
+                        if (s.Id === id) {
+                            $scope.savedArticles.push(s);
+                        }
+                    });
+                } else {
+                    $scope.cachedArticles.articles.find(function (s) {
+                        if (s.Id === id) {
+                            $scope.savedArticles.push(s);
+                        }
+                    });
+                }
                 $window.localStorage.setItem("savedArticles", JSON.stringify($scope.savedArticles));
             }
 
@@ -192,10 +200,8 @@ angular
               * the array with the saved articles by splicing the array on the article's position.
               */
             function unsaveArticle(id) {
-                //TODO: FIX HERE
-                var articleIndex = $scope.savedArticles.findIndex(function (s) {
-                    return s.Id == id;
-                });
+                var articleIndex = $scope.savedArticles.findIndex(s => s.Id == id);
+
                 $scope.savedArticles.splice(articleIndex, 1);
                 $window.localStorage.setItem("savedArticles", JSON.stringify($scope.savedArticles));
             }
@@ -207,8 +213,6 @@ angular
               * when the article is saved.
               */
             function showSavedToast() {
-                //set duration is not working. must be set from within the plugin's js file 
-                //default value = 700ms
                 $notificationBar.setDuration(700);
                 $notificationBar.show("Article added to saved!", $notificationBar.EYEREADERCUSTOM);
             }
@@ -220,8 +224,6 @@ angular
               * when the article is removed from saved.
               */
             function showRemovedToast() {
-                //set duration is not working. must be set from within the plugin's js file.
-                //default value = 700ms
                 $notificationBar.setDuration(700);
                 $notificationBar.show("Article removed from saved!", $notificationBar.EYEREADERCUSTOM);
             }
@@ -246,7 +248,7 @@ angular
               * articles that have already been fetched from the server.
               */
             $scope.loadMore = function () {
-
+                //TODO
                 // $http.post('<url>', {})
                 // .success(function(res){
                 //   $scope.posts = $scope.posts.concat(res.posts);  
@@ -294,7 +296,33 @@ angular
               * to increase the click counter of a source
               */
             $scope.articleTapped = function (sourceid) {
+                //TODO
                 // $http.post("https://eye-reader.herokuapp.com/"+sourceid+"/click");
+            }
+
+            /**
+              * @function
+              * @memberof controllerjs.newsFeedCtrl
+              * @description This function is responsible for caching the 10 top articles in the
+              * current news feed under the username of the current user in the local storage
+              */
+            function cacheArticles() {
+                var cached = {
+                    articles: $scope.cachedArticles,
+                    username: $rootScope.activeUser.username
+                };
+
+                var articleCache = JSON.parse($window.localStorage.getItem("articleCache"));
+                if (articleCache == null || articleCache == undefined) {
+                    articleCache = {};
+                }
+
+                articleCache = _.filter(articleCache, function (ac) {
+                    return ac.username != cached.username;
+                });
+
+                articleCache.push(cached);
+                $window.localStorage.setItem("articleCache", JSON.stringify(articleCache));
             }
 
             /**
@@ -334,19 +362,38 @@ angular
                     hideEnabled: currentUserSettings.settings.hideEnabled,
                     tolerance: currentUserSettings.settings.tolerance,
                 };
-
                 $rootScope.$broadcast('fontsizeChange', data.fontsize + 20);
 
-                /**
-                 * @name $http.get
-                 * @memberof controllerjs.newsFeedCtrl
-                 * @description Executes a request to the application's server in order to retrieve the articles and their 
-                 * details. The server's response is saved in a scope variable in order to be accessible from 
-                 * the html.
-                 */
-                $http.get("./test_data/articles/templateArticle.js").then(function (res) {
-                    $scope.articles = res.data;
-                }).then($ionicLoading.hide);
+                $scope.cachedArticles = [];
+                if ($scope.isOnline) {
+                    $http.get("./test_data/articles/templateArticle.js").then(function (res) {
+                        $scope.articles = res.data;
+                    }).then(function () {
+
+                        if (data.cachenewsEnabled) {
+                            for (var i = 0; i < $scope.articles.length; i++) {
+                                if (i < 5) {
+                                    $scope.cachedArticles.push($scope.articles[i]);
+                                }
+                            }
+                        }
+                        cacheArticles();
+
+                        $ionicLoading.hide();
+                    });
+                } else {
+
+                    var articleCache = JSON.parse($window.localStorage.getItem("articleCache"));
+                    if (articleCache == null || articleCache == undefined) {
+                        articleCache = {};
+                    } else {
+                        $scope.cachedArticles = _.find(articleCache, function (ac) {
+                            return ac.username == $rootScope.activeUser.username;
+                        });
+                    }
+                    $ionicLoading.hide();
+
+                }
 
 
             }

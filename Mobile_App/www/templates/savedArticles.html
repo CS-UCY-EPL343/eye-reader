@@ -5,7 +5,7 @@
             <input type="search" class="placeholderLetters" placeholder="Search articles" ng-model="userSearch">
         </label>
     </ion-header-bar>
-    <ion-content padding="false" overflow-scroll="false" class="has-header generalPadding" ng-controller="newsFeedCtrl" ng-class="getBackgroundClass()">
+    <ion-content padding="false" overflow-scroll="false" class="has-header generalPadding" ng-controller="savedArticlesCtrl" ng-class="getBackgroundClass()">
         <ion-refresher ng-if="savedArticles.length > 0" pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
         <div ng-if="savedArticles.length > 0" ng-class="getBackgroundClass()">
             <ion-list id="savedArticles-list16" ng-repeat="article in savedArticles | filter: { Title:userSearch }" ng-class="getBackgroundClass()">
@@ -15,26 +15,22 @@
                     <h2 ng-style="fontsize" ng-class="getFontClass()">{{article.Title}}</h2>
                     <p ng-style="fontsizeSmaller" class="sideLetters">{{article.Content}}</p>
                     <i class="icon ion-ios-arrow-right icon-accessory"></i>
-                    <ion-option-button class="button-energized" ng-click="showReportOptions()">
+                    <ion-option-button ng-show="isOnline" class="button-energized" ng-click="showReportOptions()">
                         <ion-icon name="report" class="icon ion-alert-circled"></ion-icon>
                     </ion-option-button>
-                    <ion-option-button ng-show="isArticleSaved({{article.Id}})" class="button-balanced" ng-click="saveArticle({{article.Id}})">
+                    <ion-option-button class="button-balanced" ng-click="unsaveArticle({{article.Id}})">
                         <ion-icon name="favorite" class="icon ion-android-star"></ion-icon>
-                    </ion-option-button>
-                    <ion-option-button ng-show="!isArticleSaved({{article.Id}})" class="button-balanced" ng-click="saveArticle({{article.Id}})">
-                        <ion-icon name="favorite" class="icon ion-android-star-outline"></ion-icon>
                     </ion-option-button>
                 </ion-item>
             </ion-list>
         </div>
         <div ng-if="savedArticles.length == 0" >
-                <p style="color: #90A4AE;  font-size: 137.5%; text-align: center; padding-top: 8%;" > Bookmark an article to view it here</p>
+                <p style="color: #90A4AE;  font-size: 137.5%; text-align: center; padding-top: 8%;" >Bookmark an article to view it here</p>
                 <div style="width:inherit; text-align: center; padding-top: 25%">
                     <i style="color: #90A4AE; font-size:1250%!important" class="icon ion-ios-bookmarks"></i>
                 </div>
                 <h1 style="color: #90A4AE; font-size: 375%; text-align: center"> Oops!</h1>  
                 <h1 style="color: #90A4AE; font-size: 93.75%; text-align: center">There is no article to read from.</h1>  
-               
         </div>
     </ion-content>
 </ion-view>
