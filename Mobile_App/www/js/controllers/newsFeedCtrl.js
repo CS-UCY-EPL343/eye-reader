@@ -28,7 +28,7 @@ angular
 
                 $scope.savedArticles = JSON.parse($window.localStorage.getItem("savedArticles"));
                 if ($scope.savedArticles == null || $scope.savedArticles == undefined) {
-                    $scope.savedArticles = {};
+                    $scope.savedArticles = [];
                 }
                 getFontSize();
             });
@@ -125,11 +125,11 @@ angular
               * @description This function is responsible for checking if the article given is saved or not.
               */
             $scope.isArticleSaved = function (id) {
-                return $scope.savedArticles.find(function (s) {
-                    if (s.Id === id) {
-                        return true;
-                    }
-                });
+				if ($scope.savedArticles == null || $scope.savedArticles == undefined || $scope.savedArticles.length == 0)
+					return false;
+                var found = $scope.savedArticles.find(s => s.Id === id);
+				if (found != null || found != undefined)
+					return true;
                 return false;
             };
 

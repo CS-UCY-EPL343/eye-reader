@@ -27,7 +27,10 @@ sub {
 .custom-background-img {
     background: url("../img/welcome.jpg") no-repeat;
     background-size: transparent;
-    -wekbit-background-size: cover;
+    -webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 }
 
 .welcome-logo {

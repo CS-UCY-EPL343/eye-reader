@@ -304,8 +304,10 @@ angular
             isOnline: function () {
                 if (ionic.Platform.isWebView()) {
                     return $cordovaNetwork.isOnline();
+					// return false;
                 } else {
                     return navigator.onLine;
+					// return false;
                 }
             },
             isOffline: function () {
