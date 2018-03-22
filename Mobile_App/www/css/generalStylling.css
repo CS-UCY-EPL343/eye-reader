@@ -24,6 +24,13 @@ sub {
     padding-right: 5%!important;
 }
 
+.button-right{
+    float:right!important;
+}
+.button-right.button.icon:before, .button-right.button.icon-left:before, .button-right.button.icon-right:before {
+    line-height: 1.3 !important;
+}
+
 .custom-background-img {
     background: url("../img/welcome.jpg") no-repeat;
     background-size: transparent;
