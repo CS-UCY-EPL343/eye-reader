@@ -10701,8 +10701,8 @@ input:checked+.checkbox-icon:after {
 }
 
 .toggle input:checked+.track {
-    border-color: #4cd964;
-    background-color: #4cd964;
+    border-color: #455A64;
+    background-color: #455A64;
 }
 
 .toggle.dragging .handle {
@@ -10720,13 +10720,13 @@ input:checked+.checkbox-icon:after {
 }
 
 .toggle.toggle-positive input:checked+.track {
-    border-color: #387ef5;
-    background-color: #387ef5;
+    border-color: #455A64;
+    background-color: #455A64;
 }
 
 .toggle.toggle-calm input:checked+.track {
-    border-color: #11c1f3;
-    background-color: #11c1f3;
+    border-color: #455A64;
+    background-color: #455A64;
 }
 
 .toggle.toggle-assertive input:checked+.track {
@@ -10745,8 +10745,8 @@ input:checked+.checkbox-icon:after {
 }
 
 .toggle.toggle-royal input:checked+.track {
-    border-color: #886aea;
-    background-color: #886aea;
+    border-color: #455A64;
+    background-color: #455A64;
 }
 
 .toggle.toggle-dark input:checked+.track {
@@ -10872,7 +10872,7 @@ input:checked+.checkbox-icon:after {
 .toggle-small input:checked+.track .handle {
     -webkit-transform: translate3d(16px, 0, 0);
     transform: translate3d(16px, 0, 0);
-    background: #009689;
+    background: #455A64;
 }
 
 .toggle-small.item-toggle .toggle {
@@ -10900,7 +10900,7 @@ input:checked+.checkbox-icon:after {
 }
 
 .toggle-small .toggle-positive input:checked+.track .handle {
-    background-color: #387ef5;
+    background-color: #455A64;
 }
 
 .toggle-small .toggle-calm input:checked+.track {
@@ -10908,7 +10908,7 @@ input:checked+.checkbox-icon:after {
 }
 
 .toggle-small .toggle-calm input:checked+.track .handle {
-    background-color: #11c1f3;
+    background-color: #455A64;
 }
 
 .toggle-small .toggle-assertive input:checked+.track {
@@ -10924,7 +10924,7 @@ input:checked+.checkbox-icon:after {
 }
 
 .toggle-small .toggle-balanced input:checked+.track .handle {
-    background-color: #33cd5f;
+    background-color: #455A64;
 }
 
 .toggle-small .toggle-energized input:checked+.track {
@@ -10940,7 +10940,7 @@ input:checked+.checkbox-icon:after {
 }
 
 .toggle-small .toggle-royal input:checked+.track .handle {
-    background-color: #886aea;
+    background-color: #455A64;
 }
 
 .toggle-small .toggle-dark input:checked+.track {
