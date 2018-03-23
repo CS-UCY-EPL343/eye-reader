@@ -6,8 +6,8 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the article view.
      */
-    .controller("articleCtrl", ["$scope", "$stateParams", "sharedProps", "$ionicLoading", "$rootScope", "$window",
-        function ($scope, $stateParams, sharedProps, $ionicLoading, $rootScope, $window) {
+    .controller("articleCtrl", ["$scope", "$stateParams", "sharedProps", "$ionicLoading", "$rootScope", "$window", "$ionicHistory",
+        function ($scope, $stateParams, sharedProps, $ionicLoading, $rootScope, $window, $ionicHistory) {
             var data = {};
 
             /**
@@ -24,6 +24,44 @@ angular
             });
 
             init();
+
+            /**
+              * @function
+              * @memberof controllerjs.articleCtrl
+              * @description Saves the written notes to the device's local storage
+              */
+            $scope.saveNotes = function () {
+
+                if ($scope.currentNotes.note != "") {
+                    console.log(activeUserNotes);
+                    activeUserNotes = _.filter(activeUserNotes.notes, function (el) {
+                        return el.id != $scope.currentNotes.id;
+                    })
+                    // TODO FIX
+                    if (activeUserNotes != undefined || activeUserNotes != null){
+                        activeUserNotes = [];
+                    }
+                    if (activeUserNotes.notes == undefined || activeUserNotes.notes == null) {
+                        activeUserNotes.notes = [];
+                    }
+
+                    activeUserNotes.notes.push($scope.currentNotes);
+                    articlesNotes = _.filter(articlesNotes, function (el) {
+                        return el.username != activeUserNotes.username;
+                    })
+                    if (articlesNotes.notes == undefined || articlesNotes.notes == null) {
+                        articlesNotes.notes = [];
+                    }
+                    articlesNotes.notes.push(activeUserNotes);
+
+                    $window.localStorage.setItem("articlesNotes", JSON.stringify(articlesNotes));
+
+                }
+            }
+
+            $scope.goBack = function () {
+                $ionicHistory.goBack();
+            };
 
             /**
              * @function
@@ -43,7 +81,9 @@ angular
               * @function
               * @memberof controllerjs.articleCtrl
               * @description This function is responsible for retrieving the class used in the background
-              * in order to set the background to nightmode/lightmode.
+              * in order to se
+
+                    console.log(articlesNotes + " " + $scope.content + " " + $scope.currentNotes);t the background to nightmode/lightmode.
               */
             $scope.getBackgroundClass = function () {
                 return $scope.isNightmode ? "nightmodeBackground" : "normalmodeBackground";
@@ -82,12 +122,53 @@ angular
                 $scope.user = $rootScope.activeUser;
                 $scope.article = $stateParams.article;
 
+                if ($scope.user.isJournalist) {
+
+                    articlesNotes = JSON.parse($window.localStorage.getItem("articlesNotes"))
+
+                    // TODO: SAVE NOTES
+                    // [{
+                    //     "username" : "admin",
+                    //     "notes" : {
+                    //         "Id" : 12,
+                    //         "note": "apsdpasjd"
+                    //     },
+                    // }]
+                    if (articlesNotes == null || articlesNotes == undefined) {
+                        articlesNotes = [];
+                        var currUser = {
+                            username: $rootScope.activeUser.username,
+                            notes: null
+                        };
+                        articlesNotes.push(currUser);
+                    }
+                    activeUserNotes = _.find(articlesNotes, function (el) {
+                        return el.username == $rootScope.activeUser.username;
+                    })
+                    if (activeUserNotes.notes == null || activeUserNotes.notes == undefined) {
+                        activeUserNotes.notes = [];
+                    }
+
+                    $scope.currentNotes = _.find(activeUserNotes.notes, function (el) {
+                        return el.id == $scope.article.Id;
+                    })
+
+                    if ($scope.currentNotes == undefined || $scope.currentNotes == null) {
+                        $scope.currentNotes = {
+                            id: $scope.article.Id,
+                            note: ""
+                        };
+                    }
+
+                    activeUserNotes.notes.push($scope.currentNotes);
+                }
+
                 var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
-                
+
                 var currentUserSettings = _.find(usersSettings, function (userSettings) {
                     return userSettings.username == $rootScope.activeUser.username;
                 });
-                
+
                 data = {
                     cachenewsEnabled: currentUserSettings.settings.cachenewsEnabled,
                     fontsize: currentUserSettings.settings.fontsize,
@@ -95,6 +176,7 @@ angular
                     hideEnabled: currentUserSettings.settings.hideEnabled,
                     tolerance: currentUserSettings.settings.tolerance,
                 };
+
                 $ionicLoading.hide();
             }
         }

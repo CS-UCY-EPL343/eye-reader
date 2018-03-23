@@ -1,6 +1,9 @@
-<ion-view hide-back-button="false" title="Signup" id="page7" class="custom-background-img">
+<ion-view hide-back-button="true" title="Signup" id="page7" class="custom-background-img">
     <ion-nav-bar class="header">
-        <ion-nav-back-button style="color:white"></ion-nav-back-button>
+
+        <ion-nav-buttons side="left">
+            <a ng-click="goBack()" class="button button-icon icon ion-android-arrow-back" style="color:white"></a>
+        </ion-nav-buttons>
     </ion-nav-bar>
     <ion-content padding="true" class="has-header" ng-controller="signupCtrl">
         <form name="signupform" id="signupform">

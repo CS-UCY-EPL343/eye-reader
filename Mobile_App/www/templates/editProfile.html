@@ -1,4 +1,7 @@
-<ion-view title="Edit Profile" id="page6">
+<ion-view hide-back-button="true" title="Edit Profile" id="page6">
+    <ion-nav-buttons side="left">
+        <a ng-click="goBack()" class="button button-icon icon ion-android-arrow-back" style="color:white"></a>
+    </ion-nav-buttons>
     <ion-content padding="true" class="has-header" ng-controller="editProfileCtrl" ng-class="getBackgroundClass()">
         <form name="editprofform" id="editprofform" class="list">
             <ul class="list">

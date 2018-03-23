@@ -4,12 +4,15 @@ angular
 
     /**
      * @module newsFeedCtrl
+     * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the News Feed page.
      */
     .controller("newsFeedCtrl", ["$scope", "$http", "sharedProps", "$ionicPopup",
         "$localStorage", "$ionicLoading", "$window", "$notificationBar", "$rootScope", "ConnectionMonitor",
         function ($scope, $http, sharedProps, $ionicPopup,
             $localStorage, $ionicLoading, $window, $notificationBar, $rootScope, ConnectionMonitor) {
+            $scope.onlineSearch = "";
+            $scope.offlineSearch = "";
             $scope.isOnline = ConnectionMonitor.isOnline();
             var data = {};
             init();
@@ -85,7 +88,7 @@ angular
               * it is removed from saved and displays an informative message. Else it adds the article to 
               * saved and displays an informative message.
               */
-            $scope.saveArticle = function (id) {
+            $scope.save_unsaveArticle = function (id) {
                 if ($scope.isArticleSaved(id)) {
                     unsaveArticle(id);
                     showRemovedToast();
@@ -125,11 +128,11 @@ angular
               * @description This function is responsible for checking if the article given is saved or not.
               */
             $scope.isArticleSaved = function (id) {
-				if ($scope.savedArticles == null || $scope.savedArticles == undefined || $scope.savedArticles.length == 0)
-					return false;
+                if ($scope.savedArticles == null || $scope.savedArticles == undefined || $scope.savedArticles.length == 0)
+                    return false;
                 var found = $scope.savedArticles.find(s => s.Id === id);
-				if (found != null || found != undefined)
-					return true;
+                if (found != null || found != undefined)
+                    return true;
                 return false;
             };
 
@@ -336,18 +339,16 @@ angular
                     template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading articles...</p>',
                 });
 
-                $scope.selectedSources = JSON.parse($window.localStorage.getItem("selectedSources"));
-
-                if (!$scope.selectedSources)
-                    $scope.selectedSources = [];
-
-                //TODO: REMOVE THIS LINE 
-                $scope.selectedSources = ["test", "test2", "test3"];
-
-                // $http.get("https://eye-reader.herokuapp.com/articles/").then(function(res){
-                //     $scope.articles = res.data;
-                //     $ionicLoading.hide();
-                // });
+                var usersSources = JSON.parse($window.localStorage.getItem("usersSources"));
+                if (usersSources == null || usersSources == undefined){
+                    $scope.selectedSources = {
+                        sources: []
+                    };
+                }else{
+                    $scope.selectedSources = _.find(usersSources, function (userSources) {
+                        return userSources.username == $rootScope.activeUser.username;
+                    });
+                }
 
                 var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
 

@@ -9,9 +9,10 @@ angular
      * @description Controller controlling the functionalities implemented for the Add Sources page.
      */
     .controller("addSourcesCtrl", ["$scope", "$http", "sharedProps",
-        "$ionicLoading", "$window", "$rootScope",
-        function ($scope, $http, sharedProps, $ionicLoading, $window, $rootScope) {
+        "$ionicLoading", "$window", "$rootScope", "$ionicSideMenuDelegate",
+        function ($scope, $http, sharedProps, $ionicLoading, $window, $rootScope, $ionicSideMenuDelegate) {
             var usersSources = {};
+            $scope.currentUserSources = {};
             var data = {};
             init();
 
@@ -23,30 +24,10 @@ angular
              *           2) Gets the font size selected by the user in order to set it to the whole page
              */
             $scope.$on("$ionicView.beforeEnter", function () {
-                $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
-                });
                 if (sharedProps.getData("isNightmode") != undefined)
                     $scope.isNightmode = sharedProps.getData("isNightmode").value;
                 getFontSize();
-                $ionicLoading.hide();
             });
-
-            /**
-             * @name $ionic.on.beforeLeave
-             * @memberof controllerjs.addSourcesCtrl
-             * @description Executes actions before this page leaves the view.
-             *  Actions taken: 1) Saves selected sources in the local storage
-             */
-            $scope.$on("$ionicView.beforeLeave", function () {
-                usersSources = _.filter(usersSources, function (userSources) {
-                    return userSources.username != $rootScope.activeUser.username;
-                });
-                usersSources.push($scope.currentUserSources);
-
-                $window.localStorage.setItem("usersSources", JSON.stringify(usersSources));
-            });
-
 
             /**
              * @function
@@ -91,14 +72,29 @@ angular
               * informational message.
               */
             $scope.select_deselectSource = function (sourceURL) {
-                var index = $scope.currentUserSources.sources.indexOf(sourceURL);
-                if (index > -1) {
-                    deselectSource(sourceURL, index);
-                } else {
-                    selectSource(sourceURL);
+                if ($scope.currentUserSources != null || $scope.currentUserSources != undefined) {
+
+                    var index = $scope.currentUserSources.sources.indexOf(sourceURL);
+                    if (index > -1) {
+                        deselectSource(sourceURL, index);
+                    } else {
+                        selectSource(sourceURL);
+                    }
+                    usersSources = _.filter(usersSources, function (userSources) {
+                        return userSources.username != $rootScope.activeUser.username;
+                    });
+                    usersSources.push($scope.currentUserSources);
+
+                    $window.localStorage.setItem("usersSources", JSON.stringify(usersSources));
                 }
             };
 
+            /**
+              * @function
+              * @memberof controllerjs.addSourcesCtrl
+              * @param {string} sourceURL - The URL of the selected source
+              * @description Adds the selected source to the array with all the selected sources
+              */
             function selectSource(sourceURL) {
                 $scope.currentUserSources.sources.push(sourceURL);
             }
@@ -112,9 +108,6 @@ angular
               */
             function deselectSource(sourceURL, index) {
                 $scope.currentUserSources.sources.splice(index, 1);
-                // $scope.currentUserSources.sources = _.find($scope.currentUserSources.sources, function(source){
-                //     return source != sourceURL;
-                // })
             };
 
             /**
@@ -127,32 +120,24 @@ angular
                 $ionicLoading.show({
                     template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
                 });
-
-                /**
-                 * @name $http.get
-                 * @memberof controllerjs.addsourcesaddSourcesCtrl
-                 * @description Executes a request to the application's server in order to retrieve the sources and their 
-                 * details. The server's response is saved in a scope variable in order to be accessible from 
-                 * the html.
-                 */
-                $http.get("https://eye-reader.herokuapp.com/sources/").then(function (res) {
-                    $scope.sources = res.data;
-                });
-
                 usersSources = JSON.parse($window.localStorage.getItem("usersSources"));
                 if (usersSources == null || usersSources == undefined) {
                     usersSources = {};
-                } else {
-                    $scope.currentUserSources = _.find(usersSources, function (userSources) {
-                        return userSources.username == $rootScope.activeUser.username;
-                    });
-                }
-
-                if ($scope.currentUserSources == null || $scope.currentUserSources == undefined) {
                     $scope.currentUserSources = {
                         username: $rootScope.activeUser.username,
                         sources: []
                     };
+                } else {
+                    $scope.currentUserSources = _.find(usersSources, function (userSources) {
+                        return userSources.username == $rootScope.activeUser.username;
+                    });
+
+                    if ($scope.currentUserSources == null || $scope.currentUserSources == undefined) {
+                        $scope.currentUserSources = {
+                            username: $rootScope.activeUser.username,
+                            sources: []
+                        };
+                    }
                 }
 
                 var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
@@ -169,11 +154,20 @@ angular
                     tolerance: currentUserSettings.settings.tolerance,
                 };
 
-                // $http.get("./test_data/sources.js").then(function (res) {
-                //     $scope.sources.sites = res.data;
-                //     $scope.sources.total = $scope.sources.sites.length;
-                // }); 
-                $ionicLoading.hide();
+                $http.get("https://eye-reader.herokuapp.com/sources/").then(function (res) {
+                    $scope.sources = res.data;
+
+                    if ($scope.currentUserSources != undefined || $scope.currentUserSources != null)
+                        $scope.sources.forEach(function (el) {
+                            if (_.contains($scope.currentUserSources.sources, el.URL)) {
+                                el.checked = true;
+                            } else {
+                                el.checked = false;
+                            }
+                        })
+                }).then(function () {
+                    $ionicLoading.hide();
+                });
             }
         }
     ])

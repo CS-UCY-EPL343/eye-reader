@@ -140,7 +140,7 @@ angular
 
                 $scope.savedArticles = JSON.parse($window.localStorage.getItem("savedArticles"));
                 if ($scope.savedArticles == null || $scope.savedArticles == undefined) {
-                    $scope.savedArticles = {};
+                    $scope.savedArticles = [];
                 }
                 if (sharedProps.getData("isNightmode") != undefined)
                     $scope.isNightmode = sharedProps.getData("isNightmode").value;

@@ -6,8 +6,8 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the profile view.
      */
-    .controller("profileCtrl", ["$scope", "$rootScope", "sharedProps", "$window", "$ionicLoading", "$rootScope",
-        function ($scope, $rootScope, sharedProps, $window, $ionicLoading, $rootScope) {
+    .controller("profileCtrl", ["$scope", "$rootScope", "sharedProps", "$window", "$ionicLoading",
+        function ($scope, $rootScope, sharedProps, $window, $ionicLoading) {
             var data = {};
             init();
             //sets the value of the user's sex based on their decision

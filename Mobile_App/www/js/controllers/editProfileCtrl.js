@@ -7,8 +7,8 @@ angular
      * @description Controller controlling the functionalities implemented for the edit profile view.
      */
     .controller("editProfileCtrl", ["$scope", "$rootScope", "sharedProps",
-        "$state", "UserService", "$ionicLoading", "$window", "$rootScope",
-        function ($scope, $rootScope, sharedProps, $state, UserService, $ionicLoading, $window, $rootScope) {
+        "$state", "UserService", "$ionicLoading", "$window", "$ionicHistory",
+        function ($scope, $rootScope, sharedProps, $state, UserService, $ionicLoading, $window, $ionicHistory) {
             var data = {};
             init();
 
@@ -84,6 +84,10 @@ angular
                     }
                 });
             }
+
+            $scope.goBack = function () {
+                $ionicHistory.goBack();
+            };
 
             /**
               * @function

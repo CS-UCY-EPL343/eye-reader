@@ -8,8 +8,8 @@ angular
      * @description Controller controlling the functionalities implemented for the edit sign up view.
      */
     .controller("signupCtrl", ["$scope", "UserService", "$window",
-        "$state", "$ionicPopup", "$ionicLoading",
-        function ($scope, UserService, $window, $state, $ionicPopup, $ionicLoading) {
+        "$state", "$ionicPopup", "$ionicLoading", "$ionicHistory",
+        function ($scope, UserService, $window, $state, $ionicPopup, $ionicLoading, $ionicHistory) {
             init();
 
             /**
@@ -46,6 +46,10 @@ angular
                     }]
                 });
             };
+
+            $scope.goBack = function(){
+                $ionicHistory.goBack();
+            }
 
             /**
             * @function

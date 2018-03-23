@@ -5,6 +5,13 @@ angular
      * @description Default module create by Ionic v1 and AngularJS for app services.
      */
 
+
+    /**
+     * @module Application
+     * @memberof servicesjs
+     * @description Factory stores and checks a boolean in the local storage in order to know 
+     * if this is the application's first run.
+     */
     .factory('Application', ["$window", function ($window) {
         return {
             setInitialRun: function (initial) {
@@ -19,7 +26,7 @@ angular
 
     /**
      * @module sharedProps
-     * @memberof servicesjs.factory
+     * @memberof servicesjs
      * @description Shared properties space that works like a local storage.
      */
     .factory("sharedProps", ["$rootScope", function () {
@@ -27,7 +34,7 @@ angular
 
         /**
          * @function
-         * @memberof servicesjs.factory.sharedProps
+         * @memberof servicesjs.sharedProps
          * @param {string} key - The key under which the value will be saved
          * @param {object} value - The value that will be saved under the key
          * @description This function is responsible for searching context if a value
@@ -49,7 +56,7 @@ angular
 
         /**
          * @function
-         * @memberof servicesjs.factory.sharedProps
+         * @memberof servicesjs.sharedProps
          * @param {string} key - The key under which a value is saved
          * @returns {object} - The object under the {@param key}
          * @description This function is responsible for searching the "obj" object if a value
@@ -64,7 +71,7 @@ angular
 
         /**
          * @function
-         * @memberof servicesjs.factory.sharedProps
+         * @memberof servicesjs.sharedProps
          * @returns {int} - The length of the context
          * @description This function is responsible for returning the length of the context.
          */
@@ -83,7 +90,7 @@ angular
 
     /**
      * @module UserService
-     * @memberof servicesjs.factory
+     * @memberof servicesjs
      * @description Factory that works like an offline user service.
      */
     .factory("UserService", ["$timeout", "$q", "$rootScope", function ($timeout, $q, $rootScope) {
@@ -98,7 +105,7 @@ angular
 
         /**
          * @function
-         * @memberof servicesjs.factory.UserService
+         * @memberof servicesjs.UserService
          * @returns {object} - All the users' info.
          * @description This function is responsible for returning all the registered users' info in 
          * the devices local storage.
@@ -112,7 +119,7 @@ angular
 
         /**
          * @function
-         * @memberof servicesjs.factory.UserService
+         * @memberof servicesjs.UserService
          * @returns {string} - The currently logged in user's username
          * @description This function is responsible for returning the username of the currently logged in user.
          */
@@ -126,7 +133,7 @@ angular
 
         /**
          * @function
-         * @memberof servicesjs.factory.UserService
+         * @memberof servicesjs.UserService
          * @param {object} user - The new user's profile details
          * @return {promise} - Success if the profile was created / Failure if not
          * @description This function is responsible for searching the usernames registered so far in the app 
@@ -163,7 +170,7 @@ angular
 
         /**
          * @function
-         * @memberof servicesjs.factory.UserService
+         * @memberof servicesjs.UserService
          * @param {object} user - The user's updated profile details
          * @return {promise} - Success if the profile was updated / Failure if not
          * @description This function is responsible for searching to find the given user's profile details and 
@@ -191,7 +198,7 @@ angular
 
         /**
          * @function
-         * @memberof servicesjs.factory.UserService
+         * @memberof servicesjs.UserService
          * @return {object} - A json object with all the users' profile details
          * @description This function is responsible for retrieving and returning all the users' profile details.
          */
@@ -205,7 +212,7 @@ angular
 
         /**
          * @function
-         * @memberof servicesjs.factory.UserService
+         * @memberof servicesjs.UserService
          * @param {object} users - All the users' profile details
          * @description This function is responsible for storing the users' profile details in the local storage.  
          */
@@ -217,7 +224,7 @@ angular
 
     /**
      * @module AuthenticationService
-     * @memberof servicesjs.factory
+     * @memberof servicesjs
      * @description Factory that works like an offline user service.
      */
     .factory('AuthenticationService', ['$http', '$rootScope', '$timeout', 'UserService',
@@ -233,7 +240,7 @@ angular
 
             /**
              * @function
-             * @memberof servicesjs.factory.AuthenticationService
+             * @memberof servicesjs.AuthenticationService
              * @param {string} username - The user's username
              * @param {string} password - The user's password
              * @param {string} callback - The response back to the caller
@@ -266,7 +273,7 @@ angular
 
             /**
              * @function
-             * @memberof servicesjs.factory.AuthenticationService
+             * @memberof servicesjs.AuthenticationService
              * @param {string} username - The user's username
              * @param {string} password - The user's password
              * @description This function is responsible for setting the logged in user's username and password 
@@ -286,7 +293,7 @@ angular
 
             /**
              * @function
-             * @memberof servicesjs.factory.AuthenticationService
+             * @memberof servicesjs.AuthenticationService
              * @description This function is responsible for clearing the global username and password values.
              */
             function ClearCredentials() {
@@ -298,6 +305,12 @@ angular
 
     ])
 
+
+    /**
+     * @module ConnectionMonitor
+     * @memberof servicesjs
+     * @description Factory that checks if the device is connected to the internet
+     */
     .factory('ConnectionMonitor', function ($rootScope, $cordovaNetwork) {
 
         return {

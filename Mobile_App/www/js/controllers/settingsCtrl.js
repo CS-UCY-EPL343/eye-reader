@@ -115,7 +115,7 @@ angular
 
             /**
              * @function
-             * @memberof controllerjs.setting$scope.loginsCtrl
+             * @memberof controllerjs.settingsCtrl
              * @description This function is responsible for retrieving the class used in the background
              * in order to set the ba
                 sharedProps.addData("cachenewsEnabled", $scope.data.cachenewsEnabled);
@@ -153,9 +153,6 @@ angular
                 });
 
                 usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
-                if (usersSettings == null || usersSettings == undefined) {
-                    usersSettings = {};
-                }
 
                 currentUserSettings = _.find(usersSettings, function (userSettings) {
                     return userSettings.username == $rootScope.activeUser.username;
