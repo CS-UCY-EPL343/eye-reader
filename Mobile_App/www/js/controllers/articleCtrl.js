@@ -32,31 +32,36 @@ angular
               */
             $scope.saveNotes = function () {
 
-                if ($scope.currentNotes.note != "") {
-                    console.log(activeUserNotes);
-                    activeUserNotes = _.filter(activeUserNotes.notes, function (el) {
+                if (activeUserNotes == undefined || activeUserNotes == null) {
+                    activeUserNotes = {
+                        username : $rootScope.activeUser.username,
+                        notes : []
+                    };
+                }else{
+                    activeUserNotes.notes = _.filter(activeUserNotes.notes, function (el) {
                         return el.id != $scope.currentNotes.id;
                     })
-                    // TODO FIX
-                    if (activeUserNotes != undefined || activeUserNotes != null){
-                        activeUserNotes = [];
-                    }
-                    if (activeUserNotes.notes == undefined || activeUserNotes.notes == null) {
+                    if (activeUserNotes.notes != undefined || activeUserNotes.notes != null){
+                        for (var i =0; i<activeUserNotes.notes.length; i++){
+                            if (activeUserNotes.notes[i].id == $scope.currentNotes.id){
+                                activeUserNotes.notes[i].note = $scope.currentNotes.note;
+                            }
+                        }
+                    }else{
                         activeUserNotes.notes = [];
                     }
-
-                    activeUserNotes.notes.push($scope.currentNotes);
-                    articlesNotes = _.filter(articlesNotes, function (el) {
-                        return el.username != activeUserNotes.username;
-                    })
-                    if (articlesNotes.notes == undefined || articlesNotes.notes == null) {
-                        articlesNotes.notes = [];
-                    }
-                    articlesNotes.notes.push(activeUserNotes);
-
-                    $window.localStorage.setItem("articlesNotes", JSON.stringify(articlesNotes));
-
                 }
+                activeUserNotes.notes.push($scope.currentNotes);
+                articlesNotes = _.filter(articlesNotes, function (el) {
+                    return el.username != activeUserNotes.username;
+                });
+
+                if (articlesNotes == undefined || articlesNotes == null || articlesNotes == "") {
+                    articlesNotes = [];
+                }
+            
+                articlesNotes.push(activeUserNotes);
+                $window.localStorage.setItem("articlesNotes", JSON.stringify(articlesNotes));
             }
 
             $scope.goBack = function () {
@@ -81,9 +86,7 @@ angular
               * @function
               * @memberof controllerjs.articleCtrl
               * @description This function is responsible for retrieving the class used in the background
-              * in order to se
-
-                    console.log(articlesNotes + " " + $scope.content + " " + $scope.currentNotes);t the background to nightmode/lightmode.
+              * in order to set the background to nightmode/lightmode.
               */
             $scope.getBackgroundClass = function () {
                 return $scope.isNightmode ? "nightmodeBackground" : "normalmodeBackground";
@@ -145,13 +148,25 @@ angular
                     activeUserNotes = _.find(articlesNotes, function (el) {
                         return el.username == $rootScope.activeUser.username;
                     })
-                    if (activeUserNotes.notes == null || activeUserNotes.notes == undefined) {
-                        activeUserNotes.notes = [];
-                    }
+                    if (activeUserNotes != null || activeUserNotes != undefined){
 
-                    $scope.currentNotes = _.find(activeUserNotes.notes, function (el) {
-                        return el.id == $scope.article.Id;
-                    })
+                        if (activeUserNotes.username == undefined || activeUserNotes.username == null)
+                        activeUserNotes.username = $rootScope.activeUser.username;
+                        if (activeUserNotes.notes == null || activeUserNotes.notes == undefined) {
+                            activeUserNotes.notes = [];
+                        }
+                        
+                        $scope.currentNotes = _.find(activeUserNotes.notes, function (el) {
+                            return el.id == $scope.article.Id;
+                        })
+                        if ($scope.currentNotes == undefined || $scope.currentNotes == null) {
+                            $scope.currentNotes = {
+                                id: $scope.article.Id,
+                                note: ""
+                            };
+                        }
+                        activeUserNotes.notes.push($scope.currentNotes);
+                    }
 
                     if ($scope.currentNotes == undefined || $scope.currentNotes == null) {
                         $scope.currentNotes = {
@@ -159,8 +174,6 @@ angular
                             note: ""
                         };
                     }
-
-                    activeUserNotes.notes.push($scope.currentNotes);
                 }
 
                 var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));

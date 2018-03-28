@@ -69,8 +69,7 @@ angular
                         text: "Confirm",
                         type: "button-positive",
                         onTap: function (e) {
-                            //TODO
-                            // $http.post("https://eye-reader.herokuapp.com/"+sourceid+"/report");
+                            $http.get("https://eye-reader.herokuapp.com/articles/"+sourceid+"/report");
                             $notificationBar.setDuration(700);
                             $notificationBar.show("Article reported!", $notificationBar.EYEREADERCUSTOM);
                         }
@@ -299,8 +298,7 @@ angular
               * to increase the click counter of a source
               */
             $scope.articleTapped = function (sourceid) {
-                //TODO
-                // $http.post("https://eye-reader.herokuapp.com/"+sourceid+"/click");
+                $http.get("https://eye-reader.herokuapp.com/articles/"+sourceid+"/click");
             }
 
             /**
