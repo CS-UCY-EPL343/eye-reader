@@ -1,9 +1,30 @@
-<ion-view title="Add Sources" id="page3">
-    <ion-content padding="false" class="has-header generalPadding" ng-controller="addSourcesCtrl" ng-class="getBackgroundClass()">
-        <div ng-repeat="source in sources">
-            <ion-checkbox ng-class="getBackgroundClass()" id="addSources-checkbox3" ng-checked="source.checked" ng-click="select_deselectSource(source.URL)">
-                <span ng-style="fontsize" ng-class="getFontClass()" class="normalBlackLetters">{{source.Title}}</span>
-            </ion-checkbox>
+<ion-view title="Add Sources" id="page3" ng-controller="addSourcesCtrl">
+    <ion-header-bar ng-show="selectedSources.sources.length > 0 && isOnline" ng-class="getBackgroundClass()" class="bar bar-subheader item-input-inset">
+        <label class="item-input-wrapper" id="newsFeed-search1" name="searchSources">
+            <i class="icon ion-search placeholder-icon"></i>
+            <input type="search" class="placeholderLetters" placeholder="Search sources" ng-model="input.userSearch">
+        </label>
+    </ion-header-bar>
+    <ion-content padding="false" class="has-header generalPadding" ng-class="getBackgroundClass()">
+        <div ng-if="isOnline">
+            <div ng-repeat="source in sources | filter : { Title:input.userSearch }">
+                <ion-checkbox ng-class="getBackgroundClass()" id="addSources-checkbox3" ng-checked="source.checked" ng-click="select_deselectSource(source.URL)">
+                    <span ng-style="fontsize" ng-class="getFontClass()" class="normalBlackLetters">{{source.Title}}</span>
+                </ion-checkbox>
+            </div>
+        </div>
+        <div ng-if="!isOnline">
+            <ion-list>
+                <p style="color: #90A4AE;  font-size: 22px; text-align: center; padding-top: 10%">Connect to the internet in order to be able to select sources.</p>
+                <div style="width:inherit; text-align: center; padding-top: 25%">
+                    <i style="color: #90A4AE; font-size:1250%!important" class="icon ion-ios-glasses-outline"></i>
+                </div>
+                <h1 style="color: #90A4AE; font-size: 60px; text-align: center">Oops!</h1>
+                <h1 style="color: #90A4AE; font-size: 15px; text-align: center">There are is no internet connection!</h1>
+            </ion-list>
         </div>
     </ion-content>
+    <ion-footer-bar ng-if="!isOnline" align-title="middle" class="bar-assertive">
+        <p class="title">NO INTERNET CONNECTION!</p>
+    </ion-footer-bar>
 </ion-view>

@@ -9,10 +9,12 @@ angular
      * @description Controller controlling the functionalities implemented for the Add Sources page.
      */
     .controller("addSourcesCtrl", ["$scope", "$http", "sharedProps",
-        "$ionicLoading", "$window", "$rootScope", "$ionicSideMenuDelegate",
-        function ($scope, $http, sharedProps, $ionicLoading, $window, $rootScope, $ionicSideMenuDelegate) {
+        "$ionicLoading", "$window", "$rootScope", "$ionicSideMenuDelegate", "ConnectionMonitor",
+        function ($scope, $http, sharedProps, $ionicLoading, $window, $rootScope, $ionicSideMenuDelegate, ConnectionMonitor) {
             var usersSources = {};
             $scope.currentUserSources = {};
+            $scope.input = {};
+            $scope.isOnline = ConnectionMonitor.isOnline();
             var data = {};
             init();
 
@@ -118,27 +120,14 @@ angular
               */
             function init() {
                 $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
+                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading sources...</p>',
                 });
                 usersSources = JSON.parse($window.localStorage.getItem("usersSources"));
-                if (usersSources == null || usersSources == undefined) {
-                    usersSources = {};
-                    $scope.currentUserSources = {
-                        username: $rootScope.activeUser.username,
-                        sources: []
-                    };
-                } else {
-                    $scope.currentUserSources = _.find(usersSources, function (userSources) {
-                        return userSources.username == $rootScope.activeUser.username;
-                    });
-
-                    if ($scope.currentUserSources == null || $scope.currentUserSources == undefined) {
-                        $scope.currentUserSources = {
-                            username: $rootScope.activeUser.username,
-                            sources: []
-                        };
-                    }
-                }
+                
+                $scope.currentUserSources = _.find(usersSources, function (userSources) {
+                    return userSources.username == $rootScope.activeUser.username;
+                });
+                
 
                 var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
 
@@ -153,21 +142,25 @@ angular
                     hideEnabled: currentUserSettings.settings.hideEnabled,
                     tolerance: currentUserSettings.settings.tolerance,
                 };
+                if ($scope.isOnline){
 
-                $http.get("https://eye-reader.herokuapp.com/sources/").then(function (res) {
-                    $scope.sources = res.data;
-
-                    if ($scope.currentUserSources != undefined || $scope.currentUserSources != null)
-                        $scope.sources.forEach(function (el) {
-                            if (_.contains($scope.currentUserSources.sources, el.URL)) {
-                                el.checked = true;
-                            } else {
-                                el.checked = false;
-                            }
-                        })
-                }).then(function () {
+                    $http.get("https://eye-reader.herokuapp.com/sources/").then(function (res) {
+                        $scope.sources = res.data;
+                        
+                        if ($scope.currentUserSources != undefined || $scope.currentUserSources != null)
+                            $scope.sources.forEach(function (el) {
+                                if (_.contains($scope.currentUserSources.sources, el.URL)) {
+                                    el.checked = true;
+                                } else {
+                                    el.checked = false;
+                                }
+                            })
+                    }).then(function () {
+                        $ionicLoading.hide();
+                    });
+                } else {
                     $ionicLoading.hide();
-                });
+                }
             }
         }
     ])

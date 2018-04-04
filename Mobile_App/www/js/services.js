@@ -15,10 +15,10 @@ angular
     .factory('Application', ["$window", function ($window) {
         return {
             setInitialRun: function (initial) {
-                $window.localStorage.setItem("initialRun", initial ? "true" : "false");
+                $window.localStorage.setItem("usersInitialRun", initial ? "true" : "false");
             },
             isInitialRun: function () {
-                var value = $window.localStorage.getItem("initialRun") || "true";
+                var value = $window.localStorage.getItem("usersInitialRun") || "true";
                 return value == "true";
             }
         }
@@ -317,10 +317,10 @@ angular
             isOnline: function () {
                 if (ionic.Platform.isWebView()) {
                     return $cordovaNetwork.isOnline();
-					// return false;
+                    // return false;
                 } else {
                     return navigator.onLine;
-					// return false;
+                    // return false;
                 }
             },
             isOffline: function () {

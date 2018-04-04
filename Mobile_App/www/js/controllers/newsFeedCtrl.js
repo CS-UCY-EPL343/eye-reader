@@ -11,10 +11,13 @@ angular
         "$localStorage", "$ionicLoading", "$window", "$notificationBar", "$rootScope", "ConnectionMonitor",
         function ($scope, $http, sharedProps, $ionicPopup,
             $localStorage, $ionicLoading, $window, $notificationBar, $rootScope, ConnectionMonitor) {
-            $scope.onlineSearch = "";
-            $scope.offlineSearch = "";
+            $scope.input = {};
+            $scope.articles = [];
             $scope.isOnline = ConnectionMonitor.isOnline();
+            var usersDeletedArticles = [];
+            var articleCache = [];
             var data = {};
+            var usersSavedArticles = [];
             init();
 
             /**
@@ -28,11 +31,6 @@ angular
             $scope.$on("$ionicView.beforeEnter", function () {
                 if (sharedProps.getData("isNightmode") != undefined)
                     $scope.isNightmode = sharedProps.getData("isNightmode").value;
-
-                $scope.savedArticles = JSON.parse($window.localStorage.getItem("savedArticles"));
-                if ($scope.savedArticles == null || $scope.savedArticles == undefined) {
-                    $scope.savedArticles = [];
-                }
                 getFontSize();
             });
 
@@ -107,17 +105,22 @@ angular
                 if ($scope.isOnline) {
                     $scope.articles.find(function (s) {
                         if (s.Id === id) {
-                            $scope.savedArticles.push(s);
+                            $scope.savedArticles.articles.push(s);
                         }
                     });
                 } else {
                     $scope.cachedArticles.articles.find(function (s) {
                         if (s.Id === id) {
-                            $scope.savedArticles.push(s);
+                            $scope.savedArticles.articles.push(s);
                         }
                     });
                 }
-                $window.localStorage.setItem("savedArticles", JSON.stringify($scope.savedArticles));
+                usersSavedArticles.forEach(el => {
+                    if (el.username == $scope.savedArticles.username){
+                        el.articles = $scope.savedArticles.articles;
+                    }
+                });
+                $window.localStorage.setItem("usersSavedArticles", JSON.stringify(usersSavedArticles));
             }
 
             /**
@@ -127,9 +130,9 @@ angular
               * @description This function is responsible for checking if the article given is saved or not.
               */
             $scope.isArticleSaved = function (id) {
-                if ($scope.savedArticles == null || $scope.savedArticles == undefined || $scope.savedArticles.length == 0)
+                if ($scope.savedArticles.articles.length == 0)
                     return false;
-                var found = $scope.savedArticles.find(s => s.Id === id);
+                var found = $scope.savedArticles.articles.find(s => s.Id === id);
                 if (found != null || found != undefined)
                     return true;
                 return false;
@@ -141,14 +144,31 @@ angular
               * @param {int} id - The id of the article to delete
               * @description This function is responsible for deleting an article from the news feed. Firstly 
               * it finds the article in the list of articles and then it splices the array of articles in order 
-              * to remove it.
+              * to remove it and then it saves tha article in a json with all the deleted articles in order
+              * to be able not to display it in the news feed.
               */
             function deleteArticle(id) {
                 var article = _.find($scope.articles, function (a) {
                     return a.Id == id;
                 })
-                article.Deleted = true;
+                $scope.deletedArticles.articles.push(id);
+
+                usersDeletedArticles = _.filter(usersDeletedArticles, function (uda) {
+                    return uda.username != $scope.deletedArticles.username;
+                });
+                usersDeletedArticles.push($scope.deletedArticles);
+                $window.localStorage.setItem("usersDeletedArticles", JSON.stringify(usersDeletedArticles));
                 $scope.articles.splice(_.indexOf($scope.articles, article), 1);
+            }
+
+            /**
+             * @function
+             * @memberof controllerjs.newsFeedCtrl
+             * @description Function that checks if an article id is included in the deleted articles array.
+             * If it is, then its not displayed on the html.
+             */
+            $scope.isDeleted = function(id){
+                return $scope.deletedArticles.articles.includes(id);
             }
 
             /**
@@ -202,10 +222,16 @@ angular
               * the array with the saved articles by splicing the array on the article's position.
               */
             function unsaveArticle(id) {
-                var articleIndex = $scope.savedArticles.findIndex(s => s.Id == id);
+                var articleIndex = $scope.savedArticles.articles.findIndex(s => s.Id == id);
 
-                $scope.savedArticles.splice(articleIndex, 1);
-                $window.localStorage.setItem("savedArticles", JSON.stringify($scope.savedArticles));
+                $scope.savedArticles.articles.splice(articleIndex, 1);
+
+                usersSavedArticles.forEach(user => {
+                    if (user.username == $scope.savedArticles.username){
+                        user.articles = $scope.savedArticles.articles;
+                    }                    
+                });
+                $window.localStorage.setItem("usersSavedArticles", JSON.stringify(usersSavedArticles));
             }
 
             /**
@@ -251,13 +277,20 @@ angular
               */
             $scope.loadMore = function () {
                 //TODO
-                // $http.post('<url>', {})
-                // .success(function(res){
-                //   $scope.posts = $scope.posts.concat(res.posts);  
-                // })
-                // .finally(function() {
-                //   $scope.$broadcast('scroll.infiniteScrollComplete');
-                //   $scope.$broadcast('scroll.refreshComplete');
+                // $http.get("./test_data/articles/templateArticle.js").then(function (res) {
+                //     $scope.articles = res.data;
+                // }).then(function () {
+
+                //     if (data.cachenewsEnabled) {
+                //         for (var i = 0; i < $scope.articles.length; i++) {
+                //             if (i < 5) {
+                //                 $scope.cachedArticles.push($scope.articles[i]);
+                //             }
+                //         }
+                //     }
+                //     cacheArticles();
+
+                //     $ionicLoading.hide();
                 // });
                 $scope.$broadcast('scroll.infiniteScrollComplete');
             }
@@ -308,22 +341,18 @@ angular
               * current news feed under the username of the current user in the local storage
               */
             function cacheArticles() {
-                var cached = {
-                    articles: $scope.cachedArticles,
-                    username: $rootScope.activeUser.username
-                };
-
-                var articleCache = JSON.parse($window.localStorage.getItem("articleCache"));
-                if (articleCache == null || articleCache == undefined) {
-                    articleCache = {};
-                }
-
                 articleCache = _.filter(articleCache, function (ac) {
-                    return ac.username != cached.username;
+                    return ac.username != $rootScope.activeUser.username;
                 });
 
+                var cached = {
+                    username: $rootScope.activeUser.username,
+                    articles: $scope.cachedArticles
+                };
+
                 articleCache.push(cached);
-                $window.localStorage.setItem("articleCache", JSON.stringify(articleCache));
+
+                $window.localStorage.setItem("usersArticleCache", JSON.stringify(articleCache));
             }
 
             /**
@@ -337,21 +366,26 @@ angular
                     template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading articles...</p>',
                 });
 
-                var usersSources = JSON.parse($window.localStorage.getItem("usersSources"));
-                if (usersSources == null || usersSources == undefined){
-                    $scope.selectedSources = {
-                        sources: []
-                    };
-                }else{
-                    $scope.selectedSources = _.find(usersSources, function (userSources) {
-                        return userSources.username == $rootScope.activeUser.username;
-                    });
-                }
+                usersDeletedArticles = JSON.parse($window.localStorage.getItem("usersDeletedArticles"));
+                
+                $scope.deletedArticles = _.find(usersDeletedArticles, function(uda){
+                    return uda.username == $rootScope.activeUser.username;
+                });
 
+                var usersSources = JSON.parse($window.localStorage.getItem("usersSources"));
+
+                $scope.selectedSources = _.find(usersSources, function (userSources) {
+                    return userSources.username == $rootScope.activeUser.username;
+                });
                 var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
 
                 var currentUserSettings = _.find(usersSettings, function (userSettings) {
                     return userSettings.username == $rootScope.activeUser.username;
+                });
+
+                usersSavedArticles = JSON.parse($window.localStorage.getItem("usersSavedArticles"));
+                $scope.savedArticles = _.find(usersSavedArticles, function(usa){
+                    return usa.username == $rootScope.activeUser.username;
                 });
 
                 data = {
@@ -361,40 +395,33 @@ angular
                     hideEnabled: currentUserSettings.settings.hideEnabled,
                     tolerance: currentUserSettings.settings.tolerance,
                 };
-                $rootScope.$broadcast('fontsizeChange', data.fontsize + 20);
 
+                articleCache = JSON.parse($window.localStorage.getItem("usersArticleCache"));
                 $scope.cachedArticles = [];
-                if ($scope.isOnline) {
+                if ($scope.isOnline && $scope.selectedSources.sources.length > 0) {
+                    //TODO build http get request for all sources
                     $http.get("./test_data/articles/templateArticle.js").then(function (res) {
                         $scope.articles = res.data;
                     }).then(function () {
 
                         if (data.cachenewsEnabled) {
                             for (var i = 0; i < $scope.articles.length; i++) {
-                                if (i < 5) {
+                                if (i < 10) {
                                     $scope.cachedArticles.push($scope.articles[i]);
                                 }
                             }
+                            cacheArticles();
                         }
-                        cacheArticles();
-
                         $ionicLoading.hide();
                     });
-                } else {
-
-                    var articleCache = JSON.parse($window.localStorage.getItem("articleCache"));
-                    if (articleCache == null || articleCache == undefined) {
-                        articleCache = {};
-                    } else {
-                        $scope.cachedArticles = _.find(articleCache, function (ac) {
-                            return ac.username == $rootScope.activeUser.username;
-                        });
-                    }
+                } else if (!$scope.isOnline){
+                    $scope.cachedArticles = _.find(articleCache, function (ac) {
+                        return ac.username == $rootScope.activeUser.username;
+                    });
                     $ionicLoading.hide();
-
+                } else {
+                    $ionicLoading.hide();
                 }
-
-
             }
         }
     ])

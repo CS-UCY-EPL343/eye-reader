@@ -6,9 +6,11 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the article view.
      */
-    .controller("articleCtrl", ["$scope", "$stateParams", "sharedProps", "$ionicLoading", "$rootScope", "$window", "$ionicHistory",
-        function ($scope, $stateParams, sharedProps, $ionicLoading, $rootScope, $window, $ionicHistory) {
+    .controller("articleCtrl", ["$scope", "$http", "ConnectionMonitor", "$stateParams", "sharedProps", "$ionicLoading", "$rootScope", "$window", "$ionicHistory",
+        function ($scope, $http, ConnectionMonitor, $stateParams, sharedProps, $ionicLoading, $rootScope, $window, $ionicHistory) {
             var data = {};
+            var isOnline = ConnectionMonitor.isOnline();
+            var articles = [];
 
             /**
              * @name $ionic.on.beforeEnter
@@ -34,20 +36,20 @@ angular
 
                 if (activeUserNotes == undefined || activeUserNotes == null) {
                     activeUserNotes = {
-                        username : $rootScope.activeUser.username,
-                        notes : []
+                        username: $rootScope.activeUser.username,
+                        notes: []
                     };
-                }else{
+                } else {
                     activeUserNotes.notes = _.filter(activeUserNotes.notes, function (el) {
                         return el.id != $scope.currentNotes.id;
                     })
-                    if (activeUserNotes.notes != undefined || activeUserNotes.notes != null){
-                        for (var i =0; i<activeUserNotes.notes.length; i++){
-                            if (activeUserNotes.notes[i].id == $scope.currentNotes.id){
+                    if (activeUserNotes.notes != undefined || activeUserNotes.notes != null) {
+                        for (var i = 0; i < activeUserNotes.notes.length; i++) {
+                            if (activeUserNotes.notes[i].id == $scope.currentNotes.id) {
                                 activeUserNotes.notes[i].note = $scope.currentNotes.note;
                             }
                         }
-                    }else{
+                    } else {
                         activeUserNotes.notes = [];
                     }
                 }
@@ -59,7 +61,7 @@ angular
                 if (articlesNotes == undefined || articlesNotes == null || articlesNotes == "") {
                     articlesNotes = [];
                 }
-            
+
                 articlesNotes.push(activeUserNotes);
                 $window.localStorage.setItem("articlesNotes", JSON.stringify(articlesNotes));
             }
@@ -112,31 +114,11 @@ angular
                 return $scope.isNightmode ? "nightmodeHeaderClass" : "normalHeaderClass";
             };
 
-            /**
-              * @function
-              * @memberof controllerjs.articleCtrl
-              * @description This function is responsible for calling all the functions that need to 
-              * be executed when the page is initialized.
-              */
-            function init() {
-                $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
-                });
-                $scope.user = $rootScope.activeUser;
-                $scope.article = $stateParams.article;
-
+            function loadNotes() {
                 if ($scope.user.isJournalist) {
 
                     articlesNotes = JSON.parse($window.localStorage.getItem("articlesNotes"))
 
-                    // TODO: SAVE NOTES
-                    // [{
-                    //     "username" : "admin",
-                    //     "notes" : {
-                    //         "Id" : 12,
-                    //         "note": "apsdpasjd"
-                    //     },
-                    // }]
                     if (articlesNotes == null || articlesNotes == undefined) {
                         articlesNotes = [];
                         var currUser = {
@@ -148,14 +130,14 @@ angular
                     activeUserNotes = _.find(articlesNotes, function (el) {
                         return el.username == $rootScope.activeUser.username;
                     })
-                    if (activeUserNotes != null || activeUserNotes != undefined){
+                    if (activeUserNotes != null || activeUserNotes != undefined) {
 
                         if (activeUserNotes.username == undefined || activeUserNotes.username == null)
-                        activeUserNotes.username = $rootScope.activeUser.username;
+                            activeUserNotes.username = $rootScope.activeUser.username;
                         if (activeUserNotes.notes == null || activeUserNotes.notes == undefined) {
                             activeUserNotes.notes = [];
                         }
-                        
+
                         $scope.currentNotes = _.find(activeUserNotes.notes, function (el) {
                             return el.id == $scope.article.Id;
                         })
@@ -173,6 +155,54 @@ angular
                             id: $scope.article.Id,
                             note: ""
                         };
+                    }
+                }
+            }
+
+            /**
+              * @function
+              * @memberof controllerjs.articleCtrl
+              * @description This function is responsible for calling all the functions that need to 
+              * be executed when the page is initialized.
+              */
+            function init() {
+                $ionicLoading.show({
+                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
+                });
+                $scope.user = $rootScope.activeUser;
+                //TODO http request if online
+                // local storage access if online
+                if ($ionicHistory.backView().stateId == "eyeReader.savedArticles") {
+                    articles = JSON.parse($window.localStorage.getItem("usersSavedArticles"));
+
+                    articles = _.find(articles, function (art) {
+                        return art.username == $rootScope.activeUser.username;
+                    });
+                    $scope.article = _.find(articles.articles, function (art) {
+                        return art.Id == $stateParams.id;
+                    });
+                    loadNotes();
+                } else {
+                    if (isOnline) {
+                        //TODO HTTP REQUEST
+                        $http.get("./test_data/articles/templateArticle.js").then(function (res) {
+                            articles = res.data;
+                        }).then(function () {
+                            $scope.article = _.find(articles, function (art) {
+                                return art.Id == $stateParams.id;
+                            });
+                            loadNotes();
+                        });
+                    } else {
+                        articles = JSON.parse($window.localStorage.getItem("usersArticleCache"));
+
+                        articles = _.find(articles, function (art) {
+                            return art.username == $rootScope.activeUser.username;
+                        });
+                        $scope.article = _.find(articles.articles, function (art) {
+                            return art.Id == $stateParams.id;
+                        });
+                        loadNotes();
                     }
                 }
 

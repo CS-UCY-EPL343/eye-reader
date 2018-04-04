@@ -6,9 +6,9 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the statistics view.
      */
-    .controller("statisticsCtrl", ["$scope", "sharedProps", "$timeout", "$ionicLoading", "$window", "$rootScope",
-        function ($scope, sharedProps, $timeout, $ionicLoading, $window, $rootScope) {
-
+    .controller("statisticsCtrl", ["$scope", "ConnectionMonitor", "sharedProps", "$timeout", "$ionicLoading", "$window", "$rootScope",
+        function ($scope, ConnectionMonitor, sharedProps, $timeout, $ionicLoading, $window, $rootScope) {
+            $scope.isOnline = ConnectionMonitor.isOnline();
             /**
              * @name $ionic.on.beforeEnter
              * @memberof controllerjs.statisticsCtrl

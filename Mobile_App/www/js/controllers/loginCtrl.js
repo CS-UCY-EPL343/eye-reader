@@ -19,6 +19,8 @@ angular
               */
             function createUserSettings() {
 
+                //creates users settings local storage entry
+
                 var currentUserSettings = {
                     username: $rootScope.activeUser.username,
                     settings: {
@@ -35,6 +37,63 @@ angular
                 usersSettings.push(currentUserSettings);
 
                 $window.localStorage.setItem("usersSettings", JSON.stringify(usersSettings));
+
+                //creates users deleted articles local storage entry
+                var usersDeletedArticles = $window.localStorage.getItem("usersDeletedArticles");
+                if (usersDeletedArticles == null || usersDeletedArticles == undefined){
+                    usersDeletedArticles = [];
+                }else{
+                    usersDeletedArticles = JSON.parse(usersDeletedArticles);
+                }
+                var currUserDeletedArticles = {
+                    username: $rootScope.activeUser.username,
+                    articles : []
+                };
+                usersDeletedArticles.push(currUserDeletedArticles);
+                $window.localStorage.setItem("usersDeletedArticles", JSON.stringify(usersDeletedArticles));
+
+                // creates users selected sources local storage entry
+                var usersSources = $window.localStorage.getItem("usersSources");
+                if (usersSources == null || usersSources == undefined){
+                    usersSources = [];
+                } else {
+                    usersSources = JSON.parse(usersSources);
+                }
+                var selectedSources = {
+                    username: $rootScope.activeUser.username,
+                    sources: []
+                };
+                usersSources.push(selectedSources);
+                $window.localStorage.setItem("usersSources", JSON.stringify(usersSources));
+
+                // creates users article cache local storage entry
+                var usersArticleCache = $window.localStorage.getItem("usersArticleCache");
+                if (usersArticleCache == null || usersArticleCache == undefined){
+                    usersArticleCache = [];
+                }else{
+                    usersArticleCache = JSON.parse(usersArticleCache);
+                }
+                var articleCache = {
+                    username: $rootScope.activeUser.username,
+                    articles: []
+                }
+                usersArticleCache.push(articleCache);
+                $window.localStorage.setItem("usersArticleCache", JSON.stringify(usersArticleCache));
+
+                // creates users saved articles local storage entry
+
+                var usersSavedArticles = $window.localStorage.getItem("usersSavedArticles");
+                if (usersSavedArticles == null || usersSavedArticles == undefined) {
+                    usersSavedArticles = [];
+                } else {
+                    usersSavedArticles = JSON.parse(usersSavedArticles);
+                }
+                var savedArticles = {
+                    username: $rootScope.activeUser.username,
+                    articles: []
+                }
+                usersSavedArticles.push(savedArticles);
+                $window.localStorage.setItem("usersSavedArticles", JSON.stringify(usersSavedArticles));
 
                 sharedProps.addData("isNightmode", false);
                 sharedProps.addData("cachenewsEnabled", currentUserSettings.settings.cachenewsEnabled);

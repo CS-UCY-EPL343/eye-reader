@@ -11,10 +11,13 @@ angular
         function ($scope, sharedProps, $http, $window, $rootScope, $ionicLoading, ConnectionMonitor, $notificationBar, $ionicPopup) {
             $scope.isOnline = ConnectionMonitor.isOnline();
             var data = {};
+            $scope.input = {};
+            var usersSavedArticles = [];
             init();
+
             /**
-             * @name $ionic.on.savedArticlesCtrl
-             * @memberof controllerjs.profileCtrl
+             * @name beforeEnter
+             * @memberof controllerjs.savedArticlesCtrl
              * @description Executes actions before this page is loaded into view.
              *  Actions taken: 1) Gets the nightmode setting value in order to set the page to nightmode
              *           2) Gets the font size selected by the user in order to set it to the whole page
@@ -23,10 +26,19 @@ angular
                 getFontSize();
             });
 
+            /**
+             * @function
+             * @memberof controllerjs.savedArticlesCtrl
+             * @description Function that checks if an article id is included in the deleted articles array.
+             * If it is, then its not displayed on the html.
+             */
+            $scope.isDeleted = function (id) {
+                return $scope.deletedArticles.articles.includes(id);
+            }
 
             /**
              * @function
-             * @memberof controllerjs.profileCtrl
+             * @memberof controllerjs.savedArticlesCtrl
              * @description This function is responsible for retrieving the selected font size from the 
              * shared properties space and set the value into scope variables in order to be used in 
              * the page and set the page's font size.
@@ -80,7 +92,7 @@ angular
                 var articleIndex = $scope.savedArticles.findIndex(s => s.Id == id);
 
                 $scope.savedArticles.splice(articleIndex, 1);
-                $window.localStorage.setItem("savedArticles", JSON.stringify($scope.savedArticles));
+                $window.localStorage.setItem("usersSavedArticles", JSON.stringify($scope.savedArticles));
 
                 showRemovedToast();
             }
@@ -97,36 +109,6 @@ angular
                 $notificationBar.show("Article removed from saved!", $notificationBar.EYEREADERCUSTOM);
             }
 
-
-            /**
-              * @function
-              * @memberof controllerjs.savedArticlesCtrl
-              * @description This function is responsible for displaying the popup when a user wants to report 
-              * an article. The popup is ionic's default and uses the reportArticle.html temlpate.
-              */
-            $scope.showReportOptions = function (sourceid) {
-                var promptAlert = $ionicPopup.show({
-                    title: "Report",
-                    templateUrl: "templates/reportArticle.html",
-                    buttons: [{
-                        text: "Cancel",
-                        type: "button-stable button-outline",
-                        onTap: function (e) { }
-                    },
-                    {
-                        text: "Confirm",
-                        type: "button-positive",
-                        onTap: function (e) {
-                            //TODO
-                            // $http.post("https://eye-reader.herokuapp.com/"+sourceid+"/report");
-                            $notificationBar.setDuration(700);
-                            $notificationBar.show("Article reported!", $notificationBar.EYEREADERCUSTOM);
-                        }
-                    }
-                    ]
-                });
-            };
-
             /**
               * @function
               * @memberof controllerjs.profileCtrl
@@ -138,13 +120,18 @@ angular
                     template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading articles...</p>',
                 });
 
-                $scope.savedArticles = JSON.parse($window.localStorage.getItem("savedArticles"));
-                if ($scope.savedArticles == null || $scope.savedArticles == undefined) {
-                    $scope.savedArticles = [];
-                }
+                usersSavedArticles = JSON.parse($window.localStorage.getItem("usersSavedArticles"));
+                $scope.savedArticles = _.find(usersSavedArticles, function (usa) {
+                    return usa.username == $rootScope.activeUser.username;
+                })
                 if (sharedProps.getData("isNightmode") != undefined)
                     $scope.isNightmode = sharedProps.getData("isNightmode").value;
 
+                usersDeletedArticles = JSON.parse($window.localStorage.getItem("usersDeletedArticles"));
+
+                $scope.deletedArticles = _.find(usersDeletedArticles, function (uda) {
+                    return uda.username == $rootScope.activeUser.username;
+                });
 
                 var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
 

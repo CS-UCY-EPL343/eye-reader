@@ -104,7 +104,7 @@ angular.module('app.routes', [])
 
     .state("eyeReader.article", {
 
-        url: "/article/{article:json}",
+        url: "/article/:id",
         cache: "false",
         views: {
             "side-menu21": {

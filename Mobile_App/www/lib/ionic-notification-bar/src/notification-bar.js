@@ -18,7 +18,7 @@ angular.module('ionic-notification-bar', ['ionic'])
         this.SUCCESS = "green";
         this.ALERT = "red";
         this.INFO = "yellow";
-        this.EYEREADER_COLOR = "#455A64";
+        this.usersCOLOR = "#455A64";
 
         this.show = function (message, type) {
             var context = this;
