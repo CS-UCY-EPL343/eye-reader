@@ -7,9 +7,9 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the News Feed page.
      */
-    .controller("newsFeedCtrl", ["$scope", "$http", "sharedProps", "$ionicPopup",
+    .controller("newsFeedCtrl", ["$scope", "$http", "sharedProps", "$ionicPopup", "$ionicModal",
         "$localStorage", "$ionicLoading", "$window", "$notificationBar", "$rootScope", "ConnectionMonitor",
-        function ($scope, $http, sharedProps, $ionicPopup,
+        function ($scope, $http, sharedProps, $ionicPopup, $ionicModal,
             $localStorage, $ionicLoading, $window, $notificationBar, $rootScope, ConnectionMonitor) {
             $scope.input = {};
             $scope.articles = [];
@@ -17,6 +17,7 @@ angular
             var usersDeletedArticles = [];
             var articleCache = [];
             var data = {};
+            $scope.checkboxes = {};
             var usersSavedArticles = [];
             init();
 
@@ -58,18 +59,24 @@ angular
                 var promptAlert = $ionicPopup.show({
                     title: "Report",
                     templateUrl: "templates/reportArticle.html",
+                    scope: $scope,
                     buttons: [{
                         text: "Cancel",
-                        type: "button-stable button-outline",
-                        onTap: function (e) { }
+                        type: "button-stable button-outline"
                     },
                     {
                         text: "Confirm",
                         type: "button-positive",
                         onTap: function (e) {
-                            $http.get("https://eye-reader.herokuapp.com/articles/"+sourceid+"/report");
-                            $notificationBar.setDuration(700);
-                            $notificationBar.show("Article reported!", $notificationBar.EYEREADERCUSTOM);
+                            if ($scope.checkboxes.hatespeech || $scope.checkboxes.fakenews) {
+                                $http.get("https://eye-reader.herokuapp.com/articles/" + sourceid + "/report");
+                                $notificationBar.setDuration(1000);
+                                $notificationBar.show("Article reported!", $notificationBar.EYEREADERCUSTOM);
+                            } else {
+                                $notificationBar.setDuration(1500);
+                                $notificationBar.show("Please check at least one option!", $notificationBar.EYEREADERCUSTOM);
+                                e.preventDefault();
+                            }
                         }
                     }
                     ]
@@ -116,7 +123,7 @@ angular
                     });
                 }
                 usersSavedArticles.forEach(el => {
-                    if (el.username == $scope.savedArticles.username){
+                    if (el.username == $scope.savedArticles.username) {
                         el.articles = $scope.savedArticles.articles;
                     }
                 });
@@ -167,7 +174,7 @@ angular
              * @description Function that checks if an article id is included in the deleted articles array.
              * If it is, then its not displayed on the html.
              */
-            $scope.isDeleted = function(id){
+            $scope.isDeleted = function (id) {
                 return $scope.deletedArticles.articles.includes(id);
             }
 
@@ -210,7 +217,7 @@ angular
               * was deleted from the feed.
               */
             function showDeletedToast() {
-                $notificationBar.setDuration(700);
+                $notificationBar.setDuration(1000);
                 $notificationBar.show("Article deleted!", $notificationBar.EYEREADERCUSTOM);
             }
 
@@ -227,9 +234,9 @@ angular
                 $scope.savedArticles.articles.splice(articleIndex, 1);
 
                 usersSavedArticles.forEach(user => {
-                    if (user.username == $scope.savedArticles.username){
+                    if (user.username == $scope.savedArticles.username) {
                         user.articles = $scope.savedArticles.articles;
-                    }                    
+                    }
                 });
                 $window.localStorage.setItem("usersSavedArticles", JSON.stringify(usersSavedArticles));
             }
@@ -241,7 +248,7 @@ angular
               * when the article is saved.
               */
             function showSavedToast() {
-                $notificationBar.setDuration(700);
+                $notificationBar.setDuration(1000);
                 $notificationBar.show("Article added to saved!", $notificationBar.EYEREADERCUSTOM);
             }
 
@@ -252,7 +259,7 @@ angular
               * when the article is removed from saved.
               */
             function showRemovedToast() {
-                $notificationBar.setDuration(700);
+                $notificationBar.setDuration(1000);
                 $notificationBar.show("Article removed from saved!", $notificationBar.EYEREADERCUSTOM);
             }
 
@@ -327,11 +334,11 @@ angular
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
-              * @description This function is responsible for rsending a request to the server in order 
+              * @description This function is responsible for sending a request to the server in order 
               * to increase the click counter of a source
               */
             $scope.articleTapped = function (sourceid) {
-                $http.get("https://eye-reader.herokuapp.com/articles/"+sourceid+"/click");
+                $http.get("https://eye-reader.herokuapp.com/articles/" + sourceid + "/click");
             }
 
             /**
@@ -358,17 +365,67 @@ angular
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
+              * @description This function is responsible for checking if this is the first time the
+              * current user is logging in the application. If it is, then it displays the tutorial
+              * modal.
+              */
+            function manageTutorialModal() {
+
+                var users = JSON.parse($window.localStorage.getItem("users"));
+
+                users.forEach(el => {
+                    if (el.username == $rootScope.activeUser.username) {
+                        if (el.firstTime) {
+                            el.firstTime = false;
+                            $scope.openModal();
+                            $window.localStorage.setItem("users", JSON.stringify(users));
+                        }
+                    }
+                });
+            }
+
+            /**
+              * @function
+              * @memberof controllerjs.newsFeedCtrl
               * @description This function is responsible for calling all the functions that need to 
               * be executed when the page is initialized.
               */
             function init() {
                 $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading articles...</p>',
+                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading news feed...</p>',
                 });
 
+                $scope.openModal = function () {
+                    $scope.modal.show();
+                };
+                $scope.closeModal = function () {
+                    $scope.modal.hide();
+                };
+                // Cleanup the modal when we're done with it!
+                $scope.$on('$destroy', function () {
+                    $scope.modal.remove();
+                });
+                // Execute action on hide modal
+                $scope.$on('modal.hidden', function () {
+                    // Execute action
+                });
+                // Execute action on remove modal
+                $scope.$on('modal.removed', function () {
+                    // Execute action
+                });
+
+                $ionicModal.fromTemplateUrl('templates/tutorial.html', {
+                    scope: $scope,
+                    animation: 'slide-in-up'
+                }).then(function (modal) {
+                    $scope.modal = modal;
+                    manageTutorialModal();
+                });
+
+
                 usersDeletedArticles = JSON.parse($window.localStorage.getItem("usersDeletedArticles"));
-                
-                $scope.deletedArticles = _.find(usersDeletedArticles, function(uda){
+
+                $scope.deletedArticles = _.find(usersDeletedArticles, function (uda) {
                     return uda.username == $rootScope.activeUser.username;
                 });
 
@@ -384,7 +441,7 @@ angular
                 });
 
                 usersSavedArticles = JSON.parse($window.localStorage.getItem("usersSavedArticles"));
-                $scope.savedArticles = _.find(usersSavedArticles, function(usa){
+                $scope.savedArticles = _.find(usersSavedArticles, function (usa) {
                     return usa.username == $rootScope.activeUser.username;
                 });
 
@@ -414,7 +471,7 @@ angular
                         }
                         $ionicLoading.hide();
                     });
-                } else if (!$scope.isOnline){
+                } else if (!$scope.isOnline) {
                     $scope.cachedArticles = _.find(articleCache, function (ac) {
                         return ac.username == $rootScope.activeUser.username;
                     });

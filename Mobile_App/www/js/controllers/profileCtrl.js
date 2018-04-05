@@ -74,7 +74,7 @@ angular
               */
             function init() {
                 $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading articles...</p>',
+                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading profile...</p>',
                 });
 
                 //gets the currently active user

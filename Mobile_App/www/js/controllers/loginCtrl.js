@@ -40,21 +40,21 @@ angular
 
                 //creates users deleted articles local storage entry
                 var usersDeletedArticles = $window.localStorage.getItem("usersDeletedArticles");
-                if (usersDeletedArticles == null || usersDeletedArticles == undefined){
+                if (usersDeletedArticles == null || usersDeletedArticles == undefined) {
                     usersDeletedArticles = [];
-                }else{
+                } else {
                     usersDeletedArticles = JSON.parse(usersDeletedArticles);
                 }
                 var currUserDeletedArticles = {
                     username: $rootScope.activeUser.username,
-                    articles : []
+                    articles: []
                 };
                 usersDeletedArticles.push(currUserDeletedArticles);
                 $window.localStorage.setItem("usersDeletedArticles", JSON.stringify(usersDeletedArticles));
 
                 // creates users selected sources local storage entry
                 var usersSources = $window.localStorage.getItem("usersSources");
-                if (usersSources == null || usersSources == undefined){
+                if (usersSources == null || usersSources == undefined) {
                     usersSources = [];
                 } else {
                     usersSources = JSON.parse(usersSources);
@@ -68,9 +68,9 @@ angular
 
                 // creates users article cache local storage entry
                 var usersArticleCache = $window.localStorage.getItem("usersArticleCache");
-                if (usersArticleCache == null || usersArticleCache == undefined){
+                if (usersArticleCache == null || usersArticleCache == undefined) {
                     usersArticleCache = [];
-                }else{
+                } else {
                     usersArticleCache = JSON.parse(usersArticleCache);
                 }
                 var articleCache = {
@@ -154,7 +154,7 @@ angular
               */
             $scope.login = function () {
                 $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
+                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Logging in...</p>',
                 });
                 AuthenticationService.Login(
                     $scope.login.username,

@@ -13,6 +13,7 @@ angular
             var data = {};
             $scope.input = {};
             var usersSavedArticles = [];
+            $scope.checkboxes = {};
             init();
 
             /**
@@ -89,10 +90,20 @@ angular
               * the array with the saved articles by splicing the array on the article's position.
               */
             $scope.unsaveArticle = function (id) {
-                var articleIndex = $scope.savedArticles.findIndex(s => s.Id == id);
-
-                $scope.savedArticles.splice(articleIndex, 1);
-                $window.localStorage.setItem("usersSavedArticles", JSON.stringify($scope.savedArticles));
+                var articleIndex = 0;
+                usersSavedArticles.forEach(el => {
+                    if (el.username == $rootScope.activeUser.username) {
+                        for (let i = 0; i < el.articles.length; i++) {
+                            if (el.articles[i].Id == id) {
+                                articleIndex = i;
+                                el.articles.splice(articleIndex,1);
+                                break;
+                            }
+                        }
+                    }
+                });
+                
+                $window.localStorage.setItem("usersSavedArticles", JSON.stringify(usersSavedArticles));
 
                 showRemovedToast();
             }
@@ -105,19 +116,53 @@ angular
               * when the article is removed from saved.
               */
             function showRemovedToast() {
-                $notificationBar.setDuration(700);
+                $notificationBar.setDuration(1000);
                 $notificationBar.show("Article removed from saved!", $notificationBar.EYEREADERCUSTOM);
             }
 
             /**
               * @function
-              * @memberof controllerjs.profileCtrl
+              * @memberof controllerjs.savedArticlesCtrl
+              * @description This function is responsible for displaying the popup when a user wants to report 
+              * an article. The popup is ionic's default and uses the reportArticle.html temlpate.
+              */
+            $scope.showReportOptions = function (sourceid) {
+                var promptAlert = $ionicPopup.show({
+                    title: "Report",
+                    templateUrl: "templates/reportArticle.html",
+                    scope: $scope,
+                    buttons: [{
+                        text: "Cancel",
+                        type: "button-stable button-outline"
+                    },
+                    {
+                        text: "Confirm",
+                        type: "button-positive",
+                        onTap: function (e) {
+                            if ($scope.checkboxes.hatespeech || $scope.checkboxes.fakenews) {
+                                $http.get("https://eye-reader.herokuapp.com/articles/" + sourceid + "/report");
+                                $notificationBar.setDuration(1000);
+                                $notificationBar.show("Article reported!", $notificationBar.EYEREADERCUSTOM);
+                            } else {
+                                $notificationBar.setDuration(1500);
+                                $notificationBar.show("Please check at least one option!", $notificationBar.EYEREADERCUSTOM);
+                                e.preventDefault();
+                            }
+                        }
+                    }
+                    ]
+                });
+            };
+
+            /**
+              * @function
+              * @memberof controllerjs.savedArticlesCtrl
               * @description This function is responsible for calling all the functions that need to 
               * be executed when the page is initialized.
               */
             function init() {
                 $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading articles...</p>',
+                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading saved articles...</p>',
                 });
 
                 usersSavedArticles = JSON.parse($window.localStorage.getItem("usersSavedArticles"));

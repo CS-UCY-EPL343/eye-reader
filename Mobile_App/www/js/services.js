@@ -93,7 +93,7 @@ angular
      * @memberof servicesjs
      * @description Factory that works like an offline user service.
      */
-    .factory("UserService", ["$timeout", "$q", "$rootScope", function ($timeout, $q, $rootScope) {
+    .factory("UserService", ["$timeout", "$q", "$rootScope", "$window", function ($timeout, $q, $rootScope, $window) {
         var service = {};
 
         service.GetAll = GetAll;
@@ -188,6 +188,8 @@ angular
                 }
             }
             setUsers(users);
+            
+            $rootScope.activeUser.username = user.username;
             $rootScope.globals.currentUser.username = user.username;
             deferred.resolve({ success: true });
 
@@ -262,11 +264,6 @@ angular
                             }
                             $rootScope.activeUser = user;
                             callback(response);
-                            if (user !== null && user.firstTime) {
-                                //TODO: FIX HERE THE FIRST TIME THING
-                                user.firstTime = false;
-                                UserService.Update(user);
-                            }
                         });
                 }, 0);
             }

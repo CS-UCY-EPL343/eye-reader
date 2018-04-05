@@ -9,13 +9,13 @@
         <div id="article-markdown3" class="show-list-numbers-and-dots">
             <p ng-class="getNightmodeHeaderClass()" ng-style="fontsize" class="sideLetters">{{article.Author}} | {{article.Date}}</p>
         </div>
-        <div style="margin-bottom:13px; line-height: 250px;">
+        <div style="margin-top :5%; margin-bottom:5%;">
             <img alt="Article image" ng-src="{{article.PictureSrc}}" height="100%" width="100%" style="vertical-align: middle;">
         </div>
         <div id="article-markdown2" class="show-list-numbers-and-dots normalBlackLetters">
             <span ng-class="getFontClass()" style="line-height: 1.2" ng-style="fontsize">{{article.Content}}</span>
         </div>
-        <div class="spacer" style="width: 300px; height: 20px;"></div>
+        <div class="spacer" style="width: 100%; height: 1%;"></div>
         <ion-list id="article-list15">
             <div class="card">
                 <div class="item item-text-wrap" ng-class="getBackgroundClass()">
@@ -32,7 +32,7 @@
                 </div>
             </div>
         </ion-list>
-        <div class="spacer" style="width: 300px; height: 20px;"></div>
+        <div class="spacer" style="width: 100%; height: 1%;"></div>
 
         <div ng-class="getBackgroundClass()" ng-if="user.isJournalist">
             <p ng-class="getFontClass()">Notes:</p>
@@ -40,7 +40,7 @@
                 <textarea type="note" ng-model="currentNotes.note" ng-blur="saveNotes()" style="width:100%; height:100%;"></textarea>
             </ion-item>
         </div>
-        <div class="spacer" style="width: 300px; height: 20px;"></div>
+        <div class="spacer" style="width: 100%; height: 2%;"></div>
 
     </ion-content>
 </ion-view>

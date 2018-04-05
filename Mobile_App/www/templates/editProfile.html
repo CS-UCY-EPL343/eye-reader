@@ -13,6 +13,7 @@
                         <input type="text" name="uname" placeholder="username" ng-model="editedUser.username" ng-style="fontsize" ng-class="getFontClass()"
                             ng-minlength="3" required>
                         <span ng-show="editprofform.uname.$dirty && editprofform.uname.$error.required" style="color:darkred; font-size:10px">Username is required</span>
+                        <span ng-show="input.usernameTaken" style="color:darkred; font-size:10px">This username is already taken!</span>                        
                     </div>
                 </li>
 

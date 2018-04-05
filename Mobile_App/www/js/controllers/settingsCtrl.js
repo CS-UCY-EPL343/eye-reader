@@ -149,7 +149,7 @@ angular
               */
             function init() {
                 $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
+                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading settings...</p>',
                 });
 
                 usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));

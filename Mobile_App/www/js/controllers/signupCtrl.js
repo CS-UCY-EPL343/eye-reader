@@ -59,7 +59,7 @@ angular
             */
             function init() {
                 $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
+                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading...</p>',
                 });
                 //$window.localStorage.clear();
                 //creates ojects for the new user's profile
