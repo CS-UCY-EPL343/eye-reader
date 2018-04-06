@@ -73,14 +73,14 @@ angular
               * @description This function is responsible for selecting a source and displaying an 
               * informational message.
               */
-            $scope.select_deselectSource = function (sourceURL) {
+            $scope.select_deselectSource = function (sourceTitle) {
                 if ($scope.currentUserSources != null || $scope.currentUserSources != undefined) {
 
-                    var index = $scope.currentUserSources.sources.indexOf(sourceURL);
+                    var index = $scope.currentUserSources.sources.indexOf(sourceTitle);
                     if (index > -1) {
-                        deselectSource(sourceURL, index);
+                        deselectSource(sourceTitle, index);
                     } else {
-                        selectSource(sourceURL);
+                        selectSource(sourceTitle);
                     }
                     usersSources = _.filter(usersSources, function (userSources) {
                         return userSources.username != $rootScope.activeUser.username;
@@ -94,11 +94,11 @@ angular
             /**
               * @function
               * @memberof controllerjs.addSourcesCtrl
-              * @param {string} sourceURL - The URL of the selected source
+              * @param {string} sourceTitle - The Title of the selected source
               * @description Adds the selected source to the array with all the selected sources
               */
-            function selectSource(sourceURL) {
-                $scope.currentUserSources.sources.push(sourceURL);
+            function selectSource(sourceTitle) {
+                $scope.currentUserSources.sources.push(sourceTitle);
             }
 
             /**
@@ -108,7 +108,7 @@ angular
               * @description This function is responsible for deselecting a source and displaying an 
               * informational message.
               */
-            function deselectSource(sourceURL, index) {
+            function deselectSource(sourceTitle, index) {
                 $scope.currentUserSources.sources.splice(index, 1);
             };
 
@@ -149,7 +149,7 @@ angular
 
                         if ($scope.currentUserSources != undefined || $scope.currentUserSources != null)
                             $scope.sources.forEach(function (el) {
-                                if (_.contains($scope.currentUserSources.sources, el.URL)) {
+                                if (_.contains($scope.currentUserSources.sources, el.Title)) {
                                     el.checked = true;
                                 } else {
                                     el.checked = false;

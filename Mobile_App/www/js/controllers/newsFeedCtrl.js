@@ -7,9 +7,9 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the News Feed page.
      */
-    .controller("newsFeedCtrl", ["$scope", "$http", "sharedProps", "$ionicPopup", "$ionicModal",
+    .controller("newsFeedCtrl", ["$scope", "$q", "Server", "$http", "sharedProps", "$ionicPopup", "$ionicModal",
         "$localStorage", "$ionicLoading", "$window", "$notificationBar", "$rootScope", "ConnectionMonitor",
-        function ($scope, $http, sharedProps, $ionicPopup, $ionicModal,
+        function ($scope, $q, Server, $http, sharedProps, $ionicPopup, $ionicModal,
             $localStorage, $ionicLoading, $window, $notificationBar, $rootScope, ConnectionMonitor) {
             $scope.input = {};
             $scope.articles = [];
@@ -270,10 +270,34 @@ angular
               * new articles from the server.
               */
             $scope.doRefresh = function () {
-                $http.get("./test_data/articles/templateArticle.js").then(function (res) {
-                    $scope.articles = res.data;
+                var requests = [];
+
+                for (var i = 0; i < $scope.selectedSources.sources.length; i++) {
+                    requests.push($http.get(Server.baseUrl + 'articles/from/' + $scope.selectedSources.sources[i]));
+                }
+                $q.all(requests).then(function (res) {
+                    res.forEach(el => {
+                        if (Array.isArray(el.data)) {
+                            el.data.forEach(d => {
+                                let isContained = _.find($scope.articles, function(art){
+                                    return art.Id == d.Id;
+                                })
+                                if (isContained == undefined || isContained == null)
+                                    $scope.articles.push(d);
+                            });
+                        }
+                    });
+                    if (data.cachenewsEnabled) {
+                        for (var i = 0; i < $scope.articles.length; i++) {
+                            if (i < 10) {
+                                $scope.cachedArticles.push($scope.articles[i]);
+                            }
+                        }
+                        cacheArticles();
+                    }
                     $scope.$broadcast('scroll.refreshComplete');
-                });
+
+                }).catch(function (error) { });
             }
 
             /**
@@ -422,7 +446,6 @@ angular
                     manageTutorialModal();
                 });
 
-
                 usersDeletedArticles = JSON.parse($window.localStorage.getItem("usersDeletedArticles"));
 
                 $scope.deletedArticles = _.find(usersDeletedArticles, function (uda) {
@@ -457,10 +480,19 @@ angular
                 $scope.cachedArticles = [];
                 if ($scope.isOnline && $scope.selectedSources.sources.length > 0) {
                     //TODO build http get request for all sources
-                    $http.get("./test_data/articles/templateArticle.js").then(function (res) {
-                        $scope.articles = res.data;
-                    }).then(function () {
+                    var requests = [];
 
+                    for (var i = 0; i < $scope.selectedSources.sources.length; i++) {
+                        requests.push($http.get(Server.baseUrl + 'articles/from/' + $scope.selectedSources.sources[i]));
+                    }
+                    $q.all(requests).then(function (res) {
+                        res.forEach(el => {
+                            if (Array.isArray(el.data)) {
+                                el.data.forEach(d => {
+                                    $scope.articles.push(d);
+                                });
+                            }
+                        });
                         if (data.cachenewsEnabled) {
                             for (var i = 0; i < $scope.articles.length; i++) {
                                 if (i < 10) {
@@ -470,6 +502,8 @@ angular
                             cacheArticles();
                         }
                         $ionicLoading.hide();
+                    }).catch(function (error) {
+
                     });
                 } else if (!$scope.isOnline) {
                     $scope.cachedArticles = _.find(articleCache, function (ac) {

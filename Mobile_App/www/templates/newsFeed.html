@@ -13,11 +13,12 @@
     <ion-content padding="false" overflow-scroll="false" class="has-header generalPadding" ng-class="getBackgroundClass()">
         <ion-refresher ng-if="selectedSources.sources.length > 0  && isOnline" pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
         <div ng-if="selectedSources.sources.length > 0 && isOnline" ng-class="getBackgroundClass()">
-            <ion-list id="newsFeed-list9" ng-repeat="article in articles | filter: { Title:input.onlineSearch }" ng-class="getBackgroundClass()">
-                <ion-item ng-show="!isDeleted({{article.Id}})" class="item-thumbnail-left item-icon-right" ng-click="articleTapped()" ui-sref="eyeReader.article({id : article.Id})"
+            <ion-list id="newsFeed-list9" ng-repeat="article in articles | filter: { Title:input.onlineSearch } " ng-class="getBackgroundClass()">
+                <ion-item ng-if="!isDeleted(article.Id)" class="item-thumbnail-left item-icon-right" ng-click="articleTapped()" ui-sref="eyeReader.article({id : article.Id})"
                     ng-class="getBackgroundClass()">
                     <img alt="img" ng-src="{{article.PictureSrc}}">
                     <h2 ng-style="fontsize" ng-class="getFontClass()">{{article.Title}}</h2>
+                    <p ng-style="fontsizeSmaller" ng-class="getFontClass()">Source: {{article.SourceTitle}}</p>
                     <p ng-style="fontsizeSmaller" class="sideLetters">{{article.Content}}</p>
                     <i class="icon ion-ios-arrow-right icon-accessory"></i>
                     <ion-option-button ng-show="isOnline" class="button-energized" ng-click="showReportOptions()">

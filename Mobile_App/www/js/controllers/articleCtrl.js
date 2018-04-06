@@ -6,8 +6,8 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the article view.
      */
-    .controller("articleCtrl", ["$scope", "$http", "ConnectionMonitor", "$stateParams", "sharedProps", "$ionicLoading", "$rootScope", "$window", "$ionicHistory",
-        function ($scope, $http, ConnectionMonitor, $stateParams, sharedProps, $ionicLoading, $rootScope, $window, $ionicHistory) {
+    .controller("articleCtrl", ["$scope", "$http", "Server", "ConnectionMonitor", "$stateParams", "sharedProps", "$ionicLoading", "$rootScope", "$window", "$ionicHistory",
+        function ($scope, $http, Server, ConnectionMonitor, $stateParams, sharedProps, $ionicLoading, $rootScope, $window, $ionicHistory) {
             var data = {};
             var isOnline = ConnectionMonitor.isOnline();
             var articles = [];
@@ -63,7 +63,7 @@ angular
                 }
 
                 articlesNotes.push(activeUserNotes);
-                $window.localStorage.setItem("articlesNotes", JSON.stringify(articlesNotes));
+                $window.localStorage.setItem("usersArticlesNotes", JSON.stringify(articlesNotes));
             }
 
             $scope.goBack = function () {
@@ -117,7 +117,7 @@ angular
             function loadNotes() {
                 if ($scope.user.isJournalist) {
 
-                    articlesNotes = JSON.parse($window.localStorage.getItem("articlesNotes"))
+                    articlesNotes = JSON.parse($window.localStorage.getItem("usersArticlesNotes"))
 
                     if (articlesNotes == null || articlesNotes == undefined) {
                         articlesNotes = [];
@@ -180,17 +180,13 @@ angular
                     });
                     $scope.article = _.find(articles.articles, function (art) {
                         return art.Id == $stateParams.id;
-                    });
+                    }); 
                     loadNotes();
                 } else {
                     if (isOnline) {
                         //TODO HTTP REQUEST
-                        $http.get("./test_data/articles/templateArticle.js").then(function (res) {
-                            articles = res.data;
-                        }).then(function () {
-                            $scope.article = _.find(articles, function (art) {
-                                return art.Id == $stateParams.id;
-                            });
+                        $http.get(Server.baseUrl + 'articles/' + $stateParams.id).then(function(res){
+                            $scope.article = res.data;
                             loadNotes();
                         });
                     } else {

@@ -130,4 +130,8 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
                 });
             }
         };
-    });
+    })
+
+    .constant('Server', {
+        'baseUrl': 'https://eye-reader.herokuapp.com/',
+     }); 

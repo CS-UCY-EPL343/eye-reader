@@ -179,7 +179,7 @@ angular
          */
         function Update(user) {
             var deferred = $q.defer();
-
+            user.firstTime = false;
             var users = getUsers();
             for (var i = 0; i < users.length; i++) {
                 if (users[i].id === user.id) {
@@ -258,7 +258,7 @@ angular
                     UserService.GetByUsername(username)
                         .then(function (user) {
                             if (user !== null && user.password === password) {
-                                response = { success: true, firstTime: user.firstTime };
+                                response = { success: true };
                             } else {
                                 response = { success: false, message: 'Username or password is incorrect' };
                             }

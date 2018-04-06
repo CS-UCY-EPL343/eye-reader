@@ -8,7 +8,7 @@
     <ion-content padding="false" class="has-header generalPadding" ng-class="getBackgroundClass()">
         <div ng-if="isOnline">
             <div ng-repeat="source in sources | filter : { Title:input.userSearch }">
-                <ion-checkbox ng-class="getBackgroundClass()" id="addSources-checkbox3" ng-checked="source.checked" ng-click="select_deselectSource(source.URL)">
+                <ion-checkbox ng-class="getBackgroundClass()" id="addSources-checkbox3" ng-checked="source.checked" ng-click="select_deselectSource(source.Title)">
                     <span ng-style="fontsize" ng-class="getFontClass()" class="normalBlackLetters">{{source.Title}}</span>
                 </ion-checkbox>
             </div>
