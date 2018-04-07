@@ -1,0 +1,25 @@
+.navShift{
+    position:absolute;
+    right:5%;
+}
+
+.appTitle{
+    color:#455A64;
+    font-size:20px;
+    font-style:bold;
+}
+
+.imgSize{
+    width:225px;
+    height:450px;
+    text-align:center;
+    margin-top:5%;
+    margin-right:15%;
+    margin-bottom:5%;
+}
+
+.paragraph{
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size:14px;
+    color:white;
+}
