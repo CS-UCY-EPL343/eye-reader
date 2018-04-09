@@ -23,21 +23,49 @@
       <div class="navbar-header" style="left:5%;">
         <a class="appTitle navbar-brand" href="#">eyeReader</a>
       </div>
+
       <ul class="navShift nav navbar-nav">
         <li class="active">
-          <a href="#">Home</a></li>
-        <li><a href="#">Features</a></li>
-        <li><a href="#">About</a></li>
+          <a href="#home" data-toggle="tab">Home</a>
+        </li>
+        <li>
+          <a href="#features" data-toggle="tab">Features</a>
+        </li>
+        <li>
+          <a href="#about" data-toggle="tab">About</a>
+        </li>
       </ul>
     </div>
   </nav>
 
-          <img class="imgSize" style="float:right;" src="img/welcomeScreen.png">
-          <div style="margin-left:15%;margin-top:15%;">
-          <p  class="appTitle" style="font-size:40px;color:white">We select your news</p>
-          <p class="paragraph">eyeReader is your personal news reader that shows only the articles from the sources the user selects.</p>
-          <p class="paragraph">You can hide or mark up the toxic content.</p>
-        </div>
+  <div class="tab-content">
+
+    <div id="home" class="tab-pane fade in active">
+      <img class="imgSize" style="float:right;" src="welcomeScreen.png">
+      <div style="margin-left:10%;margin-top:15%;">
+        <p class="appTitle" style="font-size:40px;color:white">We select your news</p>
+        <p class="paragraph">A personal news reader tailored to your reading taste.</p>
+        <p class="paragraph"> It delicately collects all the articles of the topics you most care about,considering your tolerance.</p>
+      </div>
+    </div>
+
+    <div id="features" class="tab-pane fade">
+      <p>Features</p>
+    </div>
+
+    <div id="about" class="tab-pane fade">
+        <p class="title"> We are a small team from University of Cyprus.</p>
+        <img style="margin-left:12%" class="circleImg" src="kotsios.png">
+        <img class="circleImg" src="antrea.png">
+        <img class="circleImg" src="giorgos.png">
+        <img class="circleImg" src="kele.png">
+        <br>
+        <p class="paragraph" style="display:inline-block;">Konstantinos Stylianou</p>
+        <p class="paragraph" style="display:inline-block;">Antrea Chrysanthou</p>
+        <p class="paragraph" style="display:inline-block;">George Hadjidemetriou</p>
+        <p class="paragraph" style="display:inline-block;">Marios Kelepeshis</p>
+    </div>
+  </div>
 
 </body>
 
