@@ -15,6 +15,7 @@
   <!-- AngularJS -->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
   <link rel="stylesheet" href="css/design.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body style="background-color:#455A64">
@@ -43,27 +44,62 @@
     <div id="home" class="tab-pane fade in active">
       <img class="imgSize" style="float:right;" src="welcomeScreen.png">
       <div style="margin-left:10%;margin-top:15%;">
-        <p class="appTitle" style="font-size:40px;color:white">We select your news</p>
+        <p class="appTitle" style="font-size:40px;color:white">We filter your news</p>
         <p class="paragraph">A personal news reader tailored to your reading taste.</p>
-        <p class="paragraph"> It delicately collects all the articles of the topics you most care about,considering your tolerance.</p>
+        <p class="paragraph" style="margin-bottom:3%;"> It delicately collects all the articles of the topics you most care about, considering your tolerance.</p>
+        <button type="button" class="btn button btn-default" style="margin-left:1%;">Download android</button>
+        <button type="button" class="btn button btn-default" style="margin-left:1%;">Download ios</button>
+        <button type="button" class="btn button btn-default" style="margin-left:1%;">View on GitHub</button>
       </div>
     </div>
 
     <div id="features" class="tab-pane fade">
-      <p>Features</p>
+      <div>
+        <div  style="margin-left:10%;margin-top:5%;">
+            <p class="title" style="margin-left:10%;">News on demand</p>
+          <i class="icons fa fa-newspaper-o" aria-hidden="true"></i>
+          <ul class="paragraph" style="display:inline-block;color:white;">
+              <li>It presents articles based on the user's preference of sources.</li>
+              <li>When online, it keeps the feed up to date in real time. </li>
+              <li>There is an option of cashe news for offline reading. </li>
+            </ul>  
+          </div>
+          <br>
+          <div  style="margin-left:10%;margin-top:5%;">
+              <p class="title" style="margin-left:10%;">Hate and toxic free</p>
+              <i class="icons fa fa-filter" aria-hidden="true"></i>
+              <ul class="paragraph" style="display:inline-block;color:white;">
+                  <li>It filters the articles' content based on user's tolerance.</li>
+                  <li>It hides or marks any toxic or hate content in the articles.</li>
+                </ul>  
+              </div>
+          <br>
+            <div  style="margin-left:10%;margin-top:5%; margin-bottom:10%;">
+              <p class="title" style="margin-left:10%;">Statistics</p>
+              <i class="icons fa fa-line-chart" aria-hidden="true"></i>      
+              <ul class="paragraph" style="display:inline-block;color:white;">
+                <li>Initially it presents the top 5 most reported sources.</li>
+                <li>It presents the statistics of each source (Report percentage, Hate speech percentage and Sentiment Analysis).</li>
+              </ul>  
+            </div>
+      </div>
     </div>
 
     <div id="about" class="tab-pane fade">
-        <p class="title"> We are a small team from University of Cyprus.</p>
-        <img style="margin-left:12%" class="circleImg" src="kotsios.png">
+      <p class="title"> We are a small team from the University of Cyprus.</p>
+
+      <p class="paragraph nameTags" style="margin-left:12%;">
+        <img class="circleImg" src="kotsios.png">
+        <br>Konstantinos Stylianou</p>
+      <p class="paragraph nameTags">
         <img class="circleImg" src="antrea.png">
+        <br>Antrea Chrysanthou</p>
+      <p class="paragraph nameTags">
         <img class="circleImg" src="giorgos.png">
+        <br>George Hadjidemetriou</p>
+      <p class="paragraph nameTags">
         <img class="circleImg" src="kele.png">
-        <br>
-        <p class="paragraph" style="display:inline-block;">Konstantinos Stylianou</p>
-        <p class="paragraph" style="display:inline-block;">Antrea Chrysanthou</p>
-        <p class="paragraph" style="display:inline-block;">George Hadjidemetriou</p>
-        <p class="paragraph" style="display:inline-block;">Marios Kelepeshis</p>
+        <br>Marios Kelepeshis</p>
     </div>
   </div>
 

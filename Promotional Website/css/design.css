@@ -39,6 +39,28 @@ html {
 
 .paragraph{
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size:14px;
+    font-size:20px;
+    font-style:normal;
     color:white;
+}
+
+.nameTags{
+    display:inline-block;
+    margin-top:5%;
+    margin-right:5%;
+    text-align:center;
+}
+
+.button {
+    background-color: Transparent !important;
+    background-repeat:no-repeat;
+    border-color:white;;
+    cursor:pointer;
+    overflow: hidden;
+    color:white!important;
+}
+
+.icons{
+   font-size:90px!important;
+   color:white;
 }
