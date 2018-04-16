@@ -6,9 +6,30 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the statistics view.
      */
-    .controller("statisticsCtrl", ["$scope", "ConnectionMonitor", "sharedProps", "$timeout", "$ionicLoading", "$window", "$rootScope",
-        function ($scope, ConnectionMonitor, sharedProps, $timeout, $ionicLoading, $window, $rootScope) {
+    .controller("statisticsCtrl", ["$scope", "$q", "Server", "$http", "ConnectionMonitor", "sharedProps", "$timeout", "$window", "$rootScope",
+        function ($scope, $q, Server, $http, ConnectionMonitor, sharedProps, $timeout, $window, $rootScope) {
+            /*
+            *  Plugin registration for charts to break labels when entering \n in a label
+            */
+            Chart.pluginService.register({
+                beforeInit: function (chart) {
+                    chart.data.labels.forEach(function (e, i, a) {
+                      if (/\n/.test(e)) {
+                        a[i] = e.split(/\n/)
+                      }
+                    })
+                  }
+            });
             $scope.isOnline = ConnectionMonitor.isOnline();
+            $scope.isLoading = undefined;
+            $scope.isLoadingOptions = undefined;
+            $scope.r = -1;
+            $scope.stat = {
+                selectedStatistic: 0,
+                selectedSource: 0
+            }
+            $scope.selectSource = [];
+            var requests = [];
             /**
              * @name $ionic.on.beforeEnter
              * @memberof controllerjs.statisticsCtrl
@@ -70,30 +91,75 @@ angular
             };
 
 
-            $scope.selectSource = [{ name: "All Sources", id: 0 }, { name: "Source x", id: 1 }, { name: "Source y", id: 2 }];
-            $scope.viewStatistics = [{ name: "Report", id: 0 }, { name: "Hate Speech", id: 1 }, { name: "Sentiment Analysis", id: 2 }];
-            $scope.selectedStatistic = 0;
-            $scope.selectedSource = 0;
+            $scope.selectSource = [{ name: "All Sources", id: 0 }];
+            $scope.viewStatistics = [{ name: "Report", id: 0 }, { name: "Click", id: 1 }, { name: "Sentiment Analysis", id: 2 }];
 
-            $scope.barLbls = ["January", "February", "March", "April", "May"];
-            $scope.series = ['Series A'];
-            $scope.barData = [
-                [65, 59, 80, 81, 56]
-            ];
+            $scope.barLbls = [];
+            $scope.barSeries = [];
+            $scope.barData = [];
+            $scope.barDatasetOverride = [{
+                yAxisID: 'y-axis-1'
+            }];
+            $scope.allSourcesOptions = {
+                scales: {
+                    yAxes: [{
+                        id: 'y-axis-1',
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function (value) { if (Number.isInteger(value)) { return value; } },
+                            stepSize: 1
+                        }
+                    }],
+                    xAxes: [{
+                        categoryPercentage: 1,
+                        barPercentage: 0.8,
+                        ticks: {
+                            autoSkip: false,
+                            maxRotation: 0,
+                            minRotation: 0
+                        }
+                    }]
+                },
+                responsive: false,
+                animation: {
+                    onComplete: function () {
+                        var sourceCanvas = this.chart.ctx.canvas;
+                        var copyWidth = this.chart.controller.chartArea.left - 5;
+                        // the +5 is so that the bottommost y axis label is not clipped off
+                        // we could factor this in using measureText if we wanted to be generic
+                        var copyHeight = this.chart.controller.chartArea.bottom + 5; // 282 //this.scale.endPoint + 5;
 
-            $scope.doughnutLbls = ["January", "February"];
-            $scope.series = ['Series A'];
-            $scope.doughnutData = [
-                [65, 59]
-            ];
+                        var targetCtx = document.getElementById("myChartAxis").getContext("2d");
+                        targetCtx.canvas.width = copyWidth;
+                        //targetCtx.drawImage(sourceCanvas, 0, 0, copyWidth, copyHeight, 0, 0, copyWidth, copyHeight);
 
-            // Simulate async data update
-            $timeout(function () {
-                $scope.data = [
-                    [28, 48, 40, 19, 86]
-                ];
-            }, 3000);
-
+                    }
+                }
+            };
+            $scope.sourceOptions = {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function (value) { if (Number.isInteger(value)) { return value; } },
+                            stepSize: 1
+                        }
+                    }],
+                    xAxes: [{
+                        categoryPercentage: 1,
+                        barPercentage: 0.8,
+                        ticks: {
+                            autoSkip: false,
+                            maxRotation: 0,
+                            minRotation: 0
+                        }
+                    }]
+                },
+                responsive: false
+            };
             /**
               * @function
               * @memberof controllerjs.statisticsCtrl
@@ -101,9 +167,6 @@ angular
               * be executed when the page is initialized.
               */
             function init() {
-                $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner>',
-                });
                 var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
 
                 var currentUserSettings = _.find(usersSettings, function (userSettings) {
@@ -111,14 +174,82 @@ angular
                 });
 
                 data = {
-                    // cachenewsEnabled: currentUserSettings.settings.cachenewsEnabled,
                     fontsize: currentUserSettings.settings.fontsize,
-                    // markupEnabled: currentUserSettings.settings.markupEnabled,
-                    // hideEnabled: currentUserSettings.settings.hideEnabled,
-                    // tolerance: currentUserSettings.settings.tolerance,
                 };
 
-                $ionicLoading.hide();
+                //retrieve sources
+                if ($scope.isOnline) {
+                    $scope.isLoadingOptions = true;
+                    var tempId = 1;
+                    $http.get(Server.baseUrl + "sources/").then(function (res) {
+                        var sources = res.data;
+
+                        sources.forEach(function (el) {
+                            $scope.barLbls.push(el.Title);
+
+                            $scope.selectSource.push({ name: el.Title, id: tempId });
+                            tempId++;
+                        })
+                        $scope.isLoadingOptions = false;
+                    });
+
+                } else {
+                    $scope.isLoadingOptions = false;
+                }
             }
-        }
-    ])
+
+            /**
+              * @function
+              * @memberof controllerjs.statisticsCtrl
+              * @description This function is responsible for requesting from the server the source names and statistics based on the user's selections
+              * and then it creates the options for the chart and creates the chart.
+              */
+            $scope.requestStatistics = function () {
+                $scope.isLoading = true;
+                var req = null;
+                $scope.barLbls = [];
+                $scope.barSeries = ['report'];
+                $scope.barData = [];
+                if ($scope.stat.selectedStatistic == 0)
+                    req = '/report/';
+                else if ($scope.stat.selectedStatistic == 1)
+                    req = '/click/';
+                else
+                    req = '/sentimentalAnalysis/';
+
+                requests = [];
+                if ($scope.stat.selectedSource == 0) {
+                    for (var i = 1; i < $scope.selectSource.length; i++) {
+                        requests.push($http.get(Server.baseUrl + 'sources/' + $scope.selectSource[i].name + req));
+                        $scope.barLbls.push($scope.selectSource[i].name);
+                    }
+                    $scope.r = 0;
+                } else {
+                    requests.push($http.get(Server.baseUrl + 'sources/' + $scope.selectSource[$scope.stat.selectedSource].name + '/report/'));
+                    requests.push($http.get(Server.baseUrl + 'sources/' + $scope.selectSource[$scope.stat.selectedSource].name + '/click/'));
+                    requests.push($http.get(Server.baseUrl + 'sources/' + $scope.selectSource[$scope.stat.selectedSource].name + '/sentimentalAnalysis/'));
+                    $scope.barLbls.push("Report");
+                    $scope.barLbls.push("Click");
+                    $scope.barLbls.push("Sentimental\n Analysis");
+                    $scope.r = 1;
+                }
+
+                var tempData = [];
+                $q.all(requests).then(function (res) {
+                    $scope.r = -1;
+                    res.forEach(el => {
+                        tempData.push(el.data);
+                        console.log(el.data);
+                        if ($scope.stat.selectedSource == 0)
+                            $scope.r = 0;
+                        else if ($scope.stat.selectedSource > 0)
+                            $scope.r = 1;
+                    });
+                    $scope.barData.push(tempData);
+                    $scope.isLoading = false;
+                }).catch(function (error) {
+                    $scope.isLoading = false;
+                });
+
+            };
+        }])

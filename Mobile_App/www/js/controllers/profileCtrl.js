@@ -6,8 +6,8 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the profile view.
      */
-    .controller("profileCtrl", ["$scope", "$rootScope", "sharedProps", "$window", "$ionicLoading",
-        function ($scope, $rootScope, sharedProps, $window, $ionicLoading) {
+    .controller("profileCtrl", ["$scope", "$rootScope", "sharedProps", "$window",
+        function ($scope, $rootScope, sharedProps, $window) {
             var data = {};
             init();
             //sets the value of the user's sex based on their decision
@@ -73,10 +73,6 @@ angular
               * be executed when the page is initialized.
               */
             function init() {
-                $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading profile...</p>',
-                });
-
                 //gets the currently active user
                 $scope.user = $rootScope.activeUser;
 
@@ -93,8 +89,6 @@ angular
                     hideEnabled: currentUserSettings.settings.hideEnabled,
                     tolerance: currentUserSettings.settings.tolerance,
                 };
-
-                $ionicLoading.hide();
             }
         }
     ])

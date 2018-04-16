@@ -6,11 +6,12 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the article view.
      */
-    .controller("articleCtrl", ["$scope", "$http", "Server", "ConnectionMonitor", "$stateParams", "sharedProps", "$ionicLoading", "$rootScope", "$window", "$ionicHistory",
-        function ($scope, $http, Server, ConnectionMonitor, $stateParams, sharedProps, $ionicLoading, $rootScope, $window, $ionicHistory) {
+    .controller("articleCtrl", ["$scope", "$sce", "$http", "Server", "ConnectionMonitor", "$stateParams", "sharedProps", "$rootScope", "$window", "$ionicHistory",
+        function ($scope, $sce, $http, Server, ConnectionMonitor, $stateParams, sharedProps, $rootScope, $window, $ionicHistory) {
             var data = {};
             var isOnline = ConnectionMonitor.isOnline();
             var articles = [];
+            $scope.isLoading = true;
 
             /**
              * @name $ionic.on.beforeEnter
@@ -159,6 +160,22 @@ angular
                 }
             }
 
+            function applyMandolaFiltering() {
+                //TODO: USE THIS TO CHANGE STUFF FOR MANDOLA
+                // var temp = $scope.article.Content.toString().replace("/smartphones/g","<span style='background-color:yellow'>smartphones</span>");
+                // var temp = $scope.article.Content.toString().replace("/smartphones/g","<span style='display:none'>smartphones</span>");
+                // $scope.article.Content = $sce.trustAsHtml(temp);
+                var tempStr = $scope.article.Content;
+                $scope.article.NegativeWords.forEach(el => {
+                    if (data.markupEnabled) {
+                        tempStr = $scope.article.Content.toString().replace("/"+ el +"/g", "<span style='background-color:yellow'>"+el+"</span>");
+                    } else if (data.hideEnabled) {
+                        tempStr = $scope.article.Content.toString().replace("/"+ el +"/g", "<span style='display:none'>"+el+"</span>");
+                    }
+                });
+                $scope.article.Content = $sce.trustAsHtml(tempStr);
+            }
+
             /**
               * @function
               * @memberof controllerjs.articleCtrl
@@ -166,12 +183,7 @@ angular
               * be executed when the page is initialized.
               */
             function init() {
-                $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading article...</p>',
-                });
                 $scope.user = $rootScope.activeUser;
-                //TODO http request if online
-                // local storage access if online
                 if ($ionicHistory.backView().stateId == "eyeReader.savedArticles") {
                     articles = JSON.parse($window.localStorage.getItem("usersSavedArticles"));
 
@@ -180,14 +192,18 @@ angular
                     });
                     $scope.article = _.find(articles.articles, function (art) {
                         return art.Id == $stateParams.id;
-                    }); 
+                    });
+
                     loadNotes();
+                    applyMandolaFiltering();
+                    $scope.isLoading = false;
                 } else {
                     if (isOnline) {
-                        //TODO HTTP REQUEST
-                        $http.get(Server.baseUrl + 'articles/' + $stateParams.id).then(function(res){
+                        $http.get(Server.baseUrl + 'articles/' + $stateParams.id).then(function (res) {
                             $scope.article = res.data;
                             loadNotes();
+                            applyMandolaFiltering();
+                            $scope.isLoading = false;
                         });
                     } else {
                         articles = JSON.parse($window.localStorage.getItem("usersArticleCache"));
@@ -199,6 +215,8 @@ angular
                             return art.Id == $stateParams.id;
                         });
                         loadNotes();
+                        applyMandolaFiltering();
+                        $scope.isLoading = false;
                     }
                 }
 
@@ -216,7 +234,6 @@ angular
                     tolerance: currentUserSettings.settings.tolerance,
                 };
 
-                $ionicLoading.hide();
             }
         }
     ])

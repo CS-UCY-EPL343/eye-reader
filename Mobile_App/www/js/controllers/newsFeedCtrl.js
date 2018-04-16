@@ -8,9 +8,9 @@ angular
      * @description Controller controlling the functionalities implemented for the News Feed page.
      */
     .controller("newsFeedCtrl", ["$scope", "$q", "Server", "$http", "sharedProps", "$ionicPopup", "$ionicModal",
-        "$localStorage", "$ionicLoading", "$window", "$notificationBar", "$rootScope", "ConnectionMonitor",
+        "$localStorage", "$window", "$notificationBar", "$rootScope", "ConnectionMonitor", "$interval",
         function ($scope, $q, Server, $http, sharedProps, $ionicPopup, $ionicModal,
-            $localStorage, $ionicLoading, $window, $notificationBar, $rootScope, ConnectionMonitor) {
+            $localStorage, $window, $notificationBar, $rootScope, ConnectionMonitor, $interval) {
             $scope.input = {};
             $scope.articles = [];
             $scope.isOnline = ConnectionMonitor.isOnline();
@@ -19,7 +19,29 @@ angular
             var data = {};
             $scope.checkboxes = {};
             var usersSavedArticles = [];
+            $scope.isLoading = true;
             init();
+
+            var repeatArticleFetch;
+            $scope.startRepeatArticleFetch = function(){
+                
+                if (angular.isDefined(repeatArticleFetch)) return;
+
+                repeatArticleFetch = $interval(function () {
+                    requestArticles();
+                }, 900000);
+            }
+
+            $scope.stopRepeatArticleFetch = function(){
+                if (angular.isDefined(repeatArticleFetch)){
+                    $interval.cancel(repeatArticleFetch);
+                    repeatArticleFetch = undefined;
+              }
+            }
+
+            $rootScope.$on('$locationChangeSuccess', function() {
+                $scope.stopRepeatArticleFetch();
+            });
 
             /**
              * @name $ionic.on.beforeEnter
@@ -55,7 +77,9 @@ angular
               * @description This function is responsible for displaying the popup when a user wants to report 
               * an article. The popup is ionic's default and uses the reportArticle.html temlpate.
               */
-            $scope.showReportOptions = function (sourceid) {
+            $scope.showReportOptions = function (id) {
+                $scope.checkboxes.hatespeech = false;
+                $scope.checkboxes.fakenews = false;
                 var promptAlert = $ionicPopup.show({
                     title: "Report",
                     templateUrl: "templates/reportArticle.html",
@@ -69,7 +93,7 @@ angular
                         type: "button-positive",
                         onTap: function (e) {
                             if ($scope.checkboxes.hatespeech || $scope.checkboxes.fakenews) {
-                                $http.get("https://eye-reader.herokuapp.com/articles/" + sourceid + "/report");
+                                $http.get(Server.baseUrl + 'articles/' + id + "/report");
                                 $notificationBar.setDuration(1000);
                                 $notificationBar.show("Article reported!", $notificationBar.EYEREADERCUSTOM);
                             } else {
@@ -166,6 +190,7 @@ angular
                 usersDeletedArticles.push($scope.deletedArticles);
                 $window.localStorage.setItem("usersDeletedArticles", JSON.stringify(usersDeletedArticles));
                 $scope.articles.splice(_.indexOf($scope.articles, article), 1);
+            
             }
 
             /**
@@ -279,7 +304,7 @@ angular
                     res.forEach(el => {
                         if (Array.isArray(el.data)) {
                             el.data.forEach(d => {
-                                let isContained = _.find($scope.articles, function(art){
+                                let isContained = _.find($scope.articles, function (art) {
                                     return art.Id == d.Id;
                                 })
                                 if (isContained == undefined || isContained == null)
@@ -362,7 +387,7 @@ angular
               * to increase the click counter of a source
               */
             $scope.articleTapped = function (sourceid) {
-                $http.get("https://eye-reader.herokuapp.com/articles/" + sourceid + "/click");
+                $http.get(Server.baseUrl+'articles/' + sourceid + "/click");
             }
 
             /**
@@ -382,6 +407,20 @@ angular
                 };
 
                 articleCache.push(cached);
+
+                $window.localStorage.setItem("usersArticleCache", JSON.stringify(articleCache));
+            }
+
+            /**
+              * @function
+              * @memberof controllerjs.newsFeedCtrl
+              * @description This function is responsible for clearing the article cache if the cache 
+              * option from the settings page is disabled
+              */
+            function emptyCache() {
+                articleCache = _.filter(articleCache, function (ac) {
+                    return ac.username != $rootScope.activeUser.username;
+                });
 
                 $window.localStorage.setItem("usersArticleCache", JSON.stringify(articleCache));
             }
@@ -411,14 +450,20 @@ angular
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
+              * @description This function is responsible for retrieving articles from the server
+              * every 15 minutes in order to keep the feed updated in real time
+              */
+            function requestArticles() {
+                $scope.doRefresh();
+            }
+
+            /**
+              * @function
+              * @memberof controllerjs.newsFeedCtrl
               * @description This function is responsible for calling all the functions that need to 
               * be executed when the page is initialized.
               */
             function init() {
-                $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading news feed...</p>',
-                });
-
                 $scope.openModal = function () {
                     $scope.modal.show();
                 };
@@ -479,7 +524,6 @@ angular
                 articleCache = JSON.parse($window.localStorage.getItem("usersArticleCache"));
                 $scope.cachedArticles = [];
                 if ($scope.isOnline && $scope.selectedSources.sources.length > 0) {
-                    //TODO build http get request for all sources
                     var requests = [];
 
                     for (var i = 0; i < $scope.selectedSources.sources.length; i++) {
@@ -489,10 +533,13 @@ angular
                         res.forEach(el => {
                             if (Array.isArray(el.data)) {
                                 el.data.forEach(d => {
-                                    $scope.articles.push(d);
+                                    if (!_.contains($scope.deletedArticles.articles, d.Id)){
+                                        $scope.articles.push(d);
+                                    }
                                 });
                             }
                         });
+                        $scope.isLoading = false;
                         if (data.cachenewsEnabled) {
                             for (var i = 0; i < $scope.articles.length; i++) {
                                 if (i < 10) {
@@ -500,18 +547,22 @@ angular
                                 }
                             }
                             cacheArticles();
+                        } else {
+                            emptyCache();
                         }
-                        $ionicLoading.hide();
-                    }).catch(function (error) {
+                        $scope.startRepeatArticleFetch();
 
+                        $scope.isLoading = false;
+                    }).catch(function (error) {
+                        $scope.isLoading = false;
                     });
                 } else if (!$scope.isOnline) {
                     $scope.cachedArticles = _.find(articleCache, function (ac) {
                         return ac.username == $rootScope.activeUser.username;
                     });
-                    $ionicLoading.hide();
+                    $scope.isLoading = false;
                 } else {
-                    $ionicLoading.hide();
+                    $scope.isLoading = false;
                 }
             }
         }

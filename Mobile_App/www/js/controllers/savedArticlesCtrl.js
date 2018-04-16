@@ -7,12 +7,14 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the saved articles view.
      */
-    .controller("savedArticlesCtrl", ["$scope", "sharedProps", "$http", "$window", "$rootScope", "$ionicLoading", "ConnectionMonitor", "$notificationBar", "$ionicPopup",
-        function ($scope, sharedProps, $http, $window, $rootScope, $ionicLoading, ConnectionMonitor, $notificationBar, $ionicPopup) {
+    .controller("savedArticlesCtrl", ["$scope", "Server", "sharedProps", "$http", "$window", "$rootScope", "ConnectionMonitor", "$notificationBar", "$ionicPopup",
+        function ($scope, Server, sharedProps, $http, $window, $rootScope, ConnectionMonitor, $notificationBar, $ionicPopup) {
             $scope.isOnline = ConnectionMonitor.isOnline();
             var data = {};
+    
             $scope.input = {};
             var usersSavedArticles = [];
+            $scope.isLoading = true;
             $scope.checkboxes = {};
             init();
 
@@ -26,17 +28,7 @@ angular
             $scope.$on("$ionicView.beforeEnter", function () {
                 getFontSize();
             });
-
-            /**
-             * @function
-             * @memberof controllerjs.savedArticlesCtrl
-             * @description Function that checks if an article id is included in the deleted articles array.
-             * If it is, then its not displayed on the html.
-             */
-            $scope.isDeleted = function (id) {
-                return $scope.deletedArticles.articles.includes(id);
-            }
-
+            
             /**
              * @function
              * @memberof controllerjs.savedArticlesCtrl
@@ -96,6 +88,7 @@ angular
                         for (let i = 0; i < el.articles.length; i++) {
                             if (el.articles[i].Id == id) {
                                 articleIndex = i;
+                                $scope.savedArticles.articles.splice(articleIndex,0);
                                 el.articles.splice(articleIndex,1);
                                 break;
                             }
@@ -127,6 +120,8 @@ angular
               * an article. The popup is ionic's default and uses the reportArticle.html temlpate.
               */
             $scope.showReportOptions = function (sourceid) {
+                $scope.checkboxes.hatespeech = false;
+                $scope.checkboxes.fakenews = false;
                 var promptAlert = $ionicPopup.show({
                     title: "Report",
                     templateUrl: "templates/reportArticle.html",
@@ -140,7 +135,7 @@ angular
                         type: "button-positive",
                         onTap: function (e) {
                             if ($scope.checkboxes.hatespeech || $scope.checkboxes.fakenews) {
-                                $http.get("https://eye-reader.herokuapp.com/articles/" + sourceid + "/report");
+                                $http.get(Server.baseUrl + "articles/" + sourceid + "/report");
                                 $notificationBar.setDuration(1000);
                                 $notificationBar.show("Article reported!", $notificationBar.EYEREADERCUSTOM);
                             } else {
@@ -161,22 +156,12 @@ angular
               * be executed when the page is initialized.
               */
             function init() {
-                $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading saved articles...</p>',
-                });
-
                 usersSavedArticles = JSON.parse($window.localStorage.getItem("usersSavedArticles"));
                 $scope.savedArticles = _.find(usersSavedArticles, function (usa) {
                     return usa.username == $rootScope.activeUser.username;
                 })
                 if (sharedProps.getData("isNightmode") != undefined)
                     $scope.isNightmode = sharedProps.getData("isNightmode").value;
-
-                usersDeletedArticles = JSON.parse($window.localStorage.getItem("usersDeletedArticles"));
-
-                $scope.deletedArticles = _.find(usersDeletedArticles, function (uda) {
-                    return uda.username == $rootScope.activeUser.username;
-                });
 
                 var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
 
@@ -192,7 +177,7 @@ angular
                     tolerance: currentUserSettings.settings.tolerance,
                 };
 
-                $ionicLoading.hide();
+                $scope.isLoading = false;
             }
         }
     ])

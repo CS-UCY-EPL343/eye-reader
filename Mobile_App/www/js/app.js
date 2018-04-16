@@ -25,13 +25,11 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
                 cordova.plugins.Keyboard.disableScroll(true);
             }
-            ionic.Platform.fullScreen();
-            if (window.StatusBar) {
-                // org.apache.cordova.statusbar required
-                // StatusBar.styleDefault();
-                return StatusBar.hide();
-            }
-
+            // if (window.StatusBar) {
+            //     // org.apache.cordova.statusbar required
+            //     // StatusBar.styleDefault();
+            //     return StatusBar.hide();
+            // }
             // if this is the first run of the application then show welcome screen,
             // else skip to the login page
             if (Application.isInitialRun()){

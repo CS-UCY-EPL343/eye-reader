@@ -6,9 +6,9 @@
         </label>
     </ion-header-bar>
     <ion-content padding="false" overflow-scroll="false" class="has-header generalPadding" ng-class="getBackgroundClass()">
-        <div ng-if="savedArticles.articles.length > 0" ng-class="getBackgroundClass()">
+        <div ng-if="!isLoading && savedArticles.articles.length > 0" ng-class="getBackgroundClass()">
             <ion-list id="savedArticles-list16" ng-repeat="article in savedArticles.articles | filter: { Title:input.userSearch }" ng-class="getBackgroundClass()">
-                <ion-item ng-show="!isDeleted({{article.Id}})" class="item-thumbnail-left item-icon-right" ui-sref="eyeReader.article({id : article.Id})"
+                <ion-item class="item-thumbnail-left item-icon-right" ui-sref="eyeReader.article({id : article.Id})"
                     ng-class="getBackgroundClass()">
                     <img alt="img" ng-src="{{article.PictureSrc}}">
                     <h2 ng-style="fontsize" ng-class="getFontClass()">{{article.Title}}</h2>
@@ -22,6 +22,10 @@
                     </ion-option-button>
                 </ion-item>
             </ion-list>
+        </div>
+        
+        <div ng-if="isLoading && savedArticles.articles.length > 0" style="width:inherit; text-align: center; padding-top: 25%">
+            <ion-spinner icon="crescent"></ion-spinner><br>Loading articles...
         </div>
         <div ng-if="savedArticles.articles.length == 0" ng-class="getBackgroundClass()">
             <p style="color: #90A4AE;  font-size: 137.5%; text-align: center; padding-top: 8%;">Bookmark an article to view it here.</p>

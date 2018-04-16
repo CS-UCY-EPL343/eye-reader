@@ -9,12 +9,13 @@ angular
      * @description Controller controlling the functionalities implemented for the Add Sources page.
      */
     .controller("addSourcesCtrl", ["$scope", "$http", "sharedProps",
-        "$ionicLoading", "$window", "$rootScope", "ConnectionMonitor",
-        function ($scope, $http, sharedProps, $ionicLoading, $window, $rootScope, ConnectionMonitor) {
+         "$window", "$rootScope", "ConnectionMonitor", "Server",
+        function ($scope, $http, sharedProps, $window, $rootScope, ConnectionMonitor, Server) {
             var usersSources = {};
             $scope.currentUserSources = {};
             $scope.input = {};
             $scope.isOnline = ConnectionMonitor.isOnline();
+            $scope.isLoading = true;
             var data = {};
             init();
 
@@ -119,9 +120,6 @@ angular
               * be executed when the page is initialized.
               */
             function init() {
-                $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading sources...</p>',
-                });
                 usersSources = JSON.parse($window.localStorage.getItem("usersSources"));
 
                 $scope.currentUserSources = _.find(usersSources, function (userSources) {
@@ -144,7 +142,7 @@ angular
                 };
                 if ($scope.isOnline) {
 
-                    $http.get("https://eye-reader.herokuapp.com/sources/").then(function (res) {
+                    $http.get(Server.baseUrl + "sources/").then(function (res) {
                         $scope.sources = res.data;
 
                         if ($scope.currentUserSources != undefined || $scope.currentUserSources != null)
@@ -156,10 +154,10 @@ angular
                                 }
                             })
                     }).then(function () {
-                        $ionicLoading.hide();
+                        $scope.isLoading = false;
                     });
                 } else {
-                    $ionicLoading.hide();
+                    $scope.isLoading = false;
                 }
             }
         }

@@ -1,5 +1,5 @@
 * {
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif!important;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
     font-size: 16px;
 }
 
@@ -7,27 +7,50 @@ sub {
     color: #90A4AE;
 }
 
+select[disabled] {
+   background-color: #F5F5F5;  //use your prefered color here
+}
+
+.chartWrapper {
+  position: relative;
+}
+
+.chartWrapper>canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+}
+
+.chartAreaWrapper {
+  width: 100%;
+  height:56%;
+  overflow-x: scroll;
+}
+
 .tutorialModal {
     width: 80% !important;
     min-height: 80% !important;
-
-    top:10%;
-    bottom:10%;
+    top: 10%;
+    bottom: 10%;
     right: 10%;
     left: 10%;
 }
 
-.generalTutorial{
-    padding-top: 5%!important;
-    padding-bottom: 2%!important;
-    padding-left: 5%!important;
-    padding-right: 5%!important;
+.generalTutorial {
+    padding-top: 5% !important;
+    padding-bottom: 2% !important;
+    padding-left: 5% !important;
+    padding-right: 5% !important;
 }
 
-.button-right{
-    float:right!important;
+.button-right {
+    float: right !important;
 }
-.button-right.button.icon:before, .button-right.button.icon-left:before, .button-right.button.icon-right:before {
+
+.button-right.button.icon:before,
+.button-right.button.icon-left:before,
+.button-right.button.icon-right:before {
     line-height: 1.3 !important;
 }
 
@@ -35,9 +58,9 @@ sub {
     background: url("../img/welcome.jpg") no-repeat;
     background-size: transparent;
     -webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
 .welcome-logo {
@@ -47,12 +70,11 @@ sub {
 }
 
 .welcome-button {
-    background-color: #455A64!important;
-    color: white!important;
+    background-color: #455A64 !important;
+    color: white !important;
     max-width: 100%;
     width: (auto/2) * 2;
 }
-
 
 /* BASE FONT SIZE IS 16px*/
 
@@ -68,7 +90,7 @@ sub {
 
 .boldLetters {
     color: #90A4AE;
-    font-weight: bold!important;
+    font-weight: bold !important;
     font-size: 162.5%;
 }
 
@@ -78,7 +100,7 @@ sub {
 
 .placeholderLetters {
     font-size: 100%;
-    color: #90a4ae!important;
+    color: #90a4ae !important;
 }
 
 .sideLetters {
@@ -86,38 +108,34 @@ sub {
     color: #90A4AE !important;
 }
 
-
 /*
 * Nightmode / Normalmode
 */
 
 .nightmodeFontColor {
-    color: white!important;
+    color: white !important;
     font-size: 125%;
 }
-
 
 /*background for all the pages except settings*/
 
 .nightmodeBackground {
-    background-color: rgb(68, 68, 68)!important;
+    background-color: rgb(68, 68, 68) !important;
 }
 
 .normalBackground {
-    background-color: white!important;
+    background-color: white !important;
 }
-
 
 /*settings page where the nightmode transition is happening*/
 
 .nightmodeBackgroundMain {
-    background-color: rgb(68, 68, 68)!important;
+    background-color: rgb(68, 68, 68) !important;
 }
 
 .normalBackgroundMain {
-    background-color: white!important;
+    background-color: white !important;
 }
-
 
 /*sidemenu icons color*/
 
@@ -137,12 +155,11 @@ sub {
     color: black !important;
 }
 
-
 /*list background color*/
 
 .nightmodeBackground .item .item-content,
 .nightmodeBackground .item-select select {
-    background-color: rgb(68, 68, 68)!important;
+    background-color: rgb(68, 68, 68) !important;
 }
 
 .normalBackground .item .item-content .item-input {
@@ -154,15 +171,13 @@ sub {
 }
 
 .item .item-content .item-select {
-    padding-top: 1%!important;
-    padding-bottom: 1%!important;
-    padding-left: 5%!important;
-    padding-right: 5%!important;
+    padding-top: 1% !important;
+    padding-bottom: 1% !important;
+    padding-left: 5% !important;
+    padding-right: 5% !important;
 }
 
-
 /*CSS for Mainition animation from nightmode to normalmode and back*/
-
 
 /* .normalBackgroundMain-add,
 .normalBackgroundMain-remove,
@@ -170,7 +185,6 @@ sub {
 .nightmodeBackgroundMain-remove {
     transition: background-color 150ms linear;
 } */
-
 
 /*
 * Popup class
@@ -185,11 +199,11 @@ sub {
 }
 
 .generalPadding {
-    padding: 3% 3% 3% 3%!important;
+    padding: 3% 3% 3% 3% !important;
 }
 
 .sideMenuPadding {
-    padding: 0% 3% 0% 3%!important;
+    padding: 0% 3% 0% 3% !important;
 }
 
 .item {
@@ -203,21 +217,19 @@ sub {
     border-color: #455A64;
 }
 
-
 /*Popup background*/
 
 .popup-container>.popup {
     background: white;
 }
 
-
 /*Select options*/
 
 .customSelect {
-    right: auto!important;
-    direction: ltr!important;
-    padding-left: 0%!important;
-    padding-right: 0%!important;
+    right: auto !important;
+    direction: ltr !important;
+    padding-left: 0% !important;
+    padding-right: 0% !important;
 }
 
 .button.button-positive {

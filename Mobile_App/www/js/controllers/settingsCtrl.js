@@ -7,9 +7,8 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the Settings page.
      */
-    .controller("settingsCtrl", ["$scope", "$rootScope", "sharedProps",
-        "$window", "$ionicLoading", "$ionicSideMenuDelegate",
-        function ($scope, $rootScope, sharedProps, $window, $ionicLoading, $ionicSideMenuDelegate) {
+    .controller("settingsCtrl", ["$scope", "$rootScope", "sharedProps", "$window", "$ionicSideMenuDelegate",
+        function ($scope, $rootScope, sharedProps, $window, $ionicSideMenuDelegate) {
             var usersSettings = {};
             var currentUserSettings = {};
             var tempSettings = {};
@@ -22,9 +21,6 @@ angular
               * settings in the device's local storage
               */
             function saveUserSettings() {
-                $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Saving Settings</p>',
-                });
                 sharedProps.addData("isNightmode", $scope.data.isNightmode);
                 sharedProps.addData("cachenewsEnabled", $scope.data.cachenewsEnabled);
                 sharedProps.addData("fontsize", $scope.data.fontsize);
@@ -46,7 +42,6 @@ angular
 
                 usersSettings.push(currentUserSettings);
                 $window.localStorage.setItem("usersSettings", JSON.stringify(usersSettings));
-                $ionicLoading.hide();
             }
 
             /**
@@ -148,10 +143,6 @@ angular
               * be executed when the page is initialized.
               */
             function init() {
-                $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading settings...</p>',
-                });
-
                 usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
 
                 currentUserSettings = _.find(usersSettings, function (userSettings) {
@@ -173,8 +164,6 @@ angular
                 sharedProps.addData("markupEnabled", $scope.data.markupEnabled);
                 sharedProps.addData("hideEnabled", $scope.data.hideEnabled);
                 sharedProps.addData("tolerance", $scope.data.tolerance);
-
-                $ionicLoading.hide();
             }
         }
     ])

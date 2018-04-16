@@ -1,27 +1,41 @@
 <ion-view title="Statistics" id="page11">
     <ion-content padding="true" class="has-header generalPadding" ng-controller="statisticsCtrl" ng-class="getBackgroundClass()">
         <div ng-if="isOnline" style="height:100%">
-            <div class="list">
+            <div class="list" ng-if="!isLoadingOptions">
                 <label class="item item-select item-select" ng-class="getBackgroundClass()">
                     <div class="input-label">
                         <span ng-style="fontsize" ng-class="getFontClass()">Select Source</span>
                     </div>
-                    <select ng-class="getFontClass()" ng-options="o.id as o.name for o in selectSource" ng-model="selectedSource"></select>
+                    <select ng-class="getFontClass()" ng-options="o.id as o.name for o in selectSource" ng-model="stat.selectedSource"></select>
                 </label>
 
                 <label class="item item-input item-select" ng-class="getBackgroundClass()">
                     <div class="input-label">
                         <span ng-style="fontsize" ng-class="getFontClass()">View Statistics</span>
                     </div>
-                    <select ng-class="getFontClass()" ng-options="o.id as o.name for o in viewStatistics" ng-model="selectedStatistic"></select>
+                    <select ng-disabled="stat.selectedSource > 0" ng-class="getFontClass()" ng-options="o.id as o.name for o in viewStatistics"
+                        ng-model="stat.selectedStatistic"></select>
                 </label>
+                <button class="button button-stable button-block" ng-click="requestStatistics()">Fetch statistics</button>
+            </div>
+            <div ng-if="isLoadingOptions" style="width:inherit; text-align: center; padding-top: 25%">
+                <ion-spinner icon="crescent"></ion-spinner>
+                <br>Loading options...
+            </div>
+            <div class="chartWrapper" ng-if="!isLoading">
+                <div class="chartAreaWrapper">
+                    <canvas id="line" ng-if="r == 0" class="chart chart-bar" chart-data="barData" chart-labels="barLbls" chart-series="barSeries"
+                        chart-options="allSourcesOptions" chart-dataset-override="barDatasetOverride" style="width:100%; height:56%; min-width:750px; min-height:400px"></canvas>
+                    <canvas ng-if="r == 1" class="chart chart-bar" chart-data="barData" chart-labels="barLbls" chart-series="barSeries" chart-options="sourceOptions"
+                        style="width:100%; height:56%; min-height:400px; min-width:100%"></canvas>
+                </div>
+                <canvas id="myChartAxis" height="300" width="0"></canvas>
+            </div>
+            <div ng-if="isLoading" style="width:inherit; text-align: center; padding-top: 25%">
+                <ion-spinner icon="crescent"></ion-spinner>
+                <br>Fetching statistics...
             </div>
 
-            <canvas class="chart chart-bar" chart-data="barData" chart-labels="barLbls" chart-colors="chartColors" chart-series="series"
-                style="width:100%; height:54%; margin-top:20%;" chart-click="onClick" ng-if="selectedSource==0"></canvas>
-
-            <canvas id="statisticsDoughnut" class="chart chart-doughnut" chart-data="doughnutData" chart-labels="doughnutLbls" style="width:100%; height:52%; margin-top:20%;"
-                ng-if="selectedSource!=0"></canvas>
         </div>
         <div ng-if="!isOnline" style="height:100%">
             <ion-list>

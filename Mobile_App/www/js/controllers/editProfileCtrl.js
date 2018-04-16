@@ -7,8 +7,8 @@ angular
      * @description Controller controlling the functionalities implemented for the edit profile view.
      */
     .controller("editProfileCtrl", ["$scope", "$rootScope", "sharedProps",
-        "$state", "UserService", "$ionicLoading", "$window", "$ionicHistory",
-        function ($scope, $rootScope, sharedProps, $state, UserService, $ionicLoading, $window, $ionicHistory) {
+        "$state", "UserService", "$window", "$ionicHistory",
+        function ($scope, $rootScope, sharedProps, $state, UserService, $window, $ionicHistory) {
             var data = {};
             var username = "";
             $scope.input = {};
@@ -111,9 +111,6 @@ angular
               * get and display and changes from the current page to the profile page.
               */
             $scope.editProfile = function () {
-                $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Saving changes...</p>',
-                });
                 if (username != $scope.editedUser.username){
                     for (let i = 0; i < users.length; i++) {
                         if (users[i].username == $scope.editedUser.username) {
@@ -146,8 +143,6 @@ angular
                         }
                     });
                 }
-
-                $ionicLoading.hide();
             }
 
             $scope.goBack = function () {
@@ -161,9 +156,6 @@ angular
               * be executed when the page is initialized.
               */
             function init() {
-                $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading profile...</p>',
-                });
 
                 users = JSON.parse($window.localStorage.getItem("users"));
 
@@ -194,7 +186,6 @@ angular
                     tolerance: currentUserSettings.settings.tolerance,
                 };
 
-                $ionicLoading.hide();
             }
         }
     ])
