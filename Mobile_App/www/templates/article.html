@@ -7,18 +7,17 @@
             <span class="boldLetters" ng-style="fontsize">{{article.Title}}</span>
         </h2>
         <div id="article-markdown3" class="show-list-numbers-and-dots">
-            <div class="row">
-                <div class="col-md-10">
+                <div style="position:relative;">
                     <p ng-class="getNightmodeHeaderClass()" ng-style="fontsize" class="sideLetters">Source: {{article.SourceTitle}}</p>
                     <p ng-class="getNightmodeHeaderClass()" ng-style="fontsize" class="sideLetters">{{article.Author}} | {{article.Date}}</p>
+                    <div>
+                        <img   style="position:absolute;top:0;bottom:0;right:0;margin:auto;width:20%;" ng-if="article.SentimentGrade > 0" src="img/happy_face.png">
+                        <img   style="position:absolute;top:0;bottom:0;right:0;margin:auto;width:20%;" ng-if="article.SentimentGrade == 0" src="img/neutral_face.png">
+                        <img   style="position:absolute;top:0;bottom:0;right:0;margin:auto;width:20%;" ng-if="article.SentimentGrade < 0" src="img/sad_face.png">
+                    </div>
                 </div>
-                <div class="col">
-                    <p ng-if="article.SentimentGrade > 0" style="text-align: center;">:)</p>
-                    <p ng-if="article.SentimentGrade == 0" style="text-align: center;">:|</p>
-                    <p ng-if="article.SentimentGrade < 0" style="text-align: center;">:(</p>
-                </div>
+                <div>
             </div>
-        </div>
         <div style="margin-top :5%; margin-bottom:5%;">
             <img alt="Article image" ng-src=".{{article.PictureSrc}}" height="100%" width="100%" style="vertical-align: middle;">
         </div>

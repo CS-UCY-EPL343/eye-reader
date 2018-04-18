@@ -8,7 +8,7 @@ sub {
 }
 
 select[disabled] {
-   background-color: #F5F5F5;  //use your prefered color here
+   background-color: #F5F5F5; 
 }
 
 .chartWrapper {
@@ -176,15 +176,6 @@ select[disabled] {
     padding-left: 5% !important;
     padding-right: 5% !important;
 }
-
-/*CSS for Mainition animation from nightmode to normalmode and back*/
-
-/* .normalBackgroundMain-add,
-.normalBackgroundMain-remove,
-.nightmodeBackgroundMain-add,
-.nightmodeBackgroundMain-remove {
-    transition: background-color 150ms linear;
-} */
 
 /*
 * Popup class
