@@ -6,8 +6,8 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the statistics view.
      */
-    .controller("statisticsCtrl", ["$scope", "$q", "Server", "$http", "ConnectionMonitor", "sharedProps", "$timeout", "$window", "$rootScope",
-        function ($scope, $q, Server, $http, ConnectionMonitor, sharedProps, $timeout, $window, $rootScope) {
+    .controller("statisticsCtrl", ["$scope", "$q", "Server", "$http", "ConnectionMonitor", "$timeout", "$window", "$rootScope",
+        function ($scope, $q, Server, $http, ConnectionMonitor, $timeout, $window, $rootScope) {
             /*
             *  Plugin registration for charts to break labels when entering \n in a label
             */
@@ -38,8 +38,9 @@ angular
              *           2) Gets the font size selected by the user in order to set it to the whole page
              */
             $scope.$on("$ionicView.beforeEnter", function () {
-                if (sharedProps.getData("isNightmode") != undefined) {
-                    $scope.isNightmode = sharedProps.getData("isNightmode").value;
+                var n = JSON.parse($window.sessionStorage.getItem("isNightmode"));
+                if (n != undefined) {
+                    $scope.isNightmode = n;
                 }
                 getFontSize();
             });
@@ -97,20 +98,16 @@ angular
             $scope.barLbls = [];
             $scope.barSeries = [];
             $scope.barData = [];
-            $scope.barDatasetOverride = [{
-                yAxisID: 'y-axis-1'
-            }];
             $scope.allSourcesOptions = {
                 scales: {
                     yAxes: [{
-                        id: 'y-axis-1',
+                        labelFontColor: "#86B402",
                         type: 'linear',
                         display: true,
                         position: 'left',
                         ticks: {
-                            beginAtZero: true,
                             callback: function (value) { if (Number.isInteger(value)) { return value; } },
-                            stepSize: 1
+                            fontColor: $scope.isNightmode ? 'white' : 'black'
                         }
                     }],
                     xAxes: [{
@@ -119,7 +116,8 @@ angular
                         ticks: {
                             autoSkip: false,
                             maxRotation: 0,
-                            minRotation: 0
+                            minRotation: 0,
+                            fontColor: $scope.isNightmode ? 'white' : 'black'
                         }
                     }]
                 },
@@ -137,15 +135,25 @@ angular
                         //targetCtx.drawImage(sourceCanvas, 0, 0, copyWidth, copyHeight, 0, 0, copyWidth, copyHeight);
 
                     }
+                },
+                tooltips: {
+                    callbacks: {
+                        title: function (tooltipItem, data) {
+                            var title = tooltipItem[0].xLabel + ": " + data.datasets[0].data[tooltipItem[0].index];
+                            return title;
+                        },
+                        label: function (tooltipItem, data) {
+                            return;
+                        },
+                    }
                 }
             };
             $scope.sourceOptions = {
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero: true,
                             callback: function (value) { if (Number.isInteger(value)) { return value; } },
-                            stepSize: 1
+                            fontColor: $scope.isNightmode ? 'white' : 'black'
                         }
                     }],
                     xAxes: [{
@@ -154,11 +162,23 @@ angular
                         ticks: {
                             autoSkip: false,
                             maxRotation: 0,
-                            minRotation: 0
+                            minRotation: 0,
+                            fontColor: $scope.isNightmode ? 'white' : 'black'
                         }
                     }]
                 },
-                responsive: false
+                responsive: false,
+                tooltips: {
+                    callbacks: {
+                        title: function (tooltipItem, data) {
+                            var title = tooltipItem[0].xLabel + ": " + data.datasets[0].data[tooltipItem[0].index];
+                            return title;
+                        },
+                        label: function (tooltipItem, data) {
+                            return;
+                        },
+                    }
+                }
             };
             /**
               * @function
@@ -239,7 +259,6 @@ angular
                     $scope.r = -1;
                     res.forEach(el => {
                         tempData.push(el.data);
-                        console.log(el.data);
                         if ($scope.stat.selectedSource == 0)
                             $scope.r = 0;
                         else if ($scope.stat.selectedSource > 0)

@@ -10,11 +10,12 @@
             <ion-list id="savedArticles-list16" ng-repeat="article in savedArticles.articles | filter: { Title:input.userSearch }" ng-class="getBackgroundClass()">
                 <ion-item class="item-thumbnail-left item-icon-right" ui-sref="eyeReader.article({id : article.Id})"
                     ng-class="getBackgroundClass()">
-                    <img alt="img" ng-src="{{article.PictureSrc}}">
+                    <img alt="img" ng-src=".{{article.PictureSrc}}">
                     <h2 ng-style="fontsize" ng-class="getFontClass()">{{article.Title}}</h2>
+                    <p ng-style="fontsizeSmaller" ng-class="getFontClass()">Source: {{article.SourceTitle}}</p>
                     <p ng-style="fontsizeSmaller" class="sideLetters">{{article.Content}}</p>
                     <i class="icon ion-ios-arrow-right icon-accessory"></i>
-                    <ion-option-button ng-show="isOnline" class="button-energized" ng-click="showReportOptions()">
+                    <ion-option-button ng-show="isOnline && !isArticleReported({{article.Id}})" class="button-energized" ng-click="showReportOptions({{article.Id}})">
                         <ion-icon name="report" class="icon ion-alert-circled"></ion-icon>
                     </ion-option-button>
                     <ion-option-button class="button-balanced" ng-click="unsaveArticle({{article.Id}})">
@@ -28,7 +29,7 @@
             <ion-spinner icon="crescent"></ion-spinner><br>Loading articles...
         </div>
         <div ng-if="savedArticles.articles.length == 0" ng-class="getBackgroundClass()">
-            <p style="color: #90A4AE;  font-size: 137.5%; text-align: center; padding-top: 8%;">Bookmark an article to view it here.</p>
+            <p style="color: #90A4AE;  font-size: 137.5%; text-align: center; padding-top: 8%;">Save an article to view it here.</p>
             <div style="width:inherit; text-align: center; padding-top: 25%">
                 <i style="color: #90A4AE; font-size:1250%!important" class="icon ion-ios-bookmarks"></i>
             </div>

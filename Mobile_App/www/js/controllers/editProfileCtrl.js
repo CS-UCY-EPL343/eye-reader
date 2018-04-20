@@ -6,9 +6,9 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the edit profile view.
      */
-    .controller("editProfileCtrl", ["$scope", "$rootScope", "sharedProps",
-        "$state", "UserService", "$window", "$ionicHistory",
-        function ($scope, $rootScope, sharedProps, $state, UserService, $window, $ionicHistory) {
+    .controller("editProfileCtrl", ["$scope", "$rootScope",
+        "$state", "UserService", "$window", "$ionicHistory", "$state",
+        function ($scope, $rootScope, $state, UserService, $window, $ionicHistory, $state) {
             var data = {};
             var username = "";
             $scope.input = {};
@@ -22,8 +22,9 @@ angular
              *           2) Gets the font size selected by the user in order to set it to the whole page
              */
             $scope.$on("$ionicView.beforeEnter", function () {
-                if (sharedProps.getData("isNightmode") != undefined)
-                    $scope.isNightmode = sharedProps.getData("isNightmode").value;
+                var n = JSON.parse($window.sessionStorage.getItem("isNightmode"));
+                if (n != undefined)
+                    $scope.isNightmode = n;
                 getFontSize();
             });
 
@@ -73,8 +74,20 @@ angular
                 var usersSources = JSON.parse($window.localStorage.getItem("usersSources"));
                 var usersArticleCache = JSON.parse($window.localStorage.getItem("usersArticleCache"));
                 var usersSavedArticles = JSON.parse($window.localStorage.getItem("usersSavedArticles"));
+                var usersReportedArticles = JSON.parse($window.localStorage.getItem("usersReportedArticles"));
+                var usersArticlesNotes = JSON.parse($window.localStorage.getItem("usersArticlesNotes"));
 
                 usersSettings.forEach(el => {
+                    if (el.username == username)
+                        el.username = $scope.editedUser.username;
+                });
+                if (usersArticlesNotes != undefined || usersArticlesNotes != null) {
+                    usersArticlesNotes.forEach(el => {
+                        if (el.username == username)
+                            el.username = $scope.editedUser.username;
+                    });
+                }
+                usersReportedArticles.forEach(el => {
                     if (el.username == username)
                         el.username = $scope.editedUser.username;
                 });
@@ -95,12 +108,14 @@ angular
                         el.username = $scope.editedUser.username;
                 });
 
+
                 $window.localStorage.setItem("usersSettings", JSON.stringify(usersSettings));
                 $window.localStorage.setItem("usersDeletedArticles", JSON.stringify(usersDeletedArticles));
                 $window.localStorage.setItem("usersSources", JSON.stringify(usersSources));
                 $window.localStorage.setItem("usersArticleCache", JSON.stringify(usersArticleCache));
                 $window.localStorage.setItem("usersSavedArticles", JSON.stringify(usersSavedArticles));
-
+                $window.localStorage.setItem("usersReportedArticles", JSON.stringify(usersReportedArticles));
+                $window.localStorage.setItem("usersArticlesNotes", JSON.stringify(usersArticlesNotes));
             }
 
             /**
@@ -146,7 +161,7 @@ angular
             }
 
             $scope.goBack = function () {
-                $ionicHistory.goBack();
+                $state.go("eyeReader.profile");
             };
 
             /**

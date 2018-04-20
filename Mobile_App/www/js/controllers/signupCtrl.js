@@ -8,9 +8,10 @@ angular
      * @description Controller controlling the functionalities implemented for the edit sign up view.
      */
     .controller("signupCtrl", ["$scope", "UserService", "$window",
-        "$state", "$ionicPopup", "$ionicLoading", "$ionicHistory",
-        function ($scope, UserService, $window, $state, $ionicPopup, $ionicLoading, $ionicHistory) {
+        "$state", "$ionicPopup", "$ionicLoading", "$ionicHistory", "AuthenticationService", "$rootScope",
+        function ($scope, UserService, $window, $state, $ionicPopup, $ionicLoading, $ionicHistory, AuthenticationService, $rootScope) {
             init();
+            var usersSettings = [];
 
             /**
               * @function
@@ -22,7 +23,7 @@ angular
             $scope.register = function () {
                 UserService.Create($scope.user).then(function (response) {
                     if (response.success)
-                        $state.go("login");
+                        login();
                     else
                         showFailedToRegisterPopup(response);
                 });
@@ -47,9 +48,143 @@ angular
                 });
             };
 
-            $scope.goBack = function(){
-                $ionicHistory.goBack();
+            $scope.goBack = function () {
+                $state.go("login");
             }
+
+            function createUserSettings() {
+
+                //creates users settings local storage entry
+
+                var currentUserSettings = {
+                    username: $rootScope.activeUser.username,
+                    settings: {
+                        cachenewsEnabled: false,
+                        fontsize: 100,
+                        fontsizeRange: "16",
+                        markupEnabled: false,
+                        hideEnabled: false,
+                        tolerance: 50
+                    }
+                };
+                if (usersSettings == null || usersSettings == undefined)
+                    usersSettings = [];
+                usersSettings.push(currentUserSettings);
+
+                $window.localStorage.setItem("usersSettings", JSON.stringify(usersSettings));
+
+                //creates users deleted articles local storage entry
+                var usersDeletedArticles = $window.localStorage.getItem("usersDeletedArticles");
+                if (usersDeletedArticles == null || usersDeletedArticles == undefined) {
+                    usersDeletedArticles = [];
+                } else {
+                    usersDeletedArticles = JSON.parse(usersDeletedArticles);
+                }
+                var currUserDeletedArticles = {
+                    username: $rootScope.activeUser.username,
+                    articles: []
+                };
+                usersDeletedArticles.push(currUserDeletedArticles);
+                $window.localStorage.setItem("usersDeletedArticles", JSON.stringify(usersDeletedArticles));
+
+                // creates users selected sources local storage entry
+                var usersSources = $window.localStorage.getItem("usersSources");
+                if (usersSources == null || usersSources == undefined) {
+                    usersSources = [];
+                } else {
+                    usersSources = JSON.parse(usersSources);
+                }
+                var selectedSources = {
+                    username: $rootScope.activeUser.username,
+                    sources: []
+                };
+                usersSources.push(selectedSources);
+                $window.localStorage.setItem("usersSources", JSON.stringify(usersSources));
+
+                // creates users article cache local storage entry
+                var usersArticleCache = $window.localStorage.getItem("usersArticleCache");
+                if (usersArticleCache == null || usersArticleCache == undefined) {
+                    usersArticleCache = [];
+                } else {
+                    usersArticleCache = JSON.parse(usersArticleCache);
+                }
+                var articleCache = {
+                    username: $rootScope.activeUser.username,
+                    articles: []
+                }
+                usersArticleCache.push(articleCache);
+                $window.localStorage.setItem("usersArticleCache", JSON.stringify(usersArticleCache));
+
+                // creates users saved articles local storage entry
+                var usersSavedArticles = $window.localStorage.getItem("usersSavedArticles");
+                if (usersSavedArticles == null || usersSavedArticles == undefined) {
+                    usersSavedArticles = [];
+                } else {
+                    usersSavedArticles = JSON.parse(usersSavedArticles);
+                }
+                var savedArticles = {
+                    username: $rootScope.activeUser.username,
+                    articles: []
+                }
+                usersSavedArticles.push(savedArticles);
+                $window.localStorage.setItem("usersSavedArticles", JSON.stringify(usersSavedArticles));
+
+                // creates users reported articles local storage entry
+                var usersReportedArticles = $window.localStorage.getItem("usersReportedArticles");
+                if (usersReportedArticles == null || usersReportedArticles == undefined) {
+                    usersReportedArticles = [];
+                } else {
+                    usersReportedArticles = JSON.parse(usersReportedArticles);
+                }
+                var reportedArticles = {
+                    username: $rootScope.activeUser.username,
+                    articles: []
+                }
+                usersReportedArticles.push(reportedArticles);
+                $window.localStorage.setItem("usersReportedArticles", JSON.stringify(usersReportedArticles));
+
+                $window.sessionStorage.setItem("isNightmode", JSON.stringify(false));
+            }
+
+            function loadUserSettings() {
+                usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
+                var currentUserSettings = _.find(usersSettings, function (userSettings) {
+                    return userSettings.username == $scope.user.username;
+                });
+                if (currentUserSettings != null || currentUserSettings != undefined) {
+                    $window.sessionStorage.setItem("isNightmode", JSON.stringify(false));
+                } else {
+                    createUserSettings();
+                }
+            }
+
+            /**
+              * @function
+              * @memberof controllerjs.signupCtrl
+              * @description This function is responsible for requesting from the authentication service to 
+              * login the user in the app. If the service replies with success, then the view is transfered to 
+              * the news feed view. Else an informative message is displayed.
+              */
+            function login() {
+                $ionicLoading.show({
+                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Logging in...</p>',
+                });
+                AuthenticationService.Login(
+                    $scope.user.username,
+                    $scope.user.password,
+                    function (response) {
+                        if (response.success) {
+                            AuthenticationService.SetCredentials(
+                                $scope.user.username,
+                                $scope.user.password
+                            );
+                            loadUserSettings();
+                            $ionicLoading.hide();
+                            $state.go("eyeReader.newsFeed");
+                        }
+                    }
+                );
+            };
 
             /**
             * @function

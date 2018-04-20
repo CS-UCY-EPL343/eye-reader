@@ -6,9 +6,9 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the edit login view.
      */
-    .controller("loginCtrl", ["$scope", "sharedProps", "AuthenticationService",
+    .controller("loginCtrl", ["$scope", "AuthenticationService",
         "$state", "$window", "$ionicPopup", "$ionicLoading", "$rootScope",
-        function ($scope, sharedProps, AuthenticationService, $state, $window,
+        function ($scope, AuthenticationService, $state, $window,
             $ionicPopup, $ionicLoading, $rootScope) {
             var usersSettings;
             /**
@@ -81,7 +81,6 @@ angular
                 $window.localStorage.setItem("usersArticleCache", JSON.stringify(usersArticleCache));
 
                 // creates users saved articles local storage entry
-
                 var usersSavedArticles = $window.localStorage.getItem("usersSavedArticles");
                 if (usersSavedArticles == null || usersSavedArticles == undefined) {
                     usersSavedArticles = [];
@@ -95,12 +94,21 @@ angular
                 usersSavedArticles.push(savedArticles);
                 $window.localStorage.setItem("usersSavedArticles", JSON.stringify(usersSavedArticles));
 
-                sharedProps.addData("isNightmode", false);
-                sharedProps.addData("cachenewsEnabled", currentUserSettings.settings.cachenewsEnabled);
-                sharedProps.addData("fontsize", currentUserSettings.settings.fontsize);
-                sharedProps.addData("markupEnabled", currentUserSettings.settings.markupEnabled);
-                sharedProps.addData("hideEnabled", currentUserSettings.settings.hideEnabled);
-                sharedProps.addData("tolerance", currentUserSettings.settings.tolerance);
+                // creates users reported articles local storage entry
+                var usersReportedArticles = $window.localStorage.getItem("usersReportedArticles");
+                if (usersReportedArticles == null || usersReportedArticles == undefined) {
+                    usersReportedArticles = [];
+                } else {
+                    usersReportedArticles = JSON.parse(usersReportedArticles);
+                }
+                var reportedArticles = {
+                    username: $rootScope.activeUser.username,
+                    articles: []
+                }
+                usersReportedArticles.push(reportedArticles);
+                $window.localStorage.setItem("usersReportedArticles", JSON.stringify(usersReportedArticles));
+
+                $window.sessionStorage.setItem("isNightmode", JSON.stringify(false));
             }
 
             /**
@@ -115,13 +123,7 @@ angular
                     return userSettings.username == $scope.login.username;
                 });
                 if (currentUserSettings != null || currentUserSettings != undefined) {
-                    sharedProps.addData("isNightmode", false);
-                    sharedProps.addData("cachenewsEnabled", currentUserSettings.cachenewsEnabled);
-                    sharedProps.addData("fontsize", currentUserSettings.fontsize);
-                    sharedProps.addData("fontsizeRange", currentUserSettings.fontsizeRange);
-                    sharedProps.addData("markupEnabled", currentUserSettings.markupEnabled);
-                    sharedProps.addData("hideEnabled", currentUserSettings.hideEnabled);
-                    sharedProps.addData("tolerance", currentUserSettings.tolerance);
+                    $window.sessionStorage.setItem("isNightmode", JSON.stringify(false));
                 } else {
                     createUserSettings();
                 }

@@ -7,8 +7,8 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the Settings page.
      */
-    .controller("settingsCtrl", ["$scope", "$rootScope", "sharedProps", "$window", "$ionicSideMenuDelegate",
-        function ($scope, $rootScope, sharedProps, $window, $ionicSideMenuDelegate) {
+    .controller("settingsCtrl", ["$scope", "$rootScope", "$window", "$ionicSideMenuDelegate",
+        function ($scope, $rootScope, $window, $ionicSideMenuDelegate) {
             var usersSettings = {};
             var currentUserSettings = {};
             var tempSettings = {};
@@ -21,13 +21,7 @@ angular
               * settings in the device's local storage
               */
             function saveUserSettings() {
-                sharedProps.addData("isNightmode", $scope.data.isNightmode);
-                sharedProps.addData("cachenewsEnabled", $scope.data.cachenewsEnabled);
-                sharedProps.addData("fontsize", $scope.data.fontsize);
-                sharedProps.addData("fontsizeRange", $scope.data.fontsizeRange);
-                sharedProps.addData("markupEnabled", $scope.data.markupEnabled);
-                sharedProps.addData("hideEnabled", $scope.data.hideEnabled);
-                sharedProps.addData("tolerance", $scope.data.tolerance);
+                $window.sessionStorage.setItem("isNightmode", JSON.stringify($scope.data.isNightmode));
 
                 currentUserSettings.settings.cachenewsEnabled = $scope.data.cachenewsEnabled;
                 currentUserSettings.settings.fontsize = $scope.fontsize;
@@ -42,30 +36,6 @@ angular
 
                 usersSettings.push(currentUserSettings);
                 $window.localStorage.setItem("usersSettings", JSON.stringify(usersSettings));
-            }
-
-            /**
-             * @function
-             * @memberof controllerjs.settingsCtrl
-             * @description This function is responsible for matching the selected value from the font size 
-             * range bar to the actual font size value.
-             * (font size of range bar is in pixel values and the actual font size metric used is percentage)
-             */
-            function getFontsizeRangeVal(f) {
-                if (!f)
-                    f = sharedProps.getData("fontsize");
-                if (f == undefined)
-                    return 16;
-                else {
-                    if (f.value == 87.5)
-                        return 14;
-                    else if (f.value == 100)
-                        return 16;
-                    else if (f.value == 112.5)
-                        return 18;
-                    else
-                        return 20;
-                }
             }
 
             $scope.$watch(function () {
@@ -85,7 +55,7 @@ angular
               */
             $scope.setNightmode = function () {
                 $rootScope.$broadcast("nightmodeChange", $scope.data.isNightmode);
-                sharedProps.addData("isNightmode", $scope.data.isNightmode);
+                $window.sessionStorage.setItem("isNightmode", JSON.stringify($scope.data.isNightmode));
             };
 
             /**
@@ -112,11 +82,7 @@ angular
              * @function
              * @memberof controllerjs.settingsCtrl
              * @description This function is responsible for retrieving the class used in the background
-             * in order to set the ba
-                sharedProps.addData("cachenewsEnabled", $scope.data.cachenewsEnabled);
-                sharedProps.addData("markupEnabled", $scope.data.markupEnabled);
-                sharedProps.addData("hideEnabled", $scope.data.hideEnabled);
-                sharedProps.addData("tolerance", $scope.data.tolerance);ckground to nightmode/lightmode.
+             * in order to set the background color
              */
             $scope.getBackgroundClass = function () {
                 return $scope.data.isNightmode ?
@@ -150,7 +116,7 @@ angular
                 });
 
                 $scope.data = {
-                    isNightmode: sharedProps.getData("isNightmode").value,
+                    isNightmode: JSON.parse($window.sessionStorage.getItem("isNightmode")),
                     cachenewsEnabled: currentUserSettings.settings.cachenewsEnabled,
                     fontsize: currentUserSettings.settings.fontsize,
                     fontsizeRange: currentUserSettings.settings.fontsizeRange,
@@ -158,12 +124,6 @@ angular
                     hideEnabled: currentUserSettings.settings.hideEnabled,
                     tolerance: currentUserSettings.settings.tolerance,
                 };
-                sharedProps.addData("cachenewsEnabled", $scope.data.cachenewsEnabled);
-                sharedProps.addData("fontsize", $scope.data.fontsize);
-                sharedProps.addData("fontsizeRange", $scope.data.fontsizeRange);
-                sharedProps.addData("markupEnabled", $scope.data.markupEnabled);
-                sharedProps.addData("hideEnabled", $scope.data.hideEnabled);
-                sharedProps.addData("tolerance", $scope.data.tolerance);
             }
         }
     ])

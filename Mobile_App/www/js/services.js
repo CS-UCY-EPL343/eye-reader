@@ -25,70 +25,6 @@ angular
     }])
 
     /**
-     * @module sharedProps
-     * @memberof servicesjs
-     * @description Shared properties space that works like a local storage.
-     */
-    .factory("sharedProps", ["$rootScope", function () {
-        var context = [];
-
-        /**
-         * @function
-         * @memberof servicesjs.sharedProps
-         * @param {string} key - The key under which the value will be saved
-         * @param {object} value - The value that will be saved under the key
-         * @description This function is responsible for searching context if a value
-         * under the @param key is already stored. If true then it overwrites it, else it 
-         * creates a new one.
-         */
-        var addData = function (key, value) {
-            let obj = context.find(c => c.key == key);
-            if (obj != undefined) {
-                obj.value = value;
-            } else {
-                var data = {
-                    key: key,
-                    value: value
-                };
-                context.push(data);
-            }
-        };
-
-        /**
-         * @function
-         * @memberof servicesjs.sharedProps
-         * @param {string} key - The key under which a value is saved
-         * @returns {object} - The object under the {@param key}
-         * @description This function is responsible for searching the "obj" object if a value
-         * under the @param key is already stored and return it.
-         */
-        var getData = function (key) {
-            var data = _.find(context, function (t) {
-                return t.key === key;
-            });
-            return data;
-        };
-
-        /**
-         * @function
-         * @memberof servicesjs.sharedProps
-         * @returns {int} - The length of the context
-         * @description This function is responsible for returning the length of the context.
-         */
-        var dataLength = function () {
-            var length = context.length;
-            return length;
-        }
-
-        return {
-            addData: addData,
-            getData: getData,
-            dataLength: dataLength
-        };
-    }
-    ])
-
-    /**
      * @module UserService
      * @memberof servicesjs
      * @description Factory that works like an offline user service.
@@ -331,21 +267,17 @@ angular
                 if (ionic.Platform.isWebView()) {
 
                     $rootScope.$on('$cordovaNetwork:online', function (event, networkState) {
-                        console.log("went online");
                     });
 
                     $rootScope.$on('$cordovaNetwork:offline', function (event, networkState) {
-                        console.log("went offline");
                     });
 
                 } else {
 
                     window.addEventListener("online", function (e) {
-                        console.log("went online");
                     }, false);
 
                     window.addEventListener("offline", function (e) {
-                        console.log("went offline");
                     }, false);
                 }
             }

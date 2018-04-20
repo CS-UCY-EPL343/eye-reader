@@ -8,9 +8,9 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the Add Sources page.
      */
-    .controller("addSourcesCtrl", ["$scope", "$http", "sharedProps",
+    .controller("addSourcesCtrl", ["$scope", "$http",
          "$window", "$rootScope", "ConnectionMonitor", "Server",
-        function ($scope, $http, sharedProps, $window, $rootScope, ConnectionMonitor, Server) {
+        function ($scope, $http, $window, $rootScope, ConnectionMonitor, Server) {
             var usersSources = {};
             $scope.currentUserSources = {};
             $scope.input = {};
@@ -27,8 +27,9 @@ angular
              *           2) Gets the font size selected by the user in order to set it to the whole page
              */
             $scope.$on("$ionicView.beforeEnter", function () {
-                if (sharedProps.getData("isNightmode") != undefined)
-                    $scope.isNightmode = sharedProps.getData("isNightmode").value;
+                var n = JSON.parse($window.sessionStorage.getItem("isNightmode"));
+                if (n != undefined)
+                    $scope.isNightmode = n;
                 getFontSize();
             });
 

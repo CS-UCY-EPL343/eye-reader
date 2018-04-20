@@ -7,9 +7,9 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the News Feed page.
      */
-    .controller("newsFeedCtrl", ["$scope", "$q", "Server", "$http", "sharedProps", "$ionicPopup", "$ionicModal",
+    .controller("newsFeedCtrl", ["$scope", "$q", "Server", "$http", "$ionicPopup", "$ionicModal",
         "$localStorage", "$window", "$notificationBar", "$rootScope", "ConnectionMonitor", "$interval",
-        function ($scope, $q, Server, $http, sharedProps, $ionicPopup, $ionicModal,
+        function ($scope, $q, Server, $http, $ionicPopup, $ionicModal,
             $localStorage, $window, $notificationBar, $rootScope, ConnectionMonitor, $interval) {
             $scope.input = {};
             $scope.articles = [];
@@ -20,11 +20,12 @@ angular
             $scope.checkboxes = {};
             var usersSavedArticles = [];
             $scope.isLoading = true;
+            var usersReportedArticles = [];
             init();
 
             var repeatArticleFetch;
-            $scope.startRepeatArticleFetch = function(){
-                
+            $scope.startRepeatArticleFetch = function () {
+
                 if (angular.isDefined(repeatArticleFetch)) return;
 
                 repeatArticleFetch = $interval(function () {
@@ -32,14 +33,14 @@ angular
                 }, 900000);
             }
 
-            $scope.stopRepeatArticleFetch = function(){
-                if (angular.isDefined(repeatArticleFetch)){
+            $scope.stopRepeatArticleFetch = function () {
+                if (angular.isDefined(repeatArticleFetch)) {
                     $interval.cancel(repeatArticleFetch);
                     repeatArticleFetch = undefined;
-              }
+                }
             }
 
-            $rootScope.$on('$locationChangeSuccess', function() {
+            $rootScope.$on('$locationChangeSuccess', function () {
                 $scope.stopRepeatArticleFetch();
             });
 
@@ -52,8 +53,10 @@ angular
              *           3) Gets the font size selected by the user in order to set it to the whole page
              */
             $scope.$on("$ionicView.beforeEnter", function () {
-                if (sharedProps.getData("isNightmode") != undefined)
-                    $scope.isNightmode = sharedProps.getData("isNightmode").value;
+                var n = JSON.parse($window.sessionStorage.getItem("isNightmode"));
+                if (n != undefined) {
+                    $scope.isNightmode = n;
+                }
                 getFontSize();
             });
 
@@ -96,6 +99,15 @@ angular
                                 $http.get(Server.baseUrl + 'articles/' + id + "/report");
                                 $notificationBar.setDuration(1000);
                                 $notificationBar.show("Article reported!", $notificationBar.EYEREADERCUSTOM);
+
+                                $scope.reportedArticles.articles.push(id);
+
+                                usersReportedArticles = _.filter(usersReportedArticles, function (ura) {
+                                    return ura.username != $scope.reportedArticles.username;
+                                });
+                                usersReportedArticles.push($scope.reportedArticles);
+                                $window.localStorage.setItem("usersReportedArticles", JSON.stringify(usersReportedArticles));
+
                             } else {
                                 $notificationBar.setDuration(1500);
                                 $notificationBar.show("Please check at least one option!", $notificationBar.EYEREADERCUSTOM);
@@ -105,6 +117,23 @@ angular
                     }
                     ]
                 });
+            };
+
+            /**
+              * @function
+              * @memberof controllerjs.newsFeedCtrl
+              * @param {int} id - The id of the article to check
+              * @description This function is responsible for checking if the article given is saved or not.
+              */
+            $scope.isArticleReported = function (id) {
+                if ($scope.reportedArticles.articles.length == 0)
+                    return false;
+                var found;
+                $scope.reportedArticles.articles.forEach(e => {
+                    if (e == id)
+                        found = true;
+                });
+                return found;
             };
 
             /**
@@ -179,9 +208,6 @@ angular
               * to be able not to display it in the news feed.
               */
             function deleteArticle(id) {
-                var article = _.find($scope.articles, function (a) {
-                    return a.Id == id;
-                })
                 $scope.deletedArticles.articles.push(id);
 
                 usersDeletedArticles = _.filter(usersDeletedArticles, function (uda) {
@@ -189,8 +215,12 @@ angular
                 });
                 usersDeletedArticles.push($scope.deletedArticles);
                 $window.localStorage.setItem("usersDeletedArticles", JSON.stringify(usersDeletedArticles));
-                $scope.articles.splice(_.indexOf($scope.articles, article), 1);
-            
+                var index;
+                for (let i = 0; i < $scope.articles.length; i++) {
+                    if ($scope.articles[i].Id == id)
+                        index = i;
+                }
+                $scope.articles.splice(index, 1);
             }
 
             /**
@@ -387,7 +417,7 @@ angular
               * to increase the click counter of a source
               */
             $scope.articleTapped = function (sourceid) {
-                $http.get(Server.baseUrl+'articles/' + sourceid + "/click");
+                $http.get(Server.baseUrl + 'articles/' + sourceid + "/click");
             }
 
             /**
@@ -502,6 +532,7 @@ angular
                 $scope.selectedSources = _.find(usersSources, function (userSources) {
                     return userSources.username == $rootScope.activeUser.username;
                 });
+
                 var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
 
                 var currentUserSettings = _.find(usersSettings, function (userSettings) {
@@ -511,6 +542,12 @@ angular
                 usersSavedArticles = JSON.parse($window.localStorage.getItem("usersSavedArticles"));
                 $scope.savedArticles = _.find(usersSavedArticles, function (usa) {
                     return usa.username == $rootScope.activeUser.username;
+                });
+
+                usersReportedArticles = JSON.parse($window.localStorage.getItem("usersReportedArticles"));
+
+                $scope.reportedArticles = _.find(usersReportedArticles, function (ura) {
+                    return ura.username == $rootScope.activeUser.username;
                 });
 
                 data = {
@@ -533,7 +570,7 @@ angular
                         res.forEach(el => {
                             if (Array.isArray(el.data)) {
                                 el.data.forEach(d => {
-                                    if (!_.contains($scope.deletedArticles.articles, d.Id)){
+                                    if (!_.contains($scope.deletedArticles.articles, d.Id)) {
                                         $scope.articles.push(d);
                                     }
                                 });

@@ -6,8 +6,8 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the profile view.
      */
-    .controller("profileCtrl", ["$scope", "$rootScope", "sharedProps", "$window",
-        function ($scope, $rootScope, sharedProps, $window) {
+    .controller("profileCtrl", ["$scope", "$rootScope", "$window",
+        function ($scope, $rootScope, $window) {
             var data = {};
             init();
             //sets the value of the user's sex based on their decision
@@ -26,8 +26,9 @@ angular
              *           2) Gets the font size selected by the user in order to set it to the whole page
              */
             $scope.$on("$ionicView.beforeEnter", function () {
-                if (sharedProps.getData("isNightmode") != undefined) {
-                    $scope.isNightmode = sharedProps.getData("isNightmode").value;
+                var n = JSON.parse($window.sessionStorage.getItem("isNightmode"));
+                if (n != undefined) {
+                    $scope.isNightmode = n;
                 }
                 getFontSize();
             });

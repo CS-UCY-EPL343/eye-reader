@@ -7,11 +7,11 @@ angular
      * @memberof controllerjs
      * @description Controller controlling the functionalities implemented for the saved articles view.
      */
-    .controller("savedArticlesCtrl", ["$scope", "Server", "sharedProps", "$http", "$window", "$rootScope", "ConnectionMonitor", "$notificationBar", "$ionicPopup",
-        function ($scope, Server, sharedProps, $http, $window, $rootScope, ConnectionMonitor, $notificationBar, $ionicPopup) {
+    .controller("savedArticlesCtrl", ["$scope", "Server", "$http", "$window", "$rootScope", "ConnectionMonitor", "$notificationBar", "$ionicPopup",
+        function ($scope, Server, $http, $window, $rootScope, ConnectionMonitor, $notificationBar, $ionicPopup) {
             $scope.isOnline = ConnectionMonitor.isOnline();
             var data = {};
-    
+            var usersReportedArticles = [];
             $scope.input = {};
             var usersSavedArticles = [];
             $scope.isLoading = true;
@@ -119,7 +119,7 @@ angular
               * @description This function is responsible for displaying the popup when a user wants to report 
               * an article. The popup is ionic's default and uses the reportArticle.html temlpate.
               */
-            $scope.showReportOptions = function (sourceid) {
+            $scope.showReportOptions = function (id) {
                 $scope.checkboxes.hatespeech = false;
                 $scope.checkboxes.fakenews = false;
                 var promptAlert = $ionicPopup.show({
@@ -135,9 +135,16 @@ angular
                         type: "button-positive",
                         onTap: function (e) {
                             if ($scope.checkboxes.hatespeech || $scope.checkboxes.fakenews) {
-                                $http.get(Server.baseUrl + "articles/" + sourceid + "/report");
+                                $http.get(Server.baseUrl + "articles/" + id + "/report");
                                 $notificationBar.setDuration(1000);
                                 $notificationBar.show("Article reported!", $notificationBar.EYEREADERCUSTOM);
+                                $scope.reportedArticles.articles.push(id);
+
+                                usersReportedArticles = _.filter(usersReportedArticles, function (ura) {
+                                    return ura.username != $scope.reportedArticles.username;
+                                });
+                                usersReportedArticles.push($scope.reportedArticles);
+                                $window.localStorage.setItem("usersReportedArticles", JSON.stringify(usersReportedArticles));
                             } else {
                                 $notificationBar.setDuration(1500);
                                 $notificationBar.show("Please check at least one option!", $notificationBar.EYEREADERCUSTOM);
@@ -152,6 +159,23 @@ angular
             /**
               * @function
               * @memberof controllerjs.savedArticlesCtrl
+              * @param {int} id - The id of the article to check
+              * @description This function is responsible for checking if the article given is saved or not.
+              */
+            $scope.isArticleReported = function (id) {
+                if ($scope.reportedArticles.articles.length == 0)
+                    return false;
+                var found;
+                $scope.reportedArticles.articles.forEach(e => {
+                    if (e == id)
+                        found = true;
+                });
+                return found;
+            };
+
+            /**
+              * @function
+              * @memberof controllerjs.savedArticlesCtrl
               * @description This function is responsible for calling all the functions that need to 
               * be executed when the page is initialized.
               */
@@ -160,8 +184,16 @@ angular
                 $scope.savedArticles = _.find(usersSavedArticles, function (usa) {
                     return usa.username == $rootScope.activeUser.username;
                 })
-                if (sharedProps.getData("isNightmode") != undefined)
-                    $scope.isNightmode = sharedProps.getData("isNightmode").value;
+                var n = JSON.parse($window.sessionStorage.getItem("isNightmode"));
+                if (n != undefined) {
+                    $scope.isNightmode = n;
+                }
+
+                usersReportedArticles = JSON.parse($window.localStorage.getItem("usersReportedArticles"));
+
+                $scope.reportedArticles = _.find(usersReportedArticles, function (ura) {
+                    return ura.username == $rootScope.activeUser.username;
+                });
 
                 var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
 
