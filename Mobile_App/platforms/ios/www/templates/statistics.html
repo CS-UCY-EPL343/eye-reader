@@ -1,0 +1,20 @@
+<ion-view title="Statistics" id="page11">
+    <ion-content padding="true" class="has-header generalPadding" ng-controller="statisticsCtrl" ng-class="getBackgroundClass()">
+        <div class="list">
+            <label class="item item-select item-select" ng-class="getBackgroundClass()">
+                <div class="input-label">
+                    <span ng-style="fontsize" ng-class="getFontClass()">Select Source</span>
+                </div>
+                <select ng-class="getFontClass()" ng-options="o.id as o.name for o in selectSource" ng-model="selectedSource"></select>
+            </label>
+            <label class="item item-input item-select" ng-class="getBackgroundClass()">
+                <div class="input-label">
+                    <span ng-style="fontsize" ng-class="getFontClass()">View Statistics</span>
+                </div>
+                <select ng-class="getFontClass()" ng-options="o.id as o.name for o in viewStatistics" ng-model="selectedStatistic"></select>
+            </label>
+        </div>
+        <canvas class="chart chart-bar" chart-data="data" chart-labels="labels"  chart-colors="chartColors"
+	            chart-series="series" style="width:300px; height:250px;" chart-click="onClick"></canvas> 
+    </ion-content>
+</ion-view>

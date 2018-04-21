@@ -1,0 +1,55 @@
+<ion-view title="Statistics" id="page11">
+    <ion-content padding="true" class="has-header generalPadding" ng-controller="statisticsCtrl" ng-class="getBackgroundClass()">
+        <div ng-if="isOnline" style="height:100%">
+            <div class="list" ng-if="!isLoadingOptions">
+                <label class="item item-select item-select" ng-class="getBackgroundClass()">
+                    <div class="input-label">
+                        <span ng-style="fontsize" ng-class="getFontClass()">Select Source</span>
+                    </div>
+                    <select ng-class="getFontClass()" ng-options="o.id as o.name for o in selectSource" ng-model="stat.selectedSource"></select>
+                </label>
+
+                <label class="item item-input item-select" ng-class="getBackgroundClass()">
+                    <div class="input-label">
+                        <span ng-style="fontsize" ng-class="getFontClass()">View Statistics</span>
+                    </div>
+                    <select ng-disabled="stat.selectedSource > 0" ng-class="getFontClass()" ng-options="o.id as o.name for o in viewStatistics"
+                        ng-model="stat.selectedStatistic"></select>
+                </label>
+                <button class="button button-stable button-block" ng-click="requestStatistics()">Fetch statistics</button>
+            </div>
+            <div ng-if="isLoadingOptions" style="width:inherit; text-align: center; padding-top: 25%">
+                <ion-spinner icon="crescent"></ion-spinner>
+                <br>Loading options...
+            </div>
+            <!-- TODO: FIX HERE WHEN CHANGING SOURCE -->
+                <div class="chartWrapper" ng-if="!isLoading">
+                    <div class="chartAreaWrapper">
+                        <canvas id="line" ng-if="r == 0" class="chart chart-bar" chart-data="barData" chart-labels="barLbls" chart-series="barSeries"
+                            chart-options="allSourcesOptions" chart-dataset-override="barDatasetOverride"style="width:100%; height:56%; min-width:750px; min-height:400px"></canvas>
+                        <canvas ng-if="r == 1" class="chart chart-bar" chart-data="barData" chart-labels="barLbls" chart-series="barSeries"
+                         chart-options="sourceOptions" style="width:100%; height:56%; min-height:400px; min-width:100%"></canvas>
+                    </div>
+                    <canvas id="myChartAxis" height="300" width="0"></canvas>
+                </div>
+                <!-- <div ng-if="!isLoading && r == -1" style="width:inherit; text-align: center; padding-top: 25%">
+                    No available stats for requested source and statistic...
+                </div> -->
+                <div ng-if="isLoading" style="width:inherit; text-align: center; padding-top: 25%">
+                    <ion-spinner icon="crescent"></ion-spinner>
+                    <br>Fetching statistics...
+                </div>
+
+        </div>
+        <div ng-if="!isOnline" style="height:100%">
+            <ion-list>
+                <p style="color: #90A4AE; font-size: 120%; text-align: center; padding-top: 10%">Connect to the internet to view available statistics.</p>
+                <div style="width:inherit; text-align: center; padding-top: 25%">
+                    <i style="color: #90A4AE; font-size:1250%!important" class="icon ion-stats-bars"></i>
+                </div>
+                <h1 style="color: #90A4AE; font-size: 450%; text-align: center">Oops!</h1>
+                <h5 style="color: #90A4AE; text-align: center">No internet connection!</h5>
+            </ion-list>
+        </div>
+    </ion-content>
+</ion-view>

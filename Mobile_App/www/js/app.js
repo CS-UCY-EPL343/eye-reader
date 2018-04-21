@@ -1,7 +1,4 @@
-/**
- * @module appjs
- * @description Default module create by Ionic v1 and and AngularJS for app operations.
- */
+
 angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'app.directives', 'app.services'])
 
     .config(function ($ionicConfigProvider, $sceDelegateProvider) {
@@ -12,11 +9,6 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
 
     })
 
-    /**
-     * @module run
-     * @memberof appjs
-     * @description Operations executed during runtime.
-     */
     .run(function ($ionicPlatform, $rootScope, $window, Application, $state, $cordovaNetwork) {
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -32,9 +24,9 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
             // }
             // if this is the first run of the application then show welcome screen,
             // else skip to the login page
-            if (Application.isInitialRun()){
+            if (Application.isInitialRun()) {
                 $state.go('welcome');
-            }else{
+            } else {
                 $state.go('login');
             }
         });
@@ -90,4 +82,4 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
 
     .constant('Server', {
         'baseUrl': 'https://eye-reader.herokuapp.com/',
-     }); 
+    }); 

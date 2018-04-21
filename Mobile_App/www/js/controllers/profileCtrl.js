@@ -4,7 +4,7 @@ angular
     /**
      * @module profileCtrl
      * @memberof controllerjs
-     * @description Controller controlling the functionalities implemented for the profile view.
+     * @description Controller for the functionalities implemented for the profile view.
      */
     .controller("profileCtrl", ["$scope", "$rootScope", "$window",
         function ($scope, $rootScope, $window) {
@@ -27,18 +27,17 @@ angular
              */
             $scope.$on("$ionicView.beforeEnter", function () {
                 var n = JSON.parse($window.sessionStorage.getItem("isNightmode"));
-                if (n != undefined) {
+                if (n != undefined)
                     $scope.isNightmode = n;
-                }
+                data.fontsize = JSON.parse($window.sessionStorage.getItem("fontsize"));
                 getFontSize();
             });
 
             /**
              * @function
              * @memberof controllerjs.profileCtrl
-             * @description This function is responsible for retrieving the selected font size from the 
-             * shared properties space and set the value into scope variables in order to be used in 
-             * the page and set the page's font size.
+             * @description Sets 2 scope variables that represent 2 different font-sizes. These variables
+             * are used in the page as ng-style attributes. 
              */
             function getFontSize() {
                 //font size for normal letters
@@ -50,8 +49,9 @@ angular
             /**
               * @function
               * @memberof controllerjs.profileCtrl
-              * @description This function is responsible for retrieving the class used in the background
-              * in order to set the background to nightmode/lightmode.
+              * @description Sets the appropriate background class in a scope variable that will be used 
+              * in the page as ng-class attribute. The classes are either for nightmode or normal mode 
+              * background.
               */
             $scope.getBackgroundClass = function () {
                 return $scope.isNightmode ? "nightmodeBackground" : "normalBackground";
@@ -60,8 +60,9 @@ angular
             /**
               * @function
               * @memberof controllerjs.profileCtrl
-              * @description This function is responsible for retrieving the class used in the font style 
-              * in order to set the font style to nightmode/lightmode.
+              * @description Sets the appropriate font color class in a scope variable that will be used 
+              * in the page as ng-class attribute. The classes are either for nightmode or normal mode
+              * font-color.
               */
             $scope.getFontClass = function () {
                 return $scope.isNightmode ? "nightmodeFontColor" : "normalBlackLetters";
@@ -70,26 +71,14 @@ angular
             /**
               * @function
               * @memberof controllerjs.profileCtrl
-              * @description This function is responsible for calling all the functions that need to 
-              * be executed when the page is initialized.
+              * @description Responsible for calling all the functions and executing necessary functionalities 
+              * once the page is loaded.
+              * Such functionalities include: 
+              * 1) Loading current user.
               */
             function init() {
                 //gets the currently active user
                 $scope.user = $rootScope.activeUser;
-
-                var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
-
-                var currentUserSettings = _.find(usersSettings, function (userSettings) {
-                    return userSettings.username == $rootScope.activeUser.username;
-                });
-
-                data = {
-                    cachenewsEnabled: currentUserSettings.settings.cachenewsEnabled,
-                    fontsize: currentUserSettings.settings.fontsize,
-                    markupEnabled: currentUserSettings.settings.markupEnabled,
-                    hideEnabled: currentUserSettings.settings.hideEnabled,
-                    tolerance: currentUserSettings.settings.tolerance,
-                };
             }
         }
     ])

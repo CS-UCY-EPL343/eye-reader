@@ -1,0 +1,65 @@
+<ion-view hide-back-button="true" title="Signup" id="page7" class="custom-background-img">
+    <ion-nav-bar class="header">
+
+        <ion-nav-buttons side="left">
+            <a ng-click="goBack()" class="button button-icon icon ion-android-arrow-back" style="color:white"></a>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-content padding="true" class="has-header" ng-controller="signupCtrl">
+        <form name="signupform" id="signupform">
+
+            <ul class="list">
+                <li class="item item-input item-icon-left" style="border-top:none">
+                    <div class="input-label" style="width:10%">
+                        <i style="color: #90A4AE;" class="icon ion-android-contact"></i>
+                    </div>
+                    <div style="width:90%;">
+                        <input type="text" name="uname" placeholder="username" ng-model="user.username" ng-minlength="3" required>
+                        <span ng-show="signupform.uname.$dirty && signupform.uname.$error.required" style="color:darkred; font-size:10px">Username is required</span>
+                    </div>
+                </li>
+
+                <li class="item item-input item-icon-left">
+                    <div class="input-label" style="width:10%">
+                        <i style="color: #90A4AE;" class="icon ion-android-mail"></i>
+                    </div>
+                    <div style="width:90%">
+                        <input type="email" name="email" placeholder="email address" ng-model="user.email" required>
+                        <span ng-show="signupform.email.$dirty && signupform.email.$error.required" style="color:darkred; font-size:10px">Email is required</span>
+                    </div>
+                </li>
+
+                <li class="item item-input item-icon-left">
+                    <div class="input-label placeholder-icon" style="width:10%">
+                        <i style="color: #90A4AE;" class="icon ion-key"></i>
+                    </div>
+                    <div style="width:90%">
+                        <input type="password" name="pword" placeholder="password" ng-model="user.password" required>
+                        <span ng-show="signupform.pword.$dirty && signupform.pword.$error.required" style="color:darkred; font-size:10px">Password is required</span>
+                    </div>
+                </li>
+
+                <li class="item item-select item-icon-left">
+                    <div class="input-label" style="width:10%">
+                        <i style="color: #90A4AE;" class="icon ion-transgender"></i>
+                    </div>
+                    <select ng-options="o.id as o.name for o in sexOptions" ng-model="user.sex" class="customSelect" style="width:100%;"></select>
+                </li>
+
+                <li class="item item-input item-icon-left">
+                    <div class="input-label" style="width:10%">
+                        <i style="color: #90A4AE;" class="icon ion-android-bar"></i>
+                    </div>
+                    <div style="width:90%;">
+                        <input type="date" name="bday" ng-model="user.birthday" placeholder="When?" required>
+                        <span ng-show="signupform.bday.$dirty && signupform.bday.$error.required" style="color:darkred; font-size:10px">Birtday is required</span>
+                    </div>
+                </li>
+                <ion-checkbox ng-model="user.isJournalist">
+                    <span>Are you a journalist?</span>
+                </ion-checkbox>
+            </ul>
+            <button ng-disabled="signupform.$invalid" id="signup-button2" class="button button-stable button-block" ng-click="register()">Sign up</button>
+        </form>
+    </ion-content>
+</ion-view>

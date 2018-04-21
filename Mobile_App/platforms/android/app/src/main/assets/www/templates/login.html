@@ -1,0 +1,26 @@
+<ion-view hide-back-button="true" title="Login" id="page8" class="custom-background-img">
+    <ion-nav-bar class="header"></ion-nav-bar>
+    <ion-content padding="true" class="has-header" ng-controller="loginCtrl">
+        <form id="loginform" name="loginform" class="list">
+            <ul class="list">
+                <li class="item item-icon-left" style="border-top:none">
+                    <i style="color: #90A4AE;" class="icon ion-android-contact"></i>
+                    <div style="width:100%">
+                        <input style="width:100%" type="text" name="uname" placeholder="username" ng-model="login.username" ng-minlength="3" required>
+                        <span ng-show="loginform.uname.$dirty && loginform.uname.$error.required" style="color:darkred; font-size:10px">Username is required</span>
+                    </div>
+                </li>
+                <li class="item item-icon-left">
+                    <i style="color: #90A4AE;" class="icon ion-key"></i>
+                    <div style="width:100%">
+                        <input style="width:100%" type="password" name="pword" placeholder="password" ng-model="login.password" required>
+                        <span ng-show="loginform.pword.$dirty && loginform.pword.$error.required" style="color:darkred; font-size:10px">Password is required</span>
+                    </div>
+                </li>
+            </ul>
+            <div class="spacer" style="height: 3%;"></div>
+            <button ng-disabled="loginform.$invalid" class="button button-stable button-block" ng-click="login()">Log in</button>
+            <a ui-sref="signup()" style="color:#455A64" id="login-button4" class="button button-block button-clear">Or create an account</a>
+        </form>
+    </ion-content>
+</ion-view>

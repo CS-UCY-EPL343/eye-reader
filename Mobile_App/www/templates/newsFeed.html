@@ -1,22 +1,22 @@
 <ion-view title="News Feed" id="page1" ng-controller="newsFeedCtrl">
-    <ion-header-bar ng-show="(selectedSources.sources.length > 0 && articles.length > 0) || cachedArticles.articles.length > 0" ng-class="getBackgroundClass()" class="bar bar-subheader item-input-inset">
+    <ion-header-bar ng-show="(selectedSources.sources.length > 0 && articles.length > 0) || cachedArticles.articles.length > 0"
+        ng-class="getBackgroundClass()" class="bar bar-subheader item-input-inset">
         <label ng-if="isOnline" class="item-input-wrapper" id="newsFeed-search1" name="searchArticles">
             <i class="icon ion-search placeholder-icon"></i>
             <input type="search" class="placeholderLetters" placeholder="Search articles" ng-model="input.onlineSearch">
         </label>
-        <label ng-if="!isOnline" class="item-input-wrapper"
-            id="newsFeed-search1" name="searchArticles">
+        <label ng-if="!isOnline" class="item-input-wrapper" id="newsFeed-search1" name="searchArticles">
             <i class="icon ion-search placeholder-icon"></i>
             <input type="search" class="placeholderLetters" placeholder="Search articles" ng-model="input.offlineSearch">
         </label>
     </ion-header-bar>
     <ion-content padding="false" overflow-scroll="false" class="has-header generalPadding" ng-class="getBackgroundClass()">
-        <ion-refresher ng-if="selectedSources.sources.length > 0  && isOnline && articles.length > 0" pulling-text="Pull to refresh..." on-refresh="doRefresh()">
+        <ion-refresher ng-if="selectedSources.sources.length > 0  && isOnline && articles.length > 0" pulling-text="Pull to refresh..."
+            on-refresh="doRefresh()">
             <ion-refresher-content></ion-refresher-content>Refreshing...</ion-refresher>
         <div ng-if="!isLoading && articles.length > 0 && selectedSources.sources.length > 0 && isOnline" ng-class="getBackgroundClass()">
             <ion-list id="newsFeed-list9" ng-repeat="article in articles | filter: { Title:input.onlineSearch } " ng-class="getBackgroundClass()">
-                <ion-item class="item-thumbnail-left item-icon-right" ng-click="articleTapped({{article.Id}})" ui-sref="eyeReader.article({id : article.Id})"
-                    ng-class="getBackgroundClass()">
+                <ion-item class="item-thumbnail-left item-icon-right" ng-click="articleTapped({{article.Id}})" ng-class="getBackgroundClass()">
                     <img alt="img" ng-src=".{{article.PictureSrc}}">
                     <h2 ng-style="fontsize" ng-class="getFontClass()">{{article.Title}}</h2>
                     <p ng-style="fontsizeSmaller" ng-class="getFontClass()">Source: {{article.SourceTitle}}</p>
@@ -59,7 +59,8 @@
             </ion-infinite-scroll>
         </div>
         <div ng-if="isLoading" style="width:inherit; text-align: center; padding-top: 25%">
-            <ion-spinner icon="crescent"></ion-spinner><br>Loading articles...
+            <ion-spinner icon="crescent"></ion-spinner>
+            <br>Loading articles...
         </div>
         <div ng-if="isOnline && selectedSources.sources.length > 0 && articles.length == 0 && !isLoading">
             <ion-list>

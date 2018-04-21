@@ -5,7 +5,7 @@ angular
     /**
      * @module settingsCtrl
      * @memberof controllerjs
-     * @description Controller controlling the functionalities implemented for the Settings page.
+     * @description Controller for the functionalities implemented for the settings view.
      */
     .controller("settingsCtrl", ["$scope", "$rootScope", "$window", "$ionicSideMenuDelegate",
         function ($scope, $rootScope, $window, $ionicSideMenuDelegate) {
@@ -17,8 +17,8 @@ angular
             /**
               * @function
               * @memberof controllerjs.settingsCtrl
-              * @description This function is responsible for saving the selected settings in the user's 
-              * settings in the device's local storage
+              * @description Responsible for saving the new settings under the user's entry in the local storage.
+              * Also it saved in the session storage the font size used for easier font management across pages.
               */
             function saveUserSettings() {
                 $window.sessionStorage.setItem("isNightmode", JSON.stringify($scope.data.isNightmode));
@@ -36,22 +36,22 @@ angular
 
                 usersSettings.push(currentUserSettings);
                 $window.localStorage.setItem("usersSettings", JSON.stringify(usersSettings));
+                $window.sessionStorage.setItem("fontsize", JSON.stringify(currentUserSettings.settings.fontsize));
             }
 
             $scope.$watch(function () {
                 return $ionicSideMenuDelegate.getOpenRatio();
             }, function (ratio) {
-                if (ratio == 1) {
+                if (ratio == 1)
                     saveUserSettings();
-                }
             });
 
             /**
               * @function
               * @memberof controllerjs.settingsCtrl
-              * @description This function is responsible for adding the value of the nightmode toggle to the 
-              * shared properties space and to broadcast it to the other controllers in order for the sidemenu 
-              * controller to recieve it and change it's background value according to the toggle's value.
+              * @description Responsible for broadcasting across the application the value of the nightmode toggle.
+              * Also it saves the value of the nightmode in the session storage for easier background class management
+              * across the pages.
               */
             $scope.setNightmode = function () {
                 $rootScope.$broadcast("nightmodeChange", $scope.data.isNightmode);
@@ -61,9 +61,8 @@ angular
             /**
               * @function
               * @memberof controllerjs.settingsCtrl
-              * @description This function is responsible for matching the selected value from the font size 
-              * range bar to the actual font size value in order to display it in pixels in the page. 
-              * (font size of range bar is in pixel values and the actual font size metric used is percentage)
+              * @description Responsible for matching the value of the font size range bar to the appropriate font size
+              * percentage used. Also it broadcasts the changed value across the app.
               */
             $scope.$watch("data.fontsizeRange", function () {
                 if ($scope.data.fontsizeRange == 14)
@@ -81,8 +80,9 @@ angular
             /**
              * @function
              * @memberof controllerjs.settingsCtrl
-             * @description This function is responsible for retrieving the class used in the background
-             * in order to set the background color
+              * @description Sets the appropriate background class in a scope variable that will be used 
+              * in the page as ng-class attribute. The classes are either for nightmode or normal mode 
+              * background.
              */
             $scope.getBackgroundClass = function () {
                 return $scope.data.isNightmode ?
@@ -93,8 +93,9 @@ angular
             /**
               * @function
               * @memberof controllerjs.settingsCtrl
-              * @description This function is responsible for retrieving the class used in the font style 
-              * in order to set the font style to nightmode/lightmode.
+              * @description Sets the appropriate font color class in a scope variable that will be used 
+              * in the page as ng-class attribute. The classes are either for nightmode or normal mode
+              * font-color.
               */
             $scope.getFontClass = function () {
                 return $scope.data.isNightmode ?
@@ -105,8 +106,10 @@ angular
             /**
               * @function
               * @memberof controllerjs.settingsCtrl
-              * @description This function is responsible for calling all the functions that need to 
-              * be executed when the page is initialized.
+              * @description Responsible for calling all the functions and executing necessary functionalities 
+              * once the page is loaded.
+              * Such functionalities include: 
+              * 1) Loading current user's settings.
               */
             function init() {
                 usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));

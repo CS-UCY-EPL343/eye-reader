@@ -6,16 +6,15 @@ angular
     /**
      * @module addSourcesCtrl
      * @memberof controllerjs
-     * @description Controller controlling the functionalities implemented for the Add Sources page.
+     * @description Controller for the functionalities implemented for the add sources view.
      */
-    .controller("addSourcesCtrl", ["$scope", "$http",
-         "$window", "$rootScope", "ConnectionMonitor", "Server",
+    .controller("addSourcesCtrl", ["$scope", "$http", "$window", "$rootScope", "ConnectionMonitor", "Server",
         function ($scope, $http, $window, $rootScope, ConnectionMonitor, Server) {
-            var usersSources = {};
-            $scope.currentUserSources = {};
-            $scope.input = {};
             $scope.isOnline = ConnectionMonitor.isOnline();
             $scope.isLoading = true;
+            $scope.currentUserSources = {};
+            $scope.input = {};
+            var usersSources = {};
             var data = {};
             init();
 
@@ -30,15 +29,15 @@ angular
                 var n = JSON.parse($window.sessionStorage.getItem("isNightmode"));
                 if (n != undefined)
                     $scope.isNightmode = n;
+                data.fontsize = JSON.parse($window.sessionStorage.getItem("fontsize"));
                 getFontSize();
             });
 
             /**
              * @function
              * @memberof controllerjs.addSourcesCtrl
-             * @description This function is responsible for retrieving the selected font size from the 
-             * shared properties space and set the value into scope variables in order to be used in 
-             * the page and set the page's font size.
+             * @description Sets 2 scope variables that represent 2 different font-sizes. These variables
+             * are used in the page as ng-style attributes. 
              */
             function getFontSize() {
                 //font size for normal letters
@@ -51,8 +50,9 @@ angular
             /**
               * @function
               * @memberof controllerjs.addSourcesCtrl
-              * @description This function is responsible for retrieving the class used in the background
-              * in order to set the background to nightmode/lightmode.
+              * @description Sets the appropriate background class in a scope variable that will be used 
+              * in the page as ng-class attribute. The classes are either for nightmode or normal mode 
+              * background.
               */
             $scope.getBackgroundClass = function () {
                 return $scope.isNightmode ? "nightmodeBackground" : "normalmodeBackground";
@@ -61,8 +61,9 @@ angular
             /**
               * @function
               * @memberof controllerjs.addSourcesCtrl
-              * @description This function is responsible for retrieving the class used in the font style 
-              * in order to set the font style to nightmode/lightmode.
+              * @description Sets the appropriate font color class in a scope variable that will be used 
+              * in the page as ng-class attribute. The classes are either for nightmode or normal mode
+              * font-color.
               */
             $scope.getFontClass = function () {
                 return $scope.isNightmode ? "nightmodeFontColor" : "normalBlackLetters";
@@ -72,15 +73,17 @@ angular
               * @function
               * @memberof controllerjs.addSourcesCtrl
               * @param {string} sourceTitle - The title of the selected source
-              * @description This function is responsible for selecting a source and displaying an 
-              * informational message.
+              * @description Selects or deselects a source. It searches the param given in the array of
+              * selected sources for the current user. If the index is found then it removes the source
+              * fromt he array, else it adds it. Then the newly selected sources are saved in the local
+              * storage.
               */
             $scope.select_deselectSource = function (sourceTitle) {
                 if ($scope.currentUserSources != null || $scope.currentUserSources != undefined) {
 
                     var index = $scope.currentUserSources.sources.indexOf(sourceTitle);
                     if (index > -1) {
-                        deselectSource(sourceTitle, index);
+                        deselectSource(index);
                     } else {
                         selectSource(sourceTitle);
                     }
@@ -97,7 +100,7 @@ angular
               * @function
               * @memberof controllerjs.addSourcesCtrl
               * @param {string} sourceTitle - The Title of the selected source
-              * @description Adds the selected source to the array with all the selected sources
+              * @description Adds the selected source to the array with all the current user's selected sources.
               */
             function selectSource(sourceTitle) {
                 $scope.currentUserSources.sources.push(sourceTitle);
@@ -106,19 +109,23 @@ angular
             /**
               * @function
               * @memberof controllerjs.addSourcesCtrl
-              * @param {string} sourceTitle - The title of the deselected source
-              * @description This function is responsible for deselecting a source and displaying an 
-              * informational message.
+              * @param {int} index - The index of the deselected source
+              * @description Removes the selected source from the array with all the current user's selected sources.
               */
-            function deselectSource(sourceTitle, index) {
+            function deselectSource(index) {
                 $scope.currentUserSources.sources.splice(index, 1);
             };
 
             /**
               * @function
               * @memberof controllerjs.addSourcesCtrl
-              * @description This function is responsible for calling all the functions that need to 
-              * be executed when the page is initialized.
+              * @description Responsible for calling all the functions and executing necessary functionalities 
+              * once the page is loaded.
+              * Such functionalities include: 
+              * 1) Loading current user's selected sources.
+              * 2) Loading current user's selected font size.
+              * 3) If the device is connected to the internet it fetches sources from the server and checks them if
+              * they were previously selected from the user.
               */
             function init() {
                 usersSources = JSON.parse($window.localStorage.getItem("usersSources"));
@@ -127,20 +134,6 @@ angular
                     return userSources.username == $rootScope.activeUser.username;
                 });
 
-
-                var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
-
-                var currentUserSettings = _.find(usersSettings, function (userSettings) {
-                    return userSettings.username == $rootScope.activeUser.username;
-                });
-
-                data = {
-                    cachenewsEnabled: currentUserSettings.settings.cachenewsEnabled,
-                    fontsize: currentUserSettings.settings.fontsize,
-                    markupEnabled: currentUserSettings.settings.markupEnabled,
-                    hideEnabled: currentUserSettings.settings.hideEnabled,
-                    tolerance: currentUserSettings.settings.tolerance,
-                };
                 if ($scope.isOnline) {
 
                     $http.get(Server.baseUrl + "sources/").then(function (res) {

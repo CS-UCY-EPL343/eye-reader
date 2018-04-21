@@ -5,35 +5,57 @@ angular
     /**
      * @module newsFeedCtrl
      * @memberof controllerjs
-     * @description Controller controlling the functionalities implemented for the News Feed page.
+     * @description Controller for the functionalities implemented for the news feed view.
      */
     .controller("newsFeedCtrl", ["$scope", "$q", "Server", "$http", "$ionicPopup", "$ionicModal",
-        "$localStorage", "$window", "$notificationBar", "$rootScope", "ConnectionMonitor", "$interval",
-        function ($scope, $q, Server, $http, $ionicPopup, $ionicModal,
-            $localStorage, $window, $notificationBar, $rootScope, ConnectionMonitor, $interval) {
+        "$localStorage", "$window", "$notificationBar", "$rootScope", "ConnectionMonitor", "$interval", "$state",
+        function ($scope, $q, Server, $http, $ionicPopup, $ionicModal, $localStorage, $window, $notificationBar,
+            $rootScope, ConnectionMonitor, $interval, $state) {
             $scope.input = {};
             $scope.articles = [];
             $scope.isOnline = ConnectionMonitor.isOnline();
+            $scope.checkboxes = {};
+            $scope.isLoading = true;
             var usersDeletedArticles = [];
             var articleCache = [];
             var data = {};
-            $scope.checkboxes = {};
             var usersSavedArticles = [];
-            $scope.isLoading = true;
             var usersReportedArticles = [];
+            var repeatArticleFetch;
             init();
 
-            var repeatArticleFetch;
-            $scope.startRepeatArticleFetch = function () {
+            /**
+             * @function
+             * @memberof controllerjs.newsFeedCtrl
+             * @param {string} message The message to display
+             * @param {int} duration The duration of the display
+             * @description Executes actions before this page is loaded into view.
+             *  Actions taken: 1) Gets the nightmode setting value in order to set the page to nightmode
+             *           2) Gets the font size selected by the user in order to set it to the whole page
+             */
+            function displayToast(message, duration) {
+                $notificationBar.setDuration(duration);
+                $notificationBar.show(message, $notificationBar.EYEREADERCUSTOM);
+            }
 
+            /**
+             * @function
+             * @memberof controllerjs.newsFeedCtrl
+             * @description Invokes a repeat that every 15 minutes it calls the requestArticles function.
+             */
+            function startRepeatArticleFetch() {
                 if (angular.isDefined(repeatArticleFetch)) return;
-
                 repeatArticleFetch = $interval(function () {
                     requestArticles();
                 }, 900000);
             }
 
-            $scope.stopRepeatArticleFetch = function () {
+            /**
+             * @function
+             * @memberof controllerjs.newsFeedCtrl
+             * @description Stops the repeat of requestArticles function.
+             */
+            function stopRepeatArticleFetch() {
                 if (angular.isDefined(repeatArticleFetch)) {
                     $interval.cancel(repeatArticleFetch);
                     repeatArticleFetch = undefined;
@@ -41,7 +63,7 @@ angular
             }
 
             $rootScope.$on('$locationChangeSuccess', function () {
-                $scope.stopRepeatArticleFetch();
+                stopRepeatArticleFetch();
             });
 
             /**
@@ -49,23 +71,21 @@ angular
              * @memberof controllerjs.newsFeedCtrl
              * @description Executes actions before this page is loaded into view.
              *  Actions taken: 1) Gets the nightmode setting value in order to set the page to nightmode
-             *           2) Gets the saved articles from the local storage
-             *           3) Gets the font size selected by the user in order to set it to the whole page
+             *           2) Gets the font size selected by the user in order to set it to the whole page
              */
             $scope.$on("$ionicView.beforeEnter", function () {
                 var n = JSON.parse($window.sessionStorage.getItem("isNightmode"));
-                if (n != undefined) {
+                if (n != undefined)
                     $scope.isNightmode = n;
-                }
+                data.fontsize = JSON.parse($window.sessionStorage.getItem("fontsize"));
                 getFontSize();
             });
 
             /**
              * @function
              * @memberof controllerjs.newsFeedCtrl
-             * @description This function is responsible for retrieving the selected font size from the 
-             * shared properties space and set the value into scope variables in order to be used in 
-             * the page and set the page's font size.
+             * @description Sets 2 scope variables that represent 2 different font-sizes. These variables
+             * are used in the page as ng-style attributes. 
              */
             function getFontSize() {
                 //font size for normal letters
@@ -77,8 +97,10 @@ angular
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
-              * @description This function is responsible for displaying the popup when a user wants to report 
-              * an article. The popup is ionic's default and uses the reportArticle.html temlpate.
+              * @param {int} id The reported article's id
+              * @description Responsible for displaying the report modal template. If the user selects either one
+              * or both of the options and clicks "Confirm", then a request is sent to the server with the reported
+              * article's source title for further statistics calculations.
               */
             $scope.showReportOptions = function (id) {
                 $scope.checkboxes.hatespeech = false;
@@ -97,8 +119,7 @@ angular
                         onTap: function (e) {
                             if ($scope.checkboxes.hatespeech || $scope.checkboxes.fakenews) {
                                 $http.get(Server.baseUrl + 'articles/' + id + "/report");
-                                $notificationBar.setDuration(1000);
-                                $notificationBar.show("Article reported!", $notificationBar.EYEREADERCUSTOM);
+                                displayToast("Article reported!", 1000);
 
                                 $scope.reportedArticles.articles.push(id);
 
@@ -109,8 +130,7 @@ angular
                                 $window.localStorage.setItem("usersReportedArticles", JSON.stringify(usersReportedArticles));
 
                             } else {
-                                $notificationBar.setDuration(1500);
-                                $notificationBar.show("Please check at least one option!", $notificationBar.EYEREADERCUSTOM);
+                                displayToast("Please check at least one option!", 2000);
                                 e.preventDefault();
                             }
                         }
@@ -122,8 +142,11 @@ angular
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
-              * @param {int} id - The id of the article to check
-              * @description This function is responsible for checking if the article given is saved or not.
+              * @param {int} id The id of the article that is currently being checked
+              * @returns {boolean} True if it's reported, False if it's not
+              * @description Responsible for checking whether the current article has already been reported.
+              * It searches in an array, that is saved in the local storage and returns true if the article is contained
+              * or false if it's not. 
               */
             $scope.isArticleReported = function (id) {
                 if ($scope.reportedArticles.articles.length == 0)
@@ -139,27 +162,29 @@ angular
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
-              * @param {int} id - The id of the article to save/unsave
-              * @description This function is responsible for deciding wether to add an article to saved 
-              * or remove an article from saved. Firstly, it checks if the article is saved. If it is then 
-              * it is removed from saved and displays an informative message. Else it adds the article to 
-              * saved and displays an informative message.
+              * @param {int} id The id of the article that is currently being saved
+              * @description Responsible for saving or unsaving the article from the current user's saved articles that are 
+              * located in the local storage. It checks if the article is already saved, by checking in the article's id is 
+              * contained in an array with the current user's saved articles. If it is, then it removes it, else it adds it 
+              * and then stores the saved articles back in the local storage. Lastly, it shows an informational toast that
+              * the article has been removed/added.
               */
             $scope.save_unsaveArticle = function (id) {
                 if ($scope.isArticleSaved(id)) {
                     unsaveArticle(id);
-                    showRemovedToast();
+                    displayToast("Article removed from saved!", 1000);
                     return;
                 }
                 saveArticle(id);
-                showSavedToast();
+                displayToast("Article added to saved!", 1000);
             };
 
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
-              * @param {int} id - The id of the article to save
-              * @description This function is responsible for adding the article to the saved articles.
+              * @param {int} id The id of the article that is currently being saved
+              * @description Responsible for adding the article's id to the current user's saved articles. Once added,
+              * the saved articles are stored back in the local storage.
               */
             function saveArticle(id) {
                 if ($scope.isOnline) {
@@ -186,8 +211,11 @@ angular
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
-              * @param {int} id - The id of the article to check
-              * @description This function is responsible for checking if the article given is saved or not.
+              * @param {int} id The id of the article that is currently being saved
+              * @returns {boolean} True if it's saved, False if it's not
+              * @description Responsible for checking whether the current article has already been saved.
+              * It searches in an array, that is saved in the local storage and returns true if the article is contained
+              * or false if it's not. 
               */
             $scope.isArticleSaved = function (id) {
                 if ($scope.savedArticles.articles.length == 0)
@@ -201,11 +229,9 @@ angular
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
-              * @param {int} id - The id of the article to delete
-              * @description This function is responsible for deleting an article from the news feed. Firstly 
-              * it finds the article in the list of articles and then it splices the array of articles in order 
-              * to remove it and then it saves tha article in a json with all the deleted articles in order
-              * to be able not to display it in the news feed.
+              * @param {int} id The id of the article that is currently being deleted
+              * @description Responsible for removing the article's id from the current user's saved articles. Once removed,
+              * the saved articles are stored back in the local storage.
               */
             function deleteArticle(id) {
                 $scope.deletedArticles.articles.push(id);
@@ -225,9 +251,11 @@ angular
 
             /**
              * @function
-             * @memberof controllerjs.newsFeedCtrl
-             * @description Function that checks if an article id is included in the deleted articles array.
-             * If it is, then its not displayed on the html.
+              * @memberof controllerjs.newsFeedCtrl
+              * @param {int} id The id of the article that is currently being deleted
+              * @description Responsible for checking whether the current article has already been deleted.
+              * It searches in an array, that is saved in the local storage and returns true if the article is contained
+              * or false if it's not. 
              */
             $scope.isDeleted = function (id) {
                 return $scope.deletedArticles.articles.includes(id);
@@ -236,11 +264,11 @@ angular
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
-              * @param {int} id - The id of the article to delete
-              * @description This function is responsible for displaying a popup in order to warn the user 
-              * that they are about to delete an article. If the user clicks "Confirm" then the article is deleted 
-              * and the popup is closed. If the user clicks "Cancel" then the article is not removed and the 
-              * popup is closed.
+              * @param {int} id The id of the article that is currently being deleted
+              * @description Responsible for displaying the delete modal template. If the user clicks "Confirm", 
+              * then the article's id is added in an array with all the current user's deleted articles. Then the array
+              * is stored back in the local storage. Lastly, it displays an informational toast that the article
+              * has been deleted. 
               */
             $scope.showDeleteConfirm = function (id) {
                 var promptAlert = $ionicPopup.show({
@@ -258,23 +286,12 @@ angular
                         type: "button-positive",
                         onTap: function (e) {
                             deleteArticle(id);
-                            showDeletedToast();
+                            displayToast("Article deleted!", 1000);
                         }
                     }
                     ]
                 });
             };
-
-            /**
-              * @function
-              * @memberof controllerjs.newsFeedCtrl
-              * @description This function is responsible for displaying an informative text that the selected article 
-              * was deleted from the feed.
-              */
-            function showDeletedToast() {
-                $notificationBar.setDuration(1000);
-                $notificationBar.show("Article deleted!", $notificationBar.EYEREADERCUSTOM);
-            }
 
             /**
               * @function
@@ -299,30 +316,9 @@ angular
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
-              * @description This function is responsible for displaying an informative text 
-              * when the article is saved.
-              */
-            function showSavedToast() {
-                $notificationBar.setDuration(1000);
-                $notificationBar.show("Article added to saved!", $notificationBar.EYEREADERCUSTOM);
-            }
-
-            /**
-              * @function
-              * @memberof controllerjs.newsFeedCtrl
-              * @description This function is responsible for displaying an informative text 
-              * when the article is removed from saved.
-              */
-            function showRemovedToast() {
-                $notificationBar.setDuration(1000);
-                $notificationBar.show("Article removed from saved!", $notificationBar.EYEREADERCUSTOM);
-            }
-
-            /**
-              * @function
-              * @memberof controllerjs.newsFeedCtrl
-              * @description This function is responsible for refreshing the news feed and retrieving 
-              * new articles from the server.
+              * @description Responsible for refreshing the news feed and retrieving articles from the server.
+              * Then it filters out the articles that are already in the news feed and pushes in the feed the new 
+              * articles.
               */
             $scope.doRefresh = function () {
                 var requests = [];
@@ -344,23 +340,15 @@ angular
                     });
                     if (data.cachenewsEnabled) {
                         for (var i = 0; i < $scope.articles.length; i++) {
-                            if (i < 10) {
+                            if (i < 10)
                                 $scope.cachedArticles.push($scope.articles[i]);
-                            }
                         }
                         cacheArticles();
                     }
                     $scope.$broadcast('scroll.refreshComplete');
-
                 }).catch(function (error) { });
             }
 
-            /**
-              * @function
-              * @memberof controllerjs.newsFeedCtrl
-              * @description This function is responsible for loading more articles in the feed from the 
-              * articles that have already been fetched from the server.
-              */
             $scope.loadMore = function () {
                 //TODO
                 // $http.get("./test_data/articles/templateArticle.js").then(function (res) {
@@ -380,11 +368,13 @@ angular
                 // });
                 $scope.$broadcast('scroll.infiniteScrollComplete');
             }
+
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
-              * @description This function is responsible for retrieving the class used in the the background 
-              * in order to set the background to nightmode/normalmode.
+              * @description Sets the appropriate background class in a scope variable that will be used 
+              * in the page as ng-class attribute. The classes are either for nightmode or normal mode 
+              * background.
               */
             $scope.getBackgroundClass = function () {
                 return $scope.isNightmode ? "nightmodeBackground" : "normalmodeBackground";
@@ -393,8 +383,9 @@ angular
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
-              * @description This function is responsible for retrieving the class used in the font style 
-              * in order to set the font style to nightmode/lightmode.
+              * @description Sets the appropriate font color class in a scope variable that will be used 
+              * in the page as ng-class attribute. The classes are either for nightmode or normal mode
+              * font-color.
               */
             $scope.getFontClass = function () {
                 return $scope.isNightmode ? "nightmodeFontColor" : "normalBlackLetters";
@@ -403,8 +394,9 @@ angular
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
-              * @description This function is responsible for retrieving the class used in the header  
-              * in order to set the header to nightmode/lightmode.
+              * @description Sets the appropriate font style class for headers in a scope variable that will be used 
+              * in the page as ng-class attribute. The classes are either for nightmode or normal mode
+              * font-color.
               */
             $scope.getNightmodeHeaderClass = function () {
                 return $scope.isNightmode ? "nightmodeHeaderClass" : "normalHeaderClass";
@@ -413,18 +405,20 @@ angular
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
-              * @description This function is responsible for sending a request to the server in order 
-              * to increase the click counter of a source
+              * @param {int} aid The id of the article to be viewed
+              * @description Responsible for redirecting the app to the article view and passes as a parameter the article's id
+              * in order to fetch the article later in the article view. Also it sends a request to the server in order to 
+              * increase the click counter for the article's source.
               */
-            $scope.articleTapped = function (sourceid) {
+            $scope.articleTapped = function (aid) {
                 $http.get(Server.baseUrl + 'articles/' + sourceid + "/click");
+                $state.go("eyeReader.article", { id: aid });
             }
 
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
-              * @description This function is responsible for caching the 10 top articles in the
-              * current news feed under the username of the current user in the local storage
+              * @description Responsible for saving the cached articles of the current user to the local storage.
               */
             function cacheArticles() {
                 articleCache = _.filter(articleCache, function (ac) {
@@ -444,8 +438,8 @@ angular
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
-              * @description This function is responsible for clearing the article cache if the cache 
-              * option from the settings page is disabled
+              * @description Responsible for emptying out the cached news if the cache news option is disabled
+              * in the settings.
               */
             function emptyCache() {
                 articleCache = _.filter(articleCache, function (ac) {
@@ -458,14 +452,11 @@ angular
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
-              * @description This function is responsible for checking if this is the first time the
-              * current user is logging in the application. If it is, then it displays the tutorial
-              * modal.
+              * @description Responsible for checking if this is the first time the current user is logging in 
+              * the application. If it is, then it displays the tutorial.
               */
-            function manageTutorialModal() {
-
+            function openTutorial() {
                 var users = JSON.parse($window.localStorage.getItem("users"));
-
                 users.forEach(el => {
                     if (el.username == $rootScope.activeUser.username) {
                         if (el.firstTime) {
@@ -480,8 +471,8 @@ angular
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
-              * @description This function is responsible for retrieving articles from the server
-              * every 15 minutes in order to keep the feed updated in real time
+              * @description Responsible for retrieving articles from the server
+              * every 15 minutes in order to keep the feed updated in real time.
               */
             function requestArticles() {
                 $scope.doRefresh();
@@ -490,37 +481,11 @@ angular
             /**
               * @function
               * @memberof controllerjs.newsFeedCtrl
-              * @description This function is responsible for calling all the functions that need to 
-              * be executed when the page is initialized.
+              * @description Responsible for loading all the necessary information of the current user 
+              * that are needed from the local storage, such as: deleted articles, selected sources, 
+              * settings, saved articles, reported articles.
               */
-            function init() {
-                $scope.openModal = function () {
-                    $scope.modal.show();
-                };
-                $scope.closeModal = function () {
-                    $scope.modal.hide();
-                };
-                // Cleanup the modal when we're done with it!
-                $scope.$on('$destroy', function () {
-                    $scope.modal.remove();
-                });
-                // Execute action on hide modal
-                $scope.$on('modal.hidden', function () {
-                    // Execute action
-                });
-                // Execute action on remove modal
-                $scope.$on('modal.removed', function () {
-                    // Execute action
-                });
-
-                $ionicModal.fromTemplateUrl('templates/tutorial.html', {
-                    scope: $scope,
-                    animation: 'slide-in-up'
-                }).then(function (modal) {
-                    $scope.modal = modal;
-                    manageTutorialModal();
-                });
-
+            function loadNecessaryData() {
                 usersDeletedArticles = JSON.parse($window.localStorage.getItem("usersDeletedArticles"));
 
                 $scope.deletedArticles = _.find(usersDeletedArticles, function (uda) {
@@ -552,11 +517,43 @@ angular
 
                 data = {
                     cachenewsEnabled: currentUserSettings.settings.cachenewsEnabled,
-                    fontsize: currentUserSettings.settings.fontsize,
-                    markupEnabled: currentUserSettings.settings.markupEnabled,
-                    hideEnabled: currentUserSettings.settings.hideEnabled,
-                    tolerance: currentUserSettings.settings.tolerance,
+                    fontsize: currentUserSettings.settings.fontsize
                 };
+            }
+
+            /**
+              * @function
+              * @memberof controllerjs.newsFeedCtrl
+              * @description Responsible for calling all the functions and executing necessary functionalities 
+              * once the page is loaded.
+              * Such functionalities include: 
+              * 1) Initializing the tutorial modal.
+              * 2) Loading necessary data with the loadNecessaryData function
+              * 3) If the user is online it retrieves articles from the server
+              * 4) If the user is online and caching is enabled, it caches the top 10 articles in the feed.
+              * 5) If the user is offline and if there are cached articles, it loads the cached articles in view.
+              */
+            function init() {
+                $scope.openModal = function () {
+                    $scope.modal.show();
+                };
+                $scope.closeModal = function () {
+                    $scope.modal.hide();
+                };
+                // Cleanup the modal when we're done with it!
+                $scope.$on('$destroy', function () {
+                    $scope.modal.remove();
+                });
+
+                $ionicModal.fromTemplateUrl('templates/tutorial.html', {
+                    scope: $scope,
+                    animation: 'slide-in-up'
+                }).then(function (modal) {
+                    $scope.modal = modal;
+                    openTutorial();
+                });
+
+                loadNecessaryData();
 
                 articleCache = JSON.parse($window.localStorage.getItem("usersArticleCache"));
                 $scope.cachedArticles = [];
@@ -587,7 +584,7 @@ angular
                         } else {
                             emptyCache();
                         }
-                        $scope.startRepeatArticleFetch();
+                        startRepeatArticleFetch();
 
                         $scope.isLoading = false;
                     }).catch(function (error) {

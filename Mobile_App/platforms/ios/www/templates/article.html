@@ -1,0 +1,33 @@
+<ion-view hide-back-button="false" title="Article" id="page9">
+    <ion-content padding="false" class="has-header generalPadding" ng-controller="articleCtrl" ng-class="getBackgroundClass()">
+        <h2 ng-class="getNightmodeHeaderClass()" id="article-heading4">
+            <span class="boldLetters" ng-style="fontsize">{{article.Title}}</span></h2>
+        <div id="article-markdown3" class="show-list-numbers-and-dots">
+            <p ng-class="getNightmodeHeaderClass()" ng-style="fontsize" class="sideLetters">{{article.Author}} | {{article.Date}}</p>
+        </div>
+        <div style="margin-bottom:13px; line-height: 250px;">
+            <img alt="Article image" ng-src="{{article.PictureSrc}}" height="100%" width="100%" style="vertical-align: middle;">
+        </div>
+        <div id="article-markdown2" class="show-list-numbers-and-dots normalBlackLetters">
+            <span ng-class="getFontClass()" style="line-height: 1.2" ng-style="fontsize">{{article.Content}}</span>
+        </div>
+        <div class="spacer" style="width: 300px; height: 20px;"></div>
+        <ion-list id="article-list15">
+            <div class="card">
+                <div class="item item-text-wrap" ng-class="getBackgroundClass()">
+                    <h2 ng-class="getNightmodeHeaderClass()">Name 1</h2>
+                    <p ng-class="getNightmodeHeaderClass()">Comment 1</p>
+                </div>
+                <div class="item item-text-wrap" ng-class="getBackgroundClass()">
+                    <h2 ng-class="getNightmodeHeaderClass()">Name 1</h2>
+                    <p ng-class="getNightmodeHeaderClass()">Comment 1</p>
+                </div>
+                <div class="item item-text-wrap" ng-class="getBackgroundClass()">
+                    <h2 ng-class="getNightmodeHeaderClass()">Name 1</h2>
+                    <p ng-class="getNightmodeHeaderClass()">Comment 1</p>
+                </div>
+            </div>
+        </ion-list>
+        <div class="spacer" style="width: 300px; height: 20px;"></div>
+    </ion-content>
+</ion-view>

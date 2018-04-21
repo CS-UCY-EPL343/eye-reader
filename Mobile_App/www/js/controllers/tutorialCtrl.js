@@ -5,7 +5,7 @@ angular
     /**
      * @module reportArticleCtrl
      * @memberof controllerjs
-     * @description Controller controlling the functionalities implemented for the report article template.
+     * @description Controller for the functionalities implemented for the tutorial template.
      */
     .controller("tutorialCtrl", ["$scope", "$stateParams",
         function ($scope, $stateParams) {

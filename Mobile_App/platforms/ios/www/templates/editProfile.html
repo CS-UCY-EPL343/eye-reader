@@ -1,0 +1,55 @@
+<ion-view title="Edit Profile" id="page6">
+    <ion-content padding="true" class="has-header" ng-controller="editProfileCtrl" ng-class="getBackgroundClass()">
+        <form name="editprofform" id="editprofform" class="list">
+            <ul class="list">
+                <li class="item item-input item-icon-left" ng-class="getBackgroundClass()" style="border-top:none">
+                    <div class="input-label" style="width:10%">
+                        <i style="color: #90A4AE;" class="icon ion-android-contact"></i>
+                    </div>
+                    <div style="width:90%;">
+                        <input type="text" name="uname" placeholder="username" ng-model="editedUser.username" ng-style="fontsize" ng-class="getFontClass()" ng-minlength="3" required>
+                        <span ng-show="editprofform.uname.$dirty && editprofform.uname.$error.required" style="color:darkred; font-size:10px">Username is required</span>
+                    </div>
+                </li>
+
+                <li class="item item-input item-icon-left" ng-class="getBackgroundClass()">
+                    <div class="input-label" style="width:10%">
+                        <i style="color: #90A4AE;" class="icon ion-android-mail"></i>
+                    </div>
+                    <div style="width:90%">
+                        <input type="email" name="email" placeholder="email address" ng-model="editedUser.email" ng-class="getFontClass()" ng-style="fontsize" required>
+                        <span ng-show="editprofform.email.$dirty && editprofform.email.$error.required" style="color:darkred; font-size:10px">Email is required</span>
+                    </div>
+                </li>
+
+                <li class="item item-input item-icon-left" ng-class="getBackgroundClass()">
+                    <div class="input-label placeholder-icon" style="width:10%">
+                        <i style="color: #90A4AE;" class="icon ion-key"></i>
+                    </div>
+                    <div style="width:90%">
+                        <input type="password" name="pword" placeholder="password" ng-model="editedUser.password" ng-class="getFontClass()" ng-style="fontsize" required>
+                        <span ng-show="editprofform.pword.$dirty && editprofform.pword.$error.required" style="color:darkred; font-size:10px">Password is required</span>
+                    </div>
+                </li>
+
+                <li class="item item-select item-icon-left" ng-class="getBackgroundClass()">
+                    <div class="input-label" style="width:10%">
+                        <i style="color: #90A4AE;" class="icon ion-transgender"></i>
+                    </div>
+                    <select ng-options="o.id as o.name for o in sexOptions" ng-model="editedUser.sex" class="customSelect" ng-class="getFontClass()" ng-style="fontsize" style="width:100%;"></select>
+                </li>
+
+                <li class="item item-input item-icon-left" ng-class="getBackgroundClass()">
+                    <div class="input-label" style="width:10%">
+                        <i style="color: #90A4AE;" class="icon ion-android-bar"></i>
+                    </div>
+                    <div style="width:90%;">
+                        <input type="date" ng-model="editedUser.birthday" ng-class="getFontClass()" style="width:100%" ng-style="fontsize">
+                    </div>
+                </li>
+                <ion-checkbox ng-class="getBackgroundClass()" ng-model="editedUser.isJournalist"><span ng-style="fontsize" ng-class="getFontClass()">Are you a journalist?</span></ion-checkbox>
+            </ul>
+        </form>
+        <button ng-disabled="editprofform.$invalid" ng-click="editProfile()" class="button button-stable button-block">Save Changes</button>
+    </ion-content>
+</ion-view>

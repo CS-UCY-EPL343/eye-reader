@@ -1,0 +1,10 @@
+<ion-view title="Add Sources" id="page3">
+    <ion-content padding="false" class="has-header generalPadding" ng-controller="addSourcesCtrl" ng-class="getBackgroundClass()">
+        <div ng-repeat="source in sources.sites">
+            <ion-checkbox ng-class="getBackgroundClass()" id="addSources-checkbox3" ng-click="selectSource(source.Title)">
+                <span ng-style="fontsize" ng-class="getFontClass()" class="normalBlackLetters">{{source.Title}}</span>
+            </ion-checkbox>
+        </div>
+    </ion-content>
+</ion-view>
+

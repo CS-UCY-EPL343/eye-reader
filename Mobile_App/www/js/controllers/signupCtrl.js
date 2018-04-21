@@ -5,20 +5,19 @@ angular
     /**
      * @module signupCtrl
      * @memberof controllerjs
-     * @description Controller controlling the functionalities implemented for the edit sign up view.
+     * @description Controller for the functionalities implemented for the sign up view.
      */
-    .controller("signupCtrl", ["$scope", "UserService", "$window",
-        "$state", "$ionicPopup", "$ionicLoading", "$ionicHistory", "AuthenticationService", "$rootScope",
-        function ($scope, UserService, $window, $state, $ionicPopup, $ionicLoading, $ionicHistory, AuthenticationService, $rootScope) {
-            init();
+    .controller("signupCtrl", ["$scope", "UserService", "$window", "$state", "$ionicPopup", "$ionicLoading", "AuthenticationService", "$rootScope",
+        function ($scope, UserService, $window, $state, $ionicPopup, $ionicLoading, AuthenticationService, $rootScope) {
             var usersSettings = [];
+            init();
 
             /**
               * @function
               * @memberof controllerjs.signupCtrl
-              * @description This function is responsible for sending the values of the new user's profile 
-              * to be saved in the device's local storage and changes from the current page to the login page. 
-              * If the profile saving fails, then an informative message is displayed.
+              * @description Responsible for registering the new user. It sends the new user's info in the UserService 
+              * and if the registration was successful it logins the user, else it displays an informational popup with
+              * the according error message.
               */
             $scope.register = function () {
                 UserService.Create($scope.user).then(function (response) {
@@ -32,9 +31,8 @@ angular
             /**
               * @function
               * @memberof controllerjs.signupCtrl
-              * @param {object} resp - The response message from when trying to save the profile details in the local storage.
-              * @description This function is responsible for displaying an informative message that the new profile could not 
-              * be created.
+              * @param {object} resp The response message from when trying to save the profile details in the local storage.
+              * @description Responsible for displaying an informational error message if the registration has failed.
               */
             function showFailedToRegisterPopup(resp) {
                 var promptAlert = $ionicPopup.show({
@@ -52,10 +50,20 @@ angular
                 $state.go("login");
             }
 
+            /**
+              * @function
+              * @memberof controllerjs.signupCtrl
+              * @description Responsible for creating the local storage entries for the current user.
+              * These entries are:
+              * 1) User Settings
+              * 2) Deleted Articles
+              * 3) Selected Sources
+              * 4) Cached Articles
+              * 5) Saved Articles
+              * 6) Reported Articles
+              */
             function createUserSettings() {
-
                 //creates users settings local storage entry
-
                 var currentUserSettings = {
                     username: $rootScope.activeUser.username,
                     settings: {
@@ -146,24 +154,12 @@ angular
                 $window.sessionStorage.setItem("isNightmode", JSON.stringify(false));
             }
 
-            function loadUserSettings() {
-                usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
-                var currentUserSettings = _.find(usersSettings, function (userSettings) {
-                    return userSettings.username == $scope.user.username;
-                });
-                if (currentUserSettings != null || currentUserSettings != undefined) {
-                    $window.sessionStorage.setItem("isNightmode", JSON.stringify(false));
-                } else {
-                    createUserSettings();
-                }
-            }
-
             /**
               * @function
               * @memberof controllerjs.signupCtrl
-              * @description This function is responsible for requesting from the authentication service to 
-              * login the user in the app. If the service replies with success, then the view is transfered to 
-              * the news feed view. Else an informative message is displayed.
+              * @description Responsible for attempting to login the user. It passes the user's username and password
+              * in the Authentication Service. If the login was successful then the user is redirected tot he news feed 
+              * page. If not then the login failure popup is displayed.
               */
             function login() {
                 $ionicLoading.show({
@@ -178,7 +174,7 @@ angular
                                 $scope.user.username,
                                 $scope.user.password
                             );
-                            loadUserSettings();
+                            createUserSettings();
                             $ionicLoading.hide();
                             $state.go("eyeReader.newsFeed");
                         }
@@ -187,19 +183,21 @@ angular
             };
 
             /**
-            * @function
-            * @memberof controllerjs.signupCtrl
-            * @description This function is responsible for calling all the functions that need to 
-            * be executed when the page is initialized.
-            */
+              * @function
+              * @memberof controllerjs.signupCtrl
+              * @description Responsible for calling all the functions and executing necessary functionalities 
+              * once the page is loaded.
+              * Such functionalities include: 
+              * 1) Initialize sex options for the sex selection dropdown.
+              * 2) Initialized birthday, sex and firstTime login values for the new user.
+              */
             function init() {
                 $ionicLoading.show({
                     template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading...</p>',
                 });
-                //$window.localStorage.clear();
+                $scope.sexOptions = [{ name: "Female", id: 0 }, { name: "Male", id: 1 }, { name: "Other", id: 2 }];
                 //creates ojects for the new user's profile
                 $scope.user = {};
-                $scope.sexOptions = [{ name: "Female", id: 0 }, { name: "Male", id: 1 }, { name: "Other", id: 2 }];
                 $scope.user.sex = 0;
                 $scope.user.birthday = new Date();
                 $scope.user.firstTime = true;

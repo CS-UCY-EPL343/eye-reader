@@ -1,0 +1,22 @@
+<ion-view title="Profile" id="page5">
+    <ion-content padding="true" class="has-header" ng-controller="profileCtrl" ng-class="getBackgroundClass()">
+        <h4 id="profile-heading3" class="boldLetters" style="text-align:center;">{{user.username}}</h4>
+        <button ui-sref="eyeReader.editProfile()" id="profile-button1" class="button button-clear button-small button-block" ng-class="getBackgroundClass()">
+            <span class="sideLetters">Edit Profile</span>
+        </button>
+        <ul class="list">
+            <li ng-class="getBackgroundClass()" class="item item-icon-left">
+                <i style="color: #90A4AE;" class="icon ion-android-person"></i>
+                <span ng-class="getFontClass()" ng-style="fontsize">{{displaySex}}</span>
+            </li>
+            <li ng-class="getBackgroundClass()" class="item item-icon-left">
+                <i style="color: #90A4AE;" class="icon ion-android-bar"></i>
+                <span ng-class="getFontClass()" ng-style="fontsize">{{user.birthday | date:"dd/MM/yyyy"}}</span>
+            </li>
+            <li ng-class="getBackgroundClass()" class="item item-icon-left">
+                <i style="color: #90A4AE;" class="icon ion-android-mail"></i>
+                <span ng-class="getFontClass()" ng-style="fontsize">{{user.email}}</span>
+            </li>
+        </ul>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,54 @@
+<ion-view title="Settings" id="page2">
+    <ion-content padding="false" class="has-header generalPadding" ng-controller="settingsCtrl" ng-class="getBackgroundClass()">
+        <h3 id="settings-heading1" class="boldLetters">Display</h3>
+        <div class="list" ng-cloak>
+            <ion-toggle ng-class="getBackgroundClass()" ng-model="data.isNightmode" ng-change="setNightmode()" ng-cloak>
+                <ul>
+                    <li><span ng-class="getFontClass()" ng-style="selectedFontsize">Night Mode</span></li>
+                    <li><sub>{{!data.isNightmode ? 'off' : 'on'}}</sub></li>
+                </ul>
+            </ion-toggle>
+            <ion-toggle ng-class="getBackgroundClass()" ng-model="data.cachenewsEnabled" type="checkbox" ng-cloak>
+                <ul>
+                    <li><span ng-class="getFontClass()" ng-style="selectedFontsize">Cache News</span></li>
+                    <li><sub>Saves temporarily the 10 first articles</sub></li>
+                </ul>
+            </ion-toggle>
+            <li ng-class="getBackgroundClass()" style="padding-top:16px" class="item range" ng-cloak>
+                <ul>
+                    <li><span ng-class="getFontClass()" ng-style="selectedFontsize">Font Size</span></li>
+                    <li><sub>{{data.fontsizeRange}}px</sub></li>
+                </ul>
+            </li>
+            <li ng-class="getBackgroundClass()" style="border-top:0px;padding-bottom:16px" class="item range" ng-cloak>
+                <input ng-model="data.fontsizeRange" ng-change="fontsizeChange();" type="range" name="Font Size Range" min="14" max="20" step="2">
+            </li>
+        </div>
+        <h3 id="settings-heading2" class="boldLetters">Filtering</h3>
+        <ul class="list">
+            <ion-toggle ng-class="getBackgroundClass()" ng-model="data.markupEnabled" ng-disabled="data.hideEnabled" type="checkbox" ng-cloak>
+                <ul>
+                    <li><span ng-class="getFontClass()" ng-style="selectedFontsize">Markup Toxic</span></li>
+                    <li><sub>Highlights toxic content</sub></li>
+                </ul>
+            </ion-toggle>
+            <ion-toggle ng-class="getBackgroundClass()" ng-disabled="data.markupEnabled" ng-model="data.hideEnabled" type="checkbox" ng-cloak>
+                <ul>
+                    <li><span ng-class="getFontClass()" ng-style="selectedFontsize">Hide Toxic</span></li>
+                    <li><sub>Hides toxic content</sub></li>
+                </ul>
+            </ion-toggle>
+
+            <li ng-class="getBackgroundClass()" style="padding-top:16px" class="item range" ng-cloak>
+                <ul>
+                    <li><span ng-class="getFontClass()" ng-style="selectedFontsize">Tolerance</span></li>
+                    <li><sub>The higher the<wbr> tolerance the<wbr> more tolerant<wbr> you<wbr> are against<wbr> toxic content</sub></li>
+                    <li><sub>{{data.tolerance}}%</sub></li>
+                </ul>
+            </li>
+            <li ng-class="getBackgroundClass()" style="border-top:0px;padding-bottom:16px" class="item range" ng-cloak>
+                <input ng-model="data.tolerance" type="range" min="0" max="100" step="1" name="Tolerance Level Range">
+            </li>
+        </ul>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,104 @@
+<ion-modal-view class="tutorialModal">
+  <ion-content ng-controller="tutorialCtrl">
+    <ion-slides options="options" slider="data.slider">
+      <ion-slide-page class="generalTutorial">
+          <button class="button button-right button-light icon ion-close" ng-click="closeModal()"></button>
+        <div>
+          <h3 class="boldLetters">Edit Profile
+          </h3>
+        </div>
+        <p>1. Click "View your profile" in the side menu.</p>
+        <img src="img/viewYourProfile.png">
+        <p>2. Click "Edit Profile" to edit your personal information.</p>
+        <p>3. Edit your information and save the changes.</p>
+        <img src="img/editProfile.png">
+      </ion-slide-page>
+
+      <ion-slide-page class="generalTutorial">
+          <button class="button button-right button-light icon ion-close" ng-click="closeModal()"></button>
+        <div>
+          <h3 class="boldLetters">Edit Profile</h3>
+        </div>
+        <p>4. By checking the "Are you a journalist" you have the extra perk of adding personal notes, that only you can read and edit, to the articles.</p>
+        <img src="img/editProfile.png">
+      </ion-slide-page>
+
+      <ion-slide-page class="generalTutorial">
+          <button class="button button-right button-light icon ion-close" ng-click="closeModal()"></button>
+        <div>
+          <h3 class="boldLetters">Add Sources</h3>
+        </div>
+        <br/>
+        <p>1. Click "Add Sources" in the side menu.</p>
+        <p>2. Select sources to read articles from.</p>
+        <img src="img/addSources.png">
+      </ion-slide-page>
+
+      <ion-slide-page class="generalTutorial">
+          <button class="button button-right button-light icon ion-close" ng-click="closeModal()"></button>
+        <div>
+          <h3 class="boldLetters">Save Article</h3>
+        </div>
+        <p>1. Slide the small arrow '>' to the left.</p>
+        <p>2. Select the
+          <i style="display:inline-block;" class="icon ion-android-star-outline"></i> to save the article.</p>
+        <img src="img/articleSlide.png">
+        <p>3. The article will be saved in the "Saved" in the side menu.</p>
+        <img src="img/savedArticles.png">
+      </ion-slide-page>
+
+      <ion-slide-page class="generalTutorial">
+          <button class="button button-right button-light icon ion-close" ng-click="closeModal()"></button>
+        <div>
+          <h3 class="boldLetters">Report Article</h3>
+        </div>
+        <p>1. Slide the small arrow '>' to the left.</p>
+        <p>2. Select the
+          <i style="display:inline-block;" class="icon ion-alert-circled"></i> to report the article.</p>
+        <img src="img/articleSlide.png">
+        <p>3. Check the reason you want to report the article.</p>
+        <img src="img/reportModal.png">
+      </ion-slide-page>
+
+      <ion-slide-page class="generalTutorial">
+          <button class="button button-right button-light icon ion-close" ng-click="closeModal()"></button>
+        <div>
+          <h3 class="boldLetters">View Statistics</h3>
+        </div>
+        <p>1. Click "Statistics" in the side menu.</p>
+        <p>2. To see the statistics of a source use the drop down "Select Sources" and select one.</p>
+      </ion-slide-page>
+
+      <ion-slide-page class="generalTutorial">
+          <button class="button button-right button-light icon ion-close" ng-click="closeModal()"></button>
+        <div>
+          <h3 class="boldLetters">View Statistics</h3>
+        </div>
+        <p>3. To change the statistic's type, use the drop down "View Statistics".</p>
+        <p> Report: The percentage of reported articles of a source.</p>
+        <p> Hate speech: The percentage of hate speech in articles or in the comments of a source.</p>
+        <p> Sentiment Analysis: The percenage of negative, positive and neutral response of a source.</p>
+      </ion-slide-page>
+
+      <ion-slide-page class="generalTutorial">
+          <button class="button button-right button-light icon ion-close" ng-click="closeModal()"></button>
+        <div>
+          <h3 class="boldLetters">Settings</h3>
+        </div>
+        <p>1. Click "Settings" in the side menu.</p>
+        <p>2. Enable night mode, change the app's font size and enable article caching for offline reading.</p>
+        <img src="img/settingsDisplay.png">
+      </ion-slide-page>
+
+      <ion-slide-page class="generalTutorial">
+          <button class="button button-right button-light icon ion-close" ng-click="closeModal()"></button>
+        <div>
+          <h3 class="boldLetters">Settings</h3>
+        </div>
+        <p>3. Enable "Markup Toxic" or "Hide Toxic" to highlight or hide toxic content.</p>
+        <p>4. Set your tolerance level against toxic content (the higher the value, the more tolerant you are).</p>
+        <img src="img/settingsFiltering.png">
+      </ion-slide-page>
+    </ion-slides>
+  </ion-content>
+</ion-modal-view>

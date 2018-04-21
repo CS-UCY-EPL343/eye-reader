@@ -11,9 +11,12 @@
                 <p ng-class="getNightmodeHeaderClass()" ng-style="fontsize" class="sideLetters">Source: {{article.SourceTitle}}</p>
                 <p ng-class="getNightmodeHeaderClass()" ng-style="fontsize" class="sideLetters">{{article.Author}} | {{article.Date}}</p>
                 <div>
-                    <img ng-click="openPopover($event)" style="position:absolute;top:0;bottom:0;right:0;margin:auto;width:20%;" ng-if="article.SentimentGrade > 0" src="img/happy_face.png">
-                    <img ng-click="openPopover($event)" style="position:absolute;top:0;bottom:0;right:0;margin:auto;width:20%;" ng-if="article.SentimentGrade == 0" src="img/neutral_face.png">
-                    <img ng-click="openPopover($event)" style="position:absolute;top:0;bottom:0;right:0;margin:auto;width:20%;" ng-if="article.SentimentGrade < 0" src="img/sad_face.png">
+                    <img ng-click="openPopover($event)" style="position:absolute;top:0;bottom:0;right:0;margin:auto;width:20%;" ng-if="article.SentimentGrade > 0"
+                        src="img/happy_face.png">
+                    <img ng-click="openPopover($event)" style="position:absolute;top:0;bottom:0;right:0;margin:auto;width:20%;" ng-if="article.SentimentGrade == 0"
+                        src="img/neutral_face.png">
+                    <img ng-click="openPopover($event)" style="position:absolute;top:0;bottom:0;right:0;margin:auto;width:20%;" ng-if="article.SentimentGrade < 0"
+                        src="img/sad_face.png">
                 </div>
             </div>
             <div>
@@ -71,7 +74,7 @@
     </ion-content>
 </ion-view>
 
-<script id = "popover.html" type = "text/ng-template">
+<script id="popover.html" type="text/ng-template">
    <ion-popover-view>
       <ion-header-bar>
          <h1 style="text-align:center" class = "title">Sentiment Grade: {{article.SentimentGrade}}</h1>

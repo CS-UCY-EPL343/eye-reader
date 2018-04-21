@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>  | Documentation</title>
+  <title>eyeReader 0.0.1 | Documentation</title>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
   <link href='assets/bass.css' type='text/css' rel='stylesheet' />
   <link href='assets/style.css' type='text/css' rel='stylesheet' />
@@ -13,8 +13,8 @@
     <div class='flex'>
       <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
         <div class='py1 px2'>
-          <h3 class='mb0 no-anchor'></h3>
-          <div class='mb1'><code></code></div>
+          <h3 class='mb0 no-anchor'>eyeReader</h3>
+          <div class='mb1'><code>0.0.1</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
@@ -25,9 +25,9 @@
               
                 
                 <li><a
-                  href='#appjs'
+                  href='#addsourcesctrl'
                   class=" toggle-sibling">
-                  appjs
+                  addSourcesCtrl
                   <span class='icon'>▸</span>
                 </a>
                 
@@ -37,9 +37,51 @@
                     <li class='h5'><span>Static members</span></li>
                     
                       <li><a
-                        href='#appjsrun'
+                        href='#addsourcesctrlioniconbeforeenter'
                         class='regular pre-open'>
-                        .run
+                        .$ionic.on.beforeEnter
+                      </a></li>
+                    
+                      <li><a
+                        href='#addsourcesctrlgetfontsize'
+                        class='regular pre-open'>
+                        .getFontSize
+                      </a></li>
+                    
+                      <li><a
+                        href='#addsourcesctrlgetbackgroundclass'
+                        class='regular pre-open'>
+                        .getBackgroundClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#addsourcesctrlgetfontclass'
+                        class='regular pre-open'>
+                        .getFontClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#addsourcesctrlselect_deselectsource'
+                        class='regular pre-open'>
+                        .select_deselectSource
+                      </a></li>
+                    
+                      <li><a
+                        href='#addsourcesctrlselectsource'
+                        class='regular pre-open'>
+                        .selectSource
+                      </a></li>
+                    
+                      <li><a
+                        href='#addsourcesctrldeselectsource'
+                        class='regular pre-open'>
+                        .deselectSource
+                      </a></li>
+                    
+                      <li><a
+                        href='#addsourcesctrlinit'
+                        class='regular pre-open'>
+                        .init
                       </a></li>
                     
                     </ul>
@@ -53,9 +95,9 @@
               
                 
                 <li><a
-                  href='#controllerjs'
+                  href='#articlectrl'
                   class=" toggle-sibling">
-                  controllerjs
+                  articleCtrl
                   <span class='icon'>▸</span>
                 </a>
                 
@@ -65,81 +107,827 @@
                     <li class='h5'><span>Static members</span></li>
                     
                       <li><a
-                        href='#controllerjsaddsourcesctrl'
+                        href='#articlectrldisplaytoast'
                         class='regular pre-open'>
-                        .addSourcesCtrl
+                        .displayToast
                       </a></li>
                     
                       <li><a
-                        href='#controllerjsarticlectrl'
+                        href='#articlectrlioniconbeforeenter'
                         class='regular pre-open'>
-                        .articleCtrl
+                        .$ionic.on.beforeEnter
                       </a></li>
                     
                       <li><a
-                        href='#controllerjseditprofilectrl'
+                        href='#articlectrlshowreportoptions'
                         class='regular pre-open'>
-                        .editProfileCtrl
+                        .showReportOptions
                       </a></li>
                     
                       <li><a
-                        href='#controllerjseyereaderctrl'
+                        href='#articlectrlisarticlereported'
                         class='regular pre-open'>
-                        .eyeReaderCtrl
+                        .isArticleReported
                       </a></li>
                     
                       <li><a
-                        href='#controllerjsloginctrl'
+                        href='#articlectrlsave_unsavearticle'
                         class='regular pre-open'>
-                        .loginCtrl
+                        .save_unsaveArticle
                       </a></li>
                     
                       <li><a
-                        href='#controllerjsnewsfeedctrl'
+                        href='#articlectrlsavearticle'
                         class='regular pre-open'>
-                        .newsFeedCtrl
+                        .saveArticle
                       </a></li>
                     
                       <li><a
-                        href='#controllerjsprofilectrl'
+                        href='#articlectrlunsavearticle'
                         class='regular pre-open'>
-                        .profileCtrl
+                        .unsaveArticle
                       </a></li>
                     
                       <li><a
-                        href='#controllerjssavedarticlesctrl'
+                        href='#articlectrlisarticlesaved'
                         class='regular pre-open'>
-                        .savedArticlesCtrl
+                        .isArticleSaved
                       </a></li>
                     
                       <li><a
-                        href='#controllerjssettingsctrl'
+                        href='#articlectrldeletearticle'
                         class='regular pre-open'>
-                        .settingsCtrl
+                        .deleteArticle
                       </a></li>
                     
                       <li><a
-                        href='#controllerjssignupctrl'
+                        href='#articlectrlisdeleted'
                         class='regular pre-open'>
-                        .signupCtrl
+                        .isDeleted
                       </a></li>
                     
                       <li><a
-                        href='#controllerjsstatisticsctrl'
+                        href='#articlectrlshowdeleteconfirm'
                         class='regular pre-open'>
-                        .statisticsCtrl
+                        .showDeleteConfirm
                       </a></li>
                     
                       <li><a
-                        href='#controllerjsreportarticlectrl'
+                        href='#articlectrlsavenotes'
                         class='regular pre-open'>
-                        .reportArticleCtrl
+                        .saveNotes
                       </a></li>
                     
                       <li><a
-                        href='#controllerjswelcomectrl'
+                        href='#articlectrlgetfontsize'
                         class='regular pre-open'>
-                        .welcomeCtrl
+                        .getFontSize
+                      </a></li>
+                    
+                      <li><a
+                        href='#articlectrlgetbackgroundclass'
+                        class='regular pre-open'>
+                        .getBackgroundClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#articlectrlgetfontclass'
+                        class='regular pre-open'>
+                        .getFontClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#articlectrlgetnightmodeheaderclass'
+                        class='regular pre-open'>
+                        .getNightmodeHeaderClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#articlectrlloadnotes'
+                        class='regular pre-open'>
+                        .loadNotes
+                      </a></li>
+                    
+                      <li><a
+                        href='#articlectrlgetnecessarydata'
+                        class='regular pre-open'>
+                        .getNecessaryData
+                      </a></li>
+                    
+                      <li><a
+                        href='#articlectrlinit'
+                        class='regular pre-open'>
+                        .init
+                      </a></li>
+                    
+                    </ul>
+                  
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#editprofilectrl'
+                  class=" toggle-sibling">
+                  editProfileCtrl
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  <ul class='list-reset py1-ul pl1'>
+                    <li class='h5'><span>Static members</span></li>
+                    
+                      <li><a
+                        href='#editprofilectrlioniconbeforeenter'
+                        class='regular pre-open'>
+                        .$ionic.on.beforeEnter
+                      </a></li>
+                    
+                      <li><a
+                        href='#editprofilectrlgetfontsize'
+                        class='regular pre-open'>
+                        .getFontSize
+                      </a></li>
+                    
+                      <li><a
+                        href='#editprofilectrlgetbackgroundclass'
+                        class='regular pre-open'>
+                        .getBackgroundClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#editprofilectrlgetfontclass'
+                        class='regular pre-open'>
+                        .getFontClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#editprofilectrlupdatestorage'
+                        class='regular pre-open'>
+                        .UpdateStorage
+                      </a></li>
+                    
+                      <li><a
+                        href='#editprofilectrleditprofile'
+                        class='regular pre-open'>
+                        .editProfile
+                      </a></li>
+                    
+                      <li><a
+                        href='#editprofilectrlinit'
+                        class='regular pre-open'>
+                        .init
+                      </a></li>
+                    
+                    </ul>
+                  
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#eyereaderctrl'
+                  class=" toggle-sibling">
+                  eyeReaderCtrl
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  <ul class='list-reset py1-ul pl1'>
+                    <li class='h5'><span>Static members</span></li>
+                    
+                      <li><a
+                        href='#eyereaderctrlrootscopeonusernamechange'
+                        class='regular pre-open'>
+                        .$rootScope.$on.usernameChange
+                      </a></li>
+                    
+                      <li><a
+                        href='#eyereaderctrlrootscopeonnightmodechange'
+                        class='regular pre-open'>
+                        .$rootScope.$on.nightmodeChange
+                      </a></li>
+                    
+                      <li><a
+                        href='#eyereaderctrlrootscopeonfontsizechange'
+                        class='regular pre-open'>
+                        .$rootScope.$on.fontsizeChange
+                      </a></li>
+                    
+                      <li><a
+                        href='#eyereaderctrlgetbackgroundclass'
+                        class='regular pre-open'>
+                        .getBackgroundClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#eyereaderctrlgetfontclass'
+                        class='regular pre-open'>
+                        .getFontClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#eyereaderctrlgetsidemenuiconclass'
+                        class='regular pre-open'>
+                        .getSidemenuIconClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#eyereaderctrlgetnightmodeheaderclass'
+                        class='regular pre-open'>
+                        .getNightmodeHeaderClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#eyereaderctrllogout'
+                        class='regular pre-open'>
+                        .logout
+                      </a></li>
+                    
+                      <li><a
+                        href='#eyereaderctrlinit'
+                        class='regular pre-open'>
+                        .init
+                      </a></li>
+                    
+                    </ul>
+                  
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#loginctrl'
+                  class=" toggle-sibling">
+                  loginCtrl
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  <ul class='list-reset py1-ul pl1'>
+                    <li class='h5'><span>Static members</span></li>
+                    
+                      <li><a
+                        href='#loginctrlcreateusersettings'
+                        class='regular pre-open'>
+                        .createUserSettings
+                      </a></li>
+                    
+                      <li><a
+                        href='#loginctrlfindusersettings'
+                        class='regular pre-open'>
+                        .findUserSettings
+                      </a></li>
+                    
+                      <li><a
+                        href='#loginctrlshowfailedtologinpopup'
+                        class='regular pre-open'>
+                        .showFailedToLoginPopup
+                      </a></li>
+                    
+                      <li><a
+                        href='#loginctrllogin'
+                        class='regular pre-open'>
+                        .login
+                      </a></li>
+                    
+                    </ul>
+                  
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#newsfeedctrl'
+                  class=" toggle-sibling">
+                  newsFeedCtrl
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  <ul class='list-reset py1-ul pl1'>
+                    <li class='h5'><span>Static members</span></li>
+                    
+                      <li><a
+                        href='#newsfeedctrldisplaytoast'
+                        class='regular pre-open'>
+                        .displayToast
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrlstartrepeatarticlefetch'
+                        class='regular pre-open'>
+                        .startRepeatArticleFetch
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrlstoprepeatarticlefetch'
+                        class='regular pre-open'>
+                        .stopRepeatArticleFetch
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrlioniconbeforeenter'
+                        class='regular pre-open'>
+                        .$ionic.on.beforeEnter
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrlgetfontsize'
+                        class='regular pre-open'>
+                        .getFontSize
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrlshowreportoptions'
+                        class='regular pre-open'>
+                        .showReportOptions
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrlisarticlereported'
+                        class='regular pre-open'>
+                        .isArticleReported
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrlsave_unsavearticle'
+                        class='regular pre-open'>
+                        .save_unsaveArticle
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrlsavearticle'
+                        class='regular pre-open'>
+                        .saveArticle
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrlisarticlesaved'
+                        class='regular pre-open'>
+                        .isArticleSaved
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrldeletearticle'
+                        class='regular pre-open'>
+                        .deleteArticle
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrlisdeleted'
+                        class='regular pre-open'>
+                        .isDeleted
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrlshowdeleteconfirm'
+                        class='regular pre-open'>
+                        .showDeleteConfirm
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrlunsavearticle'
+                        class='regular pre-open'>
+                        .unsaveArticle
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrldorefresh'
+                        class='regular pre-open'>
+                        .doRefresh
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrlgetbackgroundclass'
+                        class='regular pre-open'>
+                        .getBackgroundClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrlgetfontclass'
+                        class='regular pre-open'>
+                        .getFontClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrlgetnightmodeheaderclass'
+                        class='regular pre-open'>
+                        .getNightmodeHeaderClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrlarticletapped'
+                        class='regular pre-open'>
+                        .articleTapped
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrlcachearticles'
+                        class='regular pre-open'>
+                        .cacheArticles
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrlemptycache'
+                        class='regular pre-open'>
+                        .emptyCache
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrlopentutorial'
+                        class='regular pre-open'>
+                        .openTutorial
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrlrequestarticles'
+                        class='regular pre-open'>
+                        .requestArticles
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrlloadnecessarydata'
+                        class='regular pre-open'>
+                        .loadNecessaryData
+                      </a></li>
+                    
+                      <li><a
+                        href='#newsfeedctrlinit'
+                        class='regular pre-open'>
+                        .init
+                      </a></li>
+                    
+                    </ul>
+                  
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#profilectrl'
+                  class=" toggle-sibling">
+                  profileCtrl
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  <ul class='list-reset py1-ul pl1'>
+                    <li class='h5'><span>Static members</span></li>
+                    
+                      <li><a
+                        href='#profilectrlioniconbeforeenter'
+                        class='regular pre-open'>
+                        .$ionic.on.beforeEnter
+                      </a></li>
+                    
+                      <li><a
+                        href='#profilectrlgetfontsize'
+                        class='regular pre-open'>
+                        .getFontSize
+                      </a></li>
+                    
+                      <li><a
+                        href='#profilectrlgetbackgroundclass'
+                        class='regular pre-open'>
+                        .getBackgroundClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#profilectrlgetfontclass'
+                        class='regular pre-open'>
+                        .getFontClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#profilectrlinit'
+                        class='regular pre-open'>
+                        .init
+                      </a></li>
+                    
+                    </ul>
+                  
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#savedarticlesctrl'
+                  class=" toggle-sibling">
+                  savedArticlesCtrl
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  <ul class='list-reset py1-ul pl1'>
+                    <li class='h5'><span>Static members</span></li>
+                    
+                      <li><a
+                        href='#savedarticlesctrldisplaytoast'
+                        class='regular pre-open'>
+                        .displayToast
+                      </a></li>
+                    
+                      <li><a
+                        href='#savedarticlesctrlbeforeenter'
+                        class='regular pre-open'>
+                        .beforeEnter
+                      </a></li>
+                    
+                      <li><a
+                        href='#savedarticlesctrlgetfontsize'
+                        class='regular pre-open'>
+                        .getFontSize
+                      </a></li>
+                    
+                      <li><a
+                        href='#savedarticlesctrlgetbackgroundclass'
+                        class='regular pre-open'>
+                        .getBackgroundClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#savedarticlesctrlgetfontclass'
+                        class='regular pre-open'>
+                        .getFontClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#savedarticlesctrlgetnightmodeheaderclass'
+                        class='regular pre-open'>
+                        .getNightmodeHeaderClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#savedarticlesctrlunsavearticle'
+                        class='regular pre-open'>
+                        .unsaveArticle
+                      </a></li>
+                    
+                      <li><a
+                        href='#savedarticlesctrlshowreportoptions'
+                        class='regular pre-open'>
+                        .showReportOptions
+                      </a></li>
+                    
+                      <li><a
+                        href='#savedarticlesctrlisarticlereported'
+                        class='regular pre-open'>
+                        .isArticleReported
+                      </a></li>
+                    
+                      <li><a
+                        href='#savedarticlesctrlinit'
+                        class='regular pre-open'>
+                        .init
+                      </a></li>
+                    
+                    </ul>
+                  
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#settingsctrl'
+                  class=" toggle-sibling">
+                  settingsCtrl
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  <ul class='list-reset py1-ul pl1'>
+                    <li class='h5'><span>Static members</span></li>
+                    
+                      <li><a
+                        href='#settingsctrlsaveusersettings'
+                        class='regular pre-open'>
+                        .saveUserSettings
+                      </a></li>
+                    
+                      <li><a
+                        href='#settingsctrlsetnightmode'
+                        class='regular pre-open'>
+                        .setNightmode
+                      </a></li>
+                    
+                      <li><a
+                        href='#settingsctrlwatch'
+                        class='regular pre-open'>
+                        .$watch
+                      </a></li>
+                    
+                      <li><a
+                        href='#settingsctrlgetbackgroundclass'
+                        class='regular pre-open'>
+                        .getBackgroundClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#settingsctrlgetfontclass'
+                        class='regular pre-open'>
+                        .getFontClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#settingsctrlinit'
+                        class='regular pre-open'>
+                        .init
+                      </a></li>
+                    
+                    </ul>
+                  
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#signupctrl'
+                  class=" toggle-sibling">
+                  signupCtrl
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  <ul class='list-reset py1-ul pl1'>
+                    <li class='h5'><span>Static members</span></li>
+                    
+                      <li><a
+                        href='#signupctrlregister'
+                        class='regular pre-open'>
+                        .register
+                      </a></li>
+                    
+                      <li><a
+                        href='#signupctrlshowfailedtoregisterpopup'
+                        class='regular pre-open'>
+                        .showFailedToRegisterPopup
+                      </a></li>
+                    
+                      <li><a
+                        href='#signupctrlcreateusersettings'
+                        class='regular pre-open'>
+                        .createUserSettings
+                      </a></li>
+                    
+                      <li><a
+                        href='#signupctrllogin'
+                        class='regular pre-open'>
+                        .login
+                      </a></li>
+                    
+                      <li><a
+                        href='#signupctrlinit'
+                        class='regular pre-open'>
+                        .init
+                      </a></li>
+                    
+                    </ul>
+                  
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#statisticsctrl'
+                  class=" toggle-sibling">
+                  statisticsCtrl
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  <ul class='list-reset py1-ul pl1'>
+                    <li class='h5'><span>Static members</span></li>
+                    
+                      <li><a
+                        href='#statisticsctrlioniconbeforeenter'
+                        class='regular pre-open'>
+                        .$ionic.on.beforeEnter
+                      </a></li>
+                    
+                      <li><a
+                        href='#statisticsctrlgetfontsize'
+                        class='regular pre-open'>
+                        .getFontSize
+                      </a></li>
+                    
+                      <li><a
+                        href='#statisticsctrlgetbackgroundclass'
+                        class='regular pre-open'>
+                        .getBackgroundClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#statisticsctrlgetfontclass'
+                        class='regular pre-open'>
+                        .getFontClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#statisticsctrlgetnightmodeheaderclass'
+                        class='regular pre-open'>
+                        .getNightmodeHeaderClass
+                      </a></li>
+                    
+                      <li><a
+                        href='#statisticsctrlsetgraphoptions'
+                        class='regular pre-open'>
+                        .setGraphOptions
+                      </a></li>
+                    
+                      <li><a
+                        href='#statisticsctrlinit'
+                        class='regular pre-open'>
+                        .init
+                      </a></li>
+                    
+                      <li><a
+                        href='#statisticsctrlrequeststatistics'
+                        class='regular pre-open'>
+                        .requestStatistics
+                      </a></li>
+                    
+                    </ul>
+                  
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#reportarticlectrl'
+                  class="">
+                  reportArticleCtrl
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#welcomectrl'
+                  class=" toggle-sibling">
+                  welcomeCtrl
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  <ul class='list-reset py1-ul pl1'>
+                    <li class='h5'><span>Static members</span></li>
+                    
+                      <li><a
+                        href='#welcomectrlgotologin'
+                        class='regular pre-open'>
+                        .goToLogin
                       </a></li>
                     
                     </ul>
@@ -168,12 +956,6 @@
                         href='#servicesjsapplication'
                         class='regular pre-open'>
                         .Application
-                      </a></li>
-                    
-                      <li><a
-                        href='#servicesjssharedprops'
-                        class='regular pre-open'>
-                        .sharedProps
                       </a></li>
                     
                       <li><a
@@ -218,270 +1000,15 @@
   
   <div class='clearfix'>
     
-    <h3 class='fl m0' id='appjs'>
-      appjs
+    <h3 class='fl m0' id='addsourcesctrl'>
+      addSourcesCtrl
     </h3>
     
     
   </div>
   
 
-  <p>Default module create by Ionic v1 and and AngularJS for app operations.</p>
-
-
-  <div class='pre p1 fill-light mt0'>appjs</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Static Members</div>
-    <div class="clearfix">
-  
-    <div class='border-bottom' id='appjsrun'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>run</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Operations executed during runtime.</p>
-
-
-  <div class='pre p1 fill-light mt0'>run</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Static Members</div>
-    <div class="clearfix">
-  
-    <div class='border-bottom' id='appjsrunionicplatformon'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>$ionicPlatform.on</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  
-
-  <div class='pre p1 fill-light mt0'>$ionicPlatform.on</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>type</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    See 
-<a href="https://ionicframework.com/docs/v1/api/service/$ionicPlatform/">https://ionicframework.com/docs/v1/api/service/$ionicPlatform/</a>
- for more details
-
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='appjsrunsaveusersettings'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>saveUserSettings()</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>This function is responsible for saving the currently logged in user's settings
-in the device's local storage. It creates a temporary array that holds the user's settings. Then
-it retrieves the settings of all the users from the local storage, filters out the current logged in
-user's settings and saves the new settings.</p>
-
-
-  <div class='pre p1 fill-light mt0'>saveUserSettings()</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-</div>
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-</div>
-
-  
-
-  
-
-  
-</section>
-
-          
-        
-          
-            <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
-    <h3 class='fl m0' id='controllerjs'>
-      controllerjs
-    </h3>
-    
-    
-  </div>
-  
-
-  <p>Default module create by Ionic v1 and AngularJS for controlling the views in the app.</p>
-
-
-  <div class='pre p1 fill-light mt0'>controllerjs</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Static Members</div>
-    <div class="clearfix">
-  
-    <div class='border-bottom' id='controllerjsaddsourcesctrl'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>addSourcesCtrl</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Controller controlling the functionalities implemented for the Add Sources page.</p>
+  <p>Controller for the functionalities implemented for the add sources view.</p>
 
 
   <div class='pre p1 fill-light mt0'>addSourcesCtrl</div>
@@ -509,7 +1036,7 @@ user's settings and saves the new settings.</p>
     <div class='py1 quiet mt1 prose-big'>Static Members</div>
     <div class="clearfix">
   
-    <div class='border-bottom' id='controllerjsaddsourcesctrlioniconbeforeenter'>
+    <div class='border-bottom' id='addsourcesctrlioniconbeforeenter'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -557,7 +1084,7 @@ Actions taken: 1) Gets the nightmode setting value in order to set the page to n
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsaddsourcesctrlgetfontsize'>
+    <div class='border-bottom' id='addsourcesctrlgetfontsize'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -569,9 +1096,8 @@ Actions taken: 1) Gets the nightmode setting value in order to set the page to n
 
   
 
-  <p>This function is responsible for retrieving the selected font size from the
-shared properties space and set the value into scope variables in order to be used in
-the page and set the page's font size.</p>
+  <p>Sets 2 scope variables that represent 2 different font-sizes. These variables
+are used in the page as ng-style attributes.</p>
 
 
   <div class='pre p1 fill-light mt0'>getFontSize()</div>
@@ -605,7 +1131,7 @@ the page and set the page's font size.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsaddsourcesctrlgetbackgroundclass'>
+    <div class='border-bottom' id='addsourcesctrlgetbackgroundclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -617,8 +1143,9 @@ the page and set the page's font size.</p>
 
   
 
-  <p>This function is responsible for retrieving the class used in the background
-in order to set the background to nightmode/lightmode.</p>
+  <p>Sets the appropriate background class in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+background.</p>
 
 
   <div class='pre p1 fill-light mt0'>getBackgroundClass()</div>
@@ -652,7 +1179,7 @@ in order to set the background to nightmode/lightmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsaddsourcesctrlgetfontclass'>
+    <div class='border-bottom' id='addsourcesctrlgetfontclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -664,8 +1191,9 @@ in order to set the background to nightmode/lightmode.</p>
 
   
 
-  <p>This function is responsible for retrieving the class used in the font style
-in order to set the font style to nightmode/lightmode.</p>
+  <p>Sets the appropriate font color class in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+font-color.</p>
 
 
   <div class='pre p1 fill-light mt0'>getFontClass()</div>
@@ -699,11 +1227,11 @@ in order to set the font style to nightmode/lightmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsaddsourcesctrlselect_deselectsource'>
+    <div class='border-bottom' id='addsourcesctrlselect_deselectsource'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>select_deselectSource(sourceURL, sourceTitle)</span>
+            <span class='code strong strong truncate'>select_deselectSource(sourceTitle)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -711,11 +1239,13 @@ in order to set the font style to nightmode/lightmode.</p>
 
   
 
-  <p>This function is responsible for selecting a source and displaying an
-informational message.</p>
+  <p>Selects or deselects a source. It searches the param given in the array of
+selected sources for the current user. If the index is found then it removes the source
+fromt he array, else it adds it. Then the newly selected sources are saved in the local
+storage.</p>
 
 
-  <div class='pre p1 fill-light mt0'>select_deselectSource(sourceURL: any, sourceTitle: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
+  <div class='pre p1 fill-light mt0'>select_deselectSource(sourceTitle: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
   
   
 
@@ -729,14 +1259,6 @@ informational message.</p>
   
     <div class='py1 quiet mt1 prose-big'>Parameters</div>
     <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>sourceURL</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
       
         <div class='space-bottom0'>
           <div>
@@ -768,11 +1290,11 @@ informational message.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsaddsourcesctrlselectsource'>
+    <div class='border-bottom' id='addsourcesctrlselectsource'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>selectSource(sourceURL)</span>
+            <span class='code strong strong truncate'>selectSource(sourceTitle)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -780,10 +1302,10 @@ informational message.</p>
 
   
 
-  <p>Adds the selected source to the array with all the selected sources</p>
+  <p>Adds the selected source to the array with all the current user's selected sources.</p>
 
 
-  <div class='pre p1 fill-light mt0'>selectSource(sourceURL: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
+  <div class='pre p1 fill-light mt0'>selectSource(sourceTitle: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
   
   
 
@@ -797,88 +1319,11 @@ informational message.</p>
   
     <div class='py1 quiet mt1 prose-big'>Parameters</div>
     <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>sourceURL</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    The URL of the selected source
-
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='controllerjsaddsourcesctrldeselectsource'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>deselectSource(sourceURL, index, sourceTitle)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>This function is responsible for deselecting a source and displaying an
-informational message.</p>
-
-
-  <div class='pre p1 fill-light mt0'>deselectSource(sourceURL: any, index: any, sourceTitle: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>sourceURL</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>index</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
       
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>sourceTitle</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    The title of the deselected source
+	    The Title of the selected source
 
           </div>
           
@@ -905,7 +1350,67 @@ informational message.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsaddsourcesctrlinit'>
+    <div class='border-bottom' id='addsourcesctrldeselectsource'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>deselectSource(index)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Removes the selected source from the array with all the current user's selected sources.</p>
+
+
+  <div class='pre p1 fill-light mt0'>deselectSource(index: int)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>index</span> <code class='quiet'>(int)</code>
+	    The index of the deselected source
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='addsourcesctrlinit'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -917,8 +1422,13 @@ informational message.</p>
 
   
 
-  <p>This function is responsible for calling all the functions that need to
-be executed when the page is initialized.</p>
+  <p>Responsible for calling all the functions and executing necessary functionalities
+once the page is loaded.
+Such functionalities include:
+1) Loading current user's selected sources.
+2) Loading current user's selected font size.
+3) If the device is connected to the internet it fetches sources from the server and checks them if
+they were previously selected from the user.</p>
 
 
   <div class='pre p1 fill-light mt0'>init()</div>
@@ -961,22 +1471,23 @@ be executed when the page is initialized.</p>
   
 </section>
 
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='controllerjsarticlectrl'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>articleCtrl</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='articlectrl'>
+      articleCtrl
+    </h3>
+    
+    
+  </div>
+  
 
-  <p>Controller controlling the functionalities implemented for the article view.</p>
+  <p>Controller for the functionalities implemented for the article view.</p>
 
 
   <div class='pre p1 fill-light mt0'>articleCtrl</div>
@@ -1004,7 +1515,78 @@ be executed when the page is initialized.</p>
     <div class='py1 quiet mt1 prose-big'>Static Members</div>
     <div class="clearfix">
   
-    <div class='border-bottom' id='controllerjsarticlectrlioniconbeforeenter'>
+    <div class='border-bottom' id='articlectrldisplaytoast'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>displayToast(message, duration)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Executes actions before this page is loaded into view.
+Actions taken: 1) Gets the nightmode setting value in order to set the page to nightmode
+2) Gets the font size selected by the user in order to set it to the whole page</p>
+
+
+  <div class='pre p1 fill-light mt0'>displayToast(message: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, duration: int)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>message</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    The message to display
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>duration</span> <code class='quiet'>(int)</code>
+	    The duration of the display
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='articlectrlioniconbeforeenter'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -1052,7 +1634,463 @@ Actions taken: 1) Gets the nightmode setting value in order to set the page to n
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsarticlectrlsavenotes'>
+    <div class='border-bottom' id='articlectrlshowreportoptions'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>showReportOptions()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Responsible for displaying the report modal template. If the user selects either one
+or both of the options and clicks "Confirm", then a request is sent to the server with the reported
+article's source title for further statistics calculations.</p>
+
+
+  <div class='pre p1 fill-light mt0'>showReportOptions()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='articlectrlisarticlereported'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>isArticleReported()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Responsible for checking whether the current article has already been reported.
+It searches in an array, that is saved in the local storage and returns true if the article is contained
+or false if it's not.</p>
+
+
+  <div class='pre p1 fill-light mt0'>isArticleReported(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
+        True if it's reported, False if it's not
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='articlectrlsave_unsavearticle'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>save_unsaveArticle()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Responsible for saving or unsaving the article from the current user's saved articles that are
+located in the local storage. It checks if the article is already saved, by checking in the article's id is
+contained in an array with the current user's saved articles. If it is, then it removes it, else it adds it
+and then stores the saved articles back in the local storage. Lastly, it shows an informational toast that
+the article has been removed/added.</p>
+
+
+  <div class='pre p1 fill-light mt0'>save_unsaveArticle()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='articlectrlsavearticle'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>saveArticle()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Responsible for adding the article's id to the current user's saved articles. Once added,
+the saved articles are stored back in the local storage.</p>
+
+
+  <div class='pre p1 fill-light mt0'>saveArticle()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='articlectrlunsavearticle'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>unsaveArticle()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Responsible for removing the article's id from the current user's saved articles. Once removed,
+the saved articles are stored back in the local storage.</p>
+
+
+  <div class='pre p1 fill-light mt0'>unsaveArticle()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='articlectrlisarticlesaved'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>isArticleSaved()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Responsible for checking whether the current article has already been saved.
+It searches in an array, that is saved in the local storage and returns true if the article is contained
+or false if it's not.</p>
+
+
+  <div class='pre p1 fill-light mt0'>isArticleSaved(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
+        True if it's saved, False if it's not
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='articlectrldeletearticle'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>deleteArticle()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Responsible for removing the article's id from the current user's saved articles. Once removed,
+the saved articles are stored back in the local storage.</p>
+
+
+  <div class='pre p1 fill-light mt0'>deleteArticle()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='articlectrlisdeleted'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>isDeleted()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Responsible for checking whether the current article has already been deleted.
+It searches in an array, that is saved in the local storage and returns true if the article is contained
+or false if it's not.</p>
+
+
+  <div class='pre p1 fill-light mt0'>isDeleted(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
+        True if it's deleted, False if it's not
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='articlectrlshowdeleteconfirm'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>showDeleteConfirm()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Responsible for displaying the delete modal template. If the user clicks "Confirm",
+then the article's id is added in an array with all the current user's deleted articles. Then the array
+is stored back in the local storage. Lastly, it displays an informational toast that the article
+has been deleted.</p>
+
+
+  <div class='pre p1 fill-light mt0'>showDeleteConfirm()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='articlectrlsavenotes'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -1064,7 +2102,8 @@ Actions taken: 1) Gets the nightmode setting value in order to set the page to n
 
   
 
-  <p>Saves the written notes to the device's local storage</p>
+  <p>Responsible for finding the current article's notes from the local storage entry of the
+current user and store on top of them the new notes.</p>
 
 
   <div class='pre p1 fill-light mt0'>saveNotes()</div>
@@ -1098,7 +2137,7 @@ Actions taken: 1) Gets the nightmode setting value in order to set the page to n
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsarticlectrlgetfontsize'>
+    <div class='border-bottom' id='articlectrlgetfontsize'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -1110,9 +2149,8 @@ Actions taken: 1) Gets the nightmode setting value in order to set the page to n
 
   
 
-  <p>This function is responsible for retrieving the selected font size from the
-shared properties space and set the value into scope variables in order to be used in
-the page and set the page's font size.</p>
+  <p>Sets 2 scope variables that represent 2 different font-sizes. These variables
+are used in the page as ng-style attributes.</p>
 
 
   <div class='pre p1 fill-light mt0'>getFontSize()</div>
@@ -1146,7 +2184,7 @@ the page and set the page's font size.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsarticlectrlgetbackgroundclass'>
+    <div class='border-bottom' id='articlectrlgetbackgroundclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -1158,8 +2196,9 @@ the page and set the page's font size.</p>
 
   
 
-  <p>This function is responsible for retrieving the class used in the background
-in order to set the background to nightmode/lightmode.</p>
+  <p>Sets the appropriate background class in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+background.</p>
 
 
   <div class='pre p1 fill-light mt0'>getBackgroundClass()</div>
@@ -1193,7 +2232,7 @@ in order to set the background to nightmode/lightmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsarticlectrlgetfontclass'>
+    <div class='border-bottom' id='articlectrlgetfontclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -1205,8 +2244,9 @@ in order to set the background to nightmode/lightmode.</p>
 
   
 
-  <p>This function is responsible for retrieving the class used in the font style
-in order to set the font style to nightmode/lightmode.</p>
+  <p>Sets the appropriate font color class in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+font-color.</p>
 
 
   <div class='pre p1 fill-light mt0'>getFontClass()</div>
@@ -1240,7 +2280,7 @@ in order to set the font style to nightmode/lightmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsarticlectrlgetnightmodeheaderclass'>
+    <div class='border-bottom' id='articlectrlgetnightmodeheaderclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -1252,8 +2292,9 @@ in order to set the font style to nightmode/lightmode.</p>
 
   
 
-  <p>This function is responsible for retrieving the class used in the header<br>
-in order to set the header to nightmode/lightmode.</p>
+  <p>Sets the appropriate font style class for headers in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+font-color.</p>
 
 
   <div class='pre p1 fill-light mt0'>getNightmodeHeaderClass()</div>
@@ -1287,7 +2328,100 @@ in order to set the header to nightmode/lightmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsarticlectrlinit'>
+    <div class='border-bottom' id='articlectrlloadnotes'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>loadNotes()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Responsible for finding the current article's notes from the local storage entry of the
+current user.</p>
+
+
+  <div class='pre p1 fill-light mt0'>loadNotes()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='articlectrlgetnecessarydata'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>getNecessaryData()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Responsible for loading all the necessary data from the local storage for the current user.</p>
+
+
+  <div class='pre p1 fill-light mt0'>getNecessaryData()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='articlectrlinit'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -1299,8 +2433,15 @@ in order to set the header to nightmode/lightmode.</p>
 
   
 
-  <p>This function is responsible for calling all the functions that need to
-be executed when the page is initialized.</p>
+  <p>Responsible for calling all the functions and executing necessary functionalities
+once the page is loaded.
+Such functionalities include:
+1) If the article was opened from the saved page, then the article is loaded from the user's saved
+articles in the local storage. If the article was opened from the news feed and there is internet connection
+then an http request is sent to the server with the article's id in order to retrieve the article's data. If
+the article was opened from the news feed and there is no internet connection then it is loaded from the user's
+cached articles in the local storage.
+2) Loading the notes of the article.</p>
 
 
   <div class='pre p1 fill-light mt0'>init()</div>
@@ -1343,22 +2484,23 @@ be executed when the page is initialized.</p>
   
 </section>
 
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='controllerjseditprofilectrl'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>editProfileCtrl</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='editprofilectrl'>
+      editProfileCtrl
+    </h3>
+    
+    
+  </div>
+  
 
-  <p>Controller controlling the functionalities implemented for the edit profile view.</p>
+  <p>Controller for the functionalities implemented for the edit profile view.</p>
 
 
   <div class='pre p1 fill-light mt0'>editProfileCtrl</div>
@@ -1386,7 +2528,7 @@ be executed when the page is initialized.</p>
     <div class='py1 quiet mt1 prose-big'>Static Members</div>
     <div class="clearfix">
   
-    <div class='border-bottom' id='controllerjseditprofilectrlioniconbeforeenter'>
+    <div class='border-bottom' id='editprofilectrlioniconbeforeenter'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -1434,7 +2576,7 @@ Actions taken: 1) Gets the nightmode setting value in order to set the page to n
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjseditprofilectrlgetfontsize'>
+    <div class='border-bottom' id='editprofilectrlgetfontsize'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -1446,9 +2588,8 @@ Actions taken: 1) Gets the nightmode setting value in order to set the page to n
 
   
 
-  <p>This function is responsible for retrieving the selected font size from the
-shared properties space and set the value into scope variables in order to be used in
-the page and set the page's font size.</p>
+  <p>Sets 2 scope variables that represent 2 different font-sizes. These variables
+are used in the page as ng-style attributes.</p>
 
 
   <div class='pre p1 fill-light mt0'>getFontSize()</div>
@@ -1482,7 +2623,7 @@ the page and set the page's font size.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjseditprofilectrlgetbackgroundclass'>
+    <div class='border-bottom' id='editprofilectrlgetbackgroundclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -1494,8 +2635,9 @@ the page and set the page's font size.</p>
 
   
 
-  <p>This function is responsible for retrieving the class used in the background
-in order to set the background to nightmode/lightmode.</p>
+  <p>Sets the appropriate background class in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+background.</p>
 
 
   <div class='pre p1 fill-light mt0'>getBackgroundClass()</div>
@@ -1529,7 +2671,7 @@ in order to set the background to nightmode/lightmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjseditprofilectrlgetfontclass'>
+    <div class='border-bottom' id='editprofilectrlgetfontclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -1541,8 +2683,9 @@ in order to set the background to nightmode/lightmode.</p>
 
   
 
-  <p>This function is responsible for retrieving the class used in the font style
-in order to set the font style to nightmode/lightmode.</p>
+  <p>Sets the appropriate font color class in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+font-color.</p>
 
 
   <div class='pre p1 fill-light mt0'>getFontClass()</div>
@@ -1576,7 +2719,7 @@ in order to set the font style to nightmode/lightmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjseditprofilectrlupdatestorage'>
+    <div class='border-bottom' id='editprofilectrlupdatestorage'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -1588,8 +2731,8 @@ in order to set the font style to nightmode/lightmode.</p>
 
   
 
-  <p>This function is responsible for updating all the stored values in the local
-storage with the new username.</p>
+  <p>Responsible for updating all entries in the local storage with the new username
+if the username has changed.</p>
 
 
   <div class='pre p1 fill-light mt0'>UpdateStorage()</div>
@@ -1623,7 +2766,7 @@ storage with the new username.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjseditprofilectrleditprofile'>
+    <div class='border-bottom' id='editprofilectrleditprofile'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -1635,9 +2778,8 @@ storage with the new username.</p>
 
   
 
-  <p>This function is responsible for sending the new values of the newly edited profile
-to be saved in the device's local storage, broadcasts the new username value for the sidemenu to
-get and display and changes from the current page to the profile page.</p>
+  <p>Responsible for setting a flag if the newly inserted username is already taken. If
+it's not, then it sends the data to the UserService to update the current user's information.</p>
 
 
   <div class='pre p1 fill-light mt0'>editProfile()</div>
@@ -1671,7 +2813,7 @@ get and display and changes from the current page to the profile page.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjseditprofilectrlinit'>
+    <div class='border-bottom' id='editprofilectrlinit'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -1683,8 +2825,12 @@ get and display and changes from the current page to the profile page.</p>
 
   
 
-  <p>This function is responsible for calling all the functions that need to
-be executed when the page is initialized.</p>
+  <p>Responsible for calling all the functions and executing necessary functionalities
+once the page is loaded.
+Such functionalities include:
+1) Loading current user's detailes.
+2) Loading all the users usernames.
+3) Loading current user's details.</p>
 
 
   <div class='pre p1 fill-light mt0'>init()</div>
@@ -1727,22 +2873,23 @@ be executed when the page is initialized.</p>
   
 </section>
 
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='controllerjseyereaderctrl'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>eyeReaderCtrl</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='eyereaderctrl'>
+      eyeReaderCtrl
+    </h3>
+    
+    
+  </div>
+  
 
-  <p>Controller controlling the functionalities implemented for the Side menu.</p>
+  <p>Controller for the functionalities implemented for the side menu.</p>
 
 
   <div class='pre p1 fill-light mt0'>eyeReaderCtrl</div>
@@ -1770,7 +2917,7 @@ be executed when the page is initialized.</p>
     <div class='py1 quiet mt1 prose-big'>Static Members</div>
     <div class="clearfix">
   
-    <div class='border-bottom' id='controllerjseyereaderctrlrootscopeonusernamechange'>
+    <div class='border-bottom' id='eyereaderctrlrootscopeonusernamechange'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -1817,7 +2964,7 @@ Actions taken: 1) Gets the new username of the currently active user.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjseyereaderctrlrootscopeonnightmodechange'>
+    <div class='border-bottom' id='eyereaderctrlrootscopeonnightmodechange'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -1830,7 +2977,7 @@ Actions taken: 1) Gets the new username of the currently active user.</p>
   
 
   <p>Executes actions when the message "nightmodeChange" is broadcasted in the controllers.
-Actions taken: 1) Gets the new value of the nightmode toggle that was set in the settings page.</p>
+Actions taken: 1) Gets the new nightmode toggle value.</p>
 
 
   <div class='pre p1 fill-light mt0'>$rootScope.$on.nightmodeChange</div>
@@ -1864,7 +3011,7 @@ Actions taken: 1) Gets the new value of the nightmode toggle that was set in the
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjseyereaderctrlrootscopeonfontsizechange'>
+    <div class='border-bottom' id='eyereaderctrlrootscopeonfontsizechange'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -1877,7 +3024,7 @@ Actions taken: 1) Gets the new value of the nightmode toggle that was set in the
   
 
   <p>Executes actions when the message "fontsizeChange" is broadcasted in the controllers.
-Actions taken: 1) Gets the new value of the font size that was set in the settings page.</p>
+Actions taken: 1) Gets the new font size value.</p>
 
 
   <div class='pre p1 fill-light mt0'>$rootScope.$on.fontsizeChange</div>
@@ -1911,7 +3058,7 @@ Actions taken: 1) Gets the new value of the font size that was set in the settin
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjseyereaderctrlgetbackgroundclass'>
+    <div class='border-bottom' id='eyereaderctrlgetbackgroundclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -1923,8 +3070,9 @@ Actions taken: 1) Gets the new value of the font size that was set in the settin
 
   
 
-  <p>This function is responsible for retrieving the class used in the background
-in order to set the background to nightmode/lightmode.</p>
+  <p>Sets the appropriate background class in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+background.</p>
 
 
   <div class='pre p1 fill-light mt0'>getBackgroundClass()</div>
@@ -1958,7 +3106,7 @@ in order to set the background to nightmode/lightmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjseyereaderctrlgetfontclass'>
+    <div class='border-bottom' id='eyereaderctrlgetfontclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -1970,8 +3118,9 @@ in order to set the background to nightmode/lightmode.</p>
 
   
 
-  <p>This function is responsible for retrieving the class used in the font style
-in order to set the font style to nightmode/lightmode.</p>
+  <p>Sets the appropriate font color class in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+font-color.</p>
 
 
   <div class='pre p1 fill-light mt0'>getFontClass()</div>
@@ -2005,7 +3154,7 @@ in order to set the font style to nightmode/lightmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjseyereaderctrlgetsidemenuiconclass'>
+    <div class='border-bottom' id='eyereaderctrlgetsidemenuiconclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -2017,8 +3166,9 @@ in order to set the font style to nightmode/lightmode.</p>
 
   
 
-  <p>This function is responsible for retrieving the class used as the sidemenu
-icons class in order to set the icon style to nightmode/lightmode.</p>
+  <p>Sets the appropriate color class in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+for the icon's color.</p>
 
 
   <div class='pre p1 fill-light mt0'>getSidemenuIconClass()</div>
@@ -2052,7 +3202,7 @@ icons class in order to set the icon style to nightmode/lightmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjseyereaderctrlgetnightmodeheaderclass'>
+    <div class='border-bottom' id='eyereaderctrlgetnightmodeheaderclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -2064,8 +3214,9 @@ icons class in order to set the icon style to nightmode/lightmode.</p>
 
   
 
-  <p>This function is responsible for retrieving the class used in the header<br>
-in order to set the header to nightmode/lightmode.</p>
+  <p>Sets the appropriate font style class for headers in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+font-color.</p>
 
 
   <div class='pre p1 fill-light mt0'>getNightmodeHeaderClass()</div>
@@ -2099,7 +3250,7 @@ in order to set the header to nightmode/lightmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjseyereaderctrllogout'>
+    <div class='border-bottom' id='eyereaderctrllogout'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -2111,12 +3262,61 @@ in order to set the header to nightmode/lightmode.</p>
 
   
 
-  <p>This function is responsible for displaying a warning popup that warns the user
-that they are about to logout. If the user selects "Confirm" then the popup closes and the
-user is logged out. Else if the user selects "Cancel" the popup closes.</p>
+  <p>Responsible for displaying a warning message to the user if they click logout. Then, if the
+user clicks "Confirm", the user gets logged out and their credentials are cleared from the AuthenticationService
+and applications rootScope.</p>
 
 
   <div class='pre p1 fill-light mt0'>logout()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='eyereaderctrlinit'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>init()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Responsible for calling all the functions and executing necessary functionalities
+once the page is loaded.
+Such functionalities include:
+1) Loading current user's selected font size.</p>
+
+
+  <div class='pre p1 fill-light mt0'>init()</div>
   
   
 
@@ -2156,22 +3356,23 @@ user is logged out. Else if the user selects "Cancel" the popup closes.</p>
   
 </section>
 
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='controllerjsloginctrl'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>loginCtrl</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='loginctrl'>
+      loginCtrl
+    </h3>
+    
+    
+  </div>
+  
 
-  <p>Controller controlling the functionalities implemented for the edit login view.</p>
+  <p>Controller for the functionalities implemented for the login view.</p>
 
 
   <div class='pre p1 fill-light mt0'>loginCtrl</div>
@@ -2199,7 +3400,7 @@ user is logged out. Else if the user selects "Cancel" the popup closes.</p>
     <div class='py1 quiet mt1 prose-big'>Static Members</div>
     <div class="clearfix">
   
-    <div class='border-bottom' id='controllerjsloginctrlcreateusersettings'>
+    <div class='border-bottom' id='loginctrlcreateusersettings'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -2211,8 +3412,14 @@ user is logged out. Else if the user selects "Cancel" the popup closes.</p>
 
   
 
-  <p>This function is responsible for creating new values in the shared properties
-space for the new user's settings.</p>
+  <p>Responsible for creating the local storage entries for the current user.
+These entries are:
+1) User Settings
+2) Deleted Articles
+3) Selected Sources
+4) Cached Articles
+5) Saved Articles
+6) Reported Articles</p>
 
 
   <div class='pre p1 fill-light mt0'>createUserSettings()</div>
@@ -2246,11 +3453,11 @@ space for the new user's settings.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsloginctrlloadusersettings'>
+    <div class='border-bottom' id='loginctrlfindusersettings'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>loadUserSettings()</span>
+            <span class='code strong strong truncate'>findUserSettings()</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2258,11 +3465,12 @@ space for the new user's settings.</p>
 
   
 
-  <p>This function is responsible for finding the logged in user's settings from
-the local storage and save them to shared properties space.</p>
+  <p>Responsible for searching for the current user's settings in the local storage.
+If there aren't any, it calls createUserSettings() in order to generate all the necessary entires
+in the local storage.</p>
 
 
-  <div class='pre p1 fill-light mt0'>loadUserSettings()</div>
+  <div class='pre p1 fill-light mt0'>findUserSettings()</div>
   
   
 
@@ -2293,7 +3501,7 @@ the local storage and save them to shared properties space.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsloginctrlshowfailedtologinpopup'>
+    <div class='border-bottom' id='loginctrlshowfailedtologinpopup'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -2305,8 +3513,7 @@ the local storage and save them to shared properties space.</p>
 
   
 
-  <p>This function is responsible for displaying an informative message if there was
-a problem with the user logging in the app.</p>
+  <p>Responsible for displaying an informational popup if the user failed to login.</p>
 
 
   <div class='pre p1 fill-light mt0'>showFailedToLoginPopup(resp: any)</div>
@@ -2353,7 +3560,7 @@ a problem with the user logging in the app.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsloginctrllogin'>
+    <div class='border-bottom' id='loginctrllogin'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -2365,9 +3572,9 @@ a problem with the user logging in the app.</p>
 
   
 
-  <p>This function is responsible for requesting from the authentication service to
-login the user in the app. If the service replies with success, then the view is transfered to
-the news feed view. Else an informative message is displayed.</p>
+  <p>Responsible for attempting to login the user. It passes the user's username and password
+in the Authentication Service. If the login was successful then the user is redirected tot he news feed
+page. If not then the login failure popup is displayed.</p>
 
 
   <div class='pre p1 fill-light mt0'>login()</div>
@@ -2410,22 +3617,23 @@ the news feed view. Else an informative message is displayed.</p>
   
 </section>
 
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='controllerjsnewsfeedctrl'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>newsFeedCtrl</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='newsfeedctrl'>
+      newsFeedCtrl
+    </h3>
+    
+    
+  </div>
+  
 
-  <p>Controller controlling the functionalities implemented for the News Feed page.</p>
+  <p>Controller for the functionalities implemented for the news feed view.</p>
 
 
   <div class='pre p1 fill-light mt0'>newsFeedCtrl</div>
@@ -2453,7 +3661,170 @@ the news feed view. Else an informative message is displayed.</p>
     <div class='py1 quiet mt1 prose-big'>Static Members</div>
     <div class="clearfix">
   
-    <div class='border-bottom' id='controllerjsnewsfeedctrlioniconbeforeenter'>
+    <div class='border-bottom' id='newsfeedctrldisplaytoast'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>displayToast(message, duration)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Executes actions before this page is loaded into view.
+Actions taken: 1) Gets the nightmode setting value in order to set the page to nightmode
+2) Gets the font size selected by the user in order to set it to the whole page</p>
+
+
+  <div class='pre p1 fill-light mt0'>displayToast(message: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, duration: int)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>message</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    The message to display
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>duration</span> <code class='quiet'>(int)</code>
+	    The duration of the display
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='newsfeedctrlstartrepeatarticlefetch'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>startRepeatArticleFetch()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Invokes a repeat that every 15 minutes it calls the requestArticles function.</p>
+
+
+  <div class='pre p1 fill-light mt0'>startRepeatArticleFetch()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='newsfeedctrlstoprepeatarticlefetch'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>stopRepeatArticleFetch()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Stops the repeat of requestArticles function.</p>
+
+
+  <div class='pre p1 fill-light mt0'>stopRepeatArticleFetch()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='newsfeedctrlioniconbeforeenter'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -2467,8 +3838,7 @@ the news feed view. Else an informative message is displayed.</p>
 
   <p>Executes actions before this page is loaded into view.
 Actions taken: 1) Gets the nightmode setting value in order to set the page to nightmode
-2) Gets the saved articles from the local storage
-3) Gets the font size selected by the user in order to set it to the whole page</p>
+2) Gets the font size selected by the user in order to set it to the whole page</p>
 
 
   <div class='pre p1 fill-light mt0'>$ionic.on.beforeEnter</div>
@@ -2502,7 +3872,7 @@ Actions taken: 1) Gets the nightmode setting value in order to set the page to n
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsnewsfeedctrlgetfontsize'>
+    <div class='border-bottom' id='newsfeedctrlgetfontsize'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -2514,9 +3884,8 @@ Actions taken: 1) Gets the nightmode setting value in order to set the page to n
 
   
 
-  <p>This function is responsible for retrieving the selected font size from the
-shared properties space and set the value into scope variables in order to be used in
-the page and set the page's font size.</p>
+  <p>Sets 2 scope variables that represent 2 different font-sizes. These variables
+are used in the page as ng-style attributes.</p>
 
 
   <div class='pre p1 fill-light mt0'>getFontSize()</div>
@@ -2550,11 +3919,11 @@ the page and set the page's font size.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsnewsfeedctrlshowreportoptions'>
+    <div class='border-bottom' id='newsfeedctrlshowreportoptions'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>showReportOptions(sourceid)</span>
+            <span class='code strong strong truncate'>showReportOptions(id)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2562,11 +3931,12 @@ the page and set the page's font size.</p>
 
   
 
-  <p>This function is responsible for displaying the popup when a user wants to report
-an article. The popup is ionic's default and uses the reportArticle.html temlpate.</p>
+  <p>Responsible for displaying the report modal template. If the user selects either one
+or both of the options and clicks "Confirm", then a request is sent to the server with the reported
+article's source title for further statistics calculations.</p>
 
 
-  <div class='pre p1 fill-light mt0'>showReportOptions(sourceid: any)</div>
+  <div class='pre p1 fill-light mt0'>showReportOptions(id: int)</div>
   
   
 
@@ -2583,8 +3953,9 @@ an article. The popup is ionic's default and uses the reportArticle.html temlpat
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>sourceid</span> <code class='quiet'>(any)</code>
-	    
+            <span class='code bold'>id</span> <code class='quiet'>(int)</code>
+	    The reported article's id
+
           </div>
           
         </div>
@@ -2610,7 +3981,77 @@ an article. The popup is ionic's default and uses the reportArticle.html temlpat
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsnewsfeedctrlsave_unsavearticle'>
+    <div class='border-bottom' id='newsfeedctrlisarticlereported'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>isArticleReported(id)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Responsible for checking whether the current article has already been reported.
+It searches in an array, that is saved in the local storage and returns true if the article is contained
+or false if it's not.</p>
+
+
+  <div class='pre p1 fill-light mt0'>isArticleReported(id: int): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>id</span> <code class='quiet'>(int)</code>
+	    The id of the article that is currently being checked
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
+        True if it's reported, False if it's not
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='newsfeedctrlsave_unsavearticle'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -2622,10 +4063,11 @@ an article. The popup is ionic's default and uses the reportArticle.html temlpat
 
   
 
-  <p>This function is responsible for deciding wether to add an article to saved
-or remove an article from saved. Firstly, it checks if the article is saved. If it is then
-it is removed from saved and displays an informative message. Else it adds the article to
-saved and displays an informative message.</p>
+  <p>Responsible for saving or unsaving the article from the current user's saved articles that are
+located in the local storage. It checks if the article is already saved, by checking in the article's id is
+contained in an array with the current user's saved articles. If it is, then it removes it, else it adds it
+and then stores the saved articles back in the local storage. Lastly, it shows an informational toast that
+the article has been removed/added.</p>
 
 
   <div class='pre p1 fill-light mt0'>save_unsaveArticle(id: int)</div>
@@ -2646,7 +4088,7 @@ saved and displays an informative message.</p>
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>id</span> <code class='quiet'>(int)</code>
-	    The id of the article to save/unsave
+	    The id of the article that is currently being saved
 
           </div>
           
@@ -2673,7 +4115,7 @@ saved and displays an informative message.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsnewsfeedctrlsavearticle'>
+    <div class='border-bottom' id='newsfeedctrlsavearticle'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -2685,7 +4127,8 @@ saved and displays an informative message.</p>
 
   
 
-  <p>This function is responsible for adding the article to the saved articles.</p>
+  <p>Responsible for adding the article's id to the current user's saved articles. Once added,
+the saved articles are stored back in the local storage.</p>
 
 
   <div class='pre p1 fill-light mt0'>saveArticle(id: int)</div>
@@ -2706,7 +4149,7 @@ saved and displays an informative message.</p>
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>id</span> <code class='quiet'>(int)</code>
-	    The id of the article to save
+	    The id of the article that is currently being saved
 
           </div>
           
@@ -2733,7 +4176,7 @@ saved and displays an informative message.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsnewsfeedctrlisarticlesaved'>
+    <div class='border-bottom' id='newsfeedctrlisarticlesaved'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -2745,10 +4188,12 @@ saved and displays an informative message.</p>
 
   
 
-  <p>This function is responsible for checking if the article given is saved or not.</p>
+  <p>Responsible for checking whether the current article has already been saved.
+It searches in an array, that is saved in the local storage and returns true if the article is contained
+or false if it's not.</p>
 
 
-  <div class='pre p1 fill-light mt0'>isArticleSaved(id: int)</div>
+  <div class='pre p1 fill-light mt0'>isArticleSaved(id: int): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
   
   
 
@@ -2766,7 +4211,7 @@ saved and displays an informative message.</p>
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>id</span> <code class='quiet'>(int)</code>
-	    The id of the article to check
+	    The id of the article that is currently being saved
 
           </div>
           
@@ -2777,6 +4222,14 @@ saved and displays an informative message.</p>
 
   
 
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
+        True if it's saved, False if it's not
+
+      
+    
   
 
   
@@ -2793,7 +4246,7 @@ saved and displays an informative message.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsnewsfeedctrldeletearticle'>
+    <div class='border-bottom' id='newsfeedctrldeletearticle'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -2805,10 +4258,8 @@ saved and displays an informative message.</p>
 
   
 
-  <p>This function is responsible for deleting an article from the news feed. Firstly
-it finds the article in the list of articles and then it splices the array of articles in order
-to remove it and then it saves tha article in a json with all the deleted articles in order
-to be able not to display it in the news feed.</p>
+  <p>Responsible for removing the article's id from the current user's saved articles. Once removed,
+the saved articles are stored back in the local storage.</p>
 
 
   <div class='pre p1 fill-light mt0'>deleteArticle(id: int)</div>
@@ -2829,7 +4280,7 @@ to be able not to display it in the news feed.</p>
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>id</span> <code class='quiet'>(int)</code>
-	    The id of the article to delete
+	    The id of the article that is currently being deleted
 
           </div>
           
@@ -2856,7 +4307,7 @@ to be able not to display it in the news feed.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsnewsfeedctrlisdeleted'>
+    <div class='border-bottom' id='newsfeedctrlisdeleted'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -2868,11 +4319,12 @@ to be able not to display it in the news feed.</p>
 
   
 
-  <p>Function that checks if an article id is included in the deleted articles array.
-If it is, then its not displayed on the html.</p>
+  <p>Responsible for checking whether the current article has already been deleted.
+It searches in an array, that is saved in the local storage and returns true if the article is contained
+or false if it's not.</p>
 
 
-  <div class='pre p1 fill-light mt0'>isDeleted(id: any)</div>
+  <div class='pre p1 fill-light mt0'>isDeleted(id: int)</div>
   
   
 
@@ -2889,8 +4341,9 @@ If it is, then its not displayed on the html.</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>id</span> <code class='quiet'>(any)</code>
-	    
+            <span class='code bold'>id</span> <code class='quiet'>(int)</code>
+	    The id of the article that is currently being deleted
+
           </div>
           
         </div>
@@ -2916,7 +4369,7 @@ If it is, then its not displayed on the html.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsnewsfeedctrlshowdeleteconfirm'>
+    <div class='border-bottom' id='newsfeedctrlshowdeleteconfirm'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -2928,10 +4381,10 @@ If it is, then its not displayed on the html.</p>
 
   
 
-  <p>This function is responsible for displaying a popup in order to warn the user
-that they are about to delete an article. If the user clicks "Confirm" then the article is deleted
-and the popup is closed. If the user clicks "Cancel" then the article is not removed and the
-popup is closed.</p>
+  <p>Responsible for displaying the delete modal template. If the user clicks "Confirm",
+then the article's id is added in an array with all the current user's deleted articles. Then the array
+is stored back in the local storage. Lastly, it displays an informational toast that the article
+has been deleted.</p>
 
 
   <div class='pre p1 fill-light mt0'>showDeleteConfirm(id: int)</div>
@@ -2952,7 +4405,7 @@ popup is closed.</p>
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>id</span> <code class='quiet'>(int)</code>
-	    The id of the article to delete
+	    The id of the article that is currently being deleted
 
           </div>
           
@@ -2979,54 +4432,7 @@ popup is closed.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsnewsfeedctrlshowdeletedtoast'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>showDeletedToast()</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>This function is responsible for displaying an informative text that the selected article
-was deleted from the feed.</p>
-
-
-  <div class='pre p1 fill-light mt0'>showDeletedToast()</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='controllerjsnewsfeedctrlunsavearticle'>
+    <div class='border-bottom' id='newsfeedctrlunsavearticle'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -3087,101 +4493,7 @@ the array with the saved articles by splicing the array on the article's positio
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsnewsfeedctrlshowsavedtoast'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>showSavedToast()</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>This function is responsible for displaying an informative text
-when the article is saved.</p>
-
-
-  <div class='pre p1 fill-light mt0'>showSavedToast()</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='controllerjsnewsfeedctrlshowremovedtoast'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>showRemovedToast()</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>This function is responsible for displaying an informative text
-when the article is removed from saved.</p>
-
-
-  <div class='pre p1 fill-light mt0'>showRemovedToast()</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='controllerjsnewsfeedctrldorefresh'>
+    <div class='border-bottom' id='newsfeedctrldorefresh'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -3193,8 +4505,9 @@ when the article is removed from saved.</p>
 
   
 
-  <p>This function is responsible for refreshing the news feed and retrieving
-new articles from the server.</p>
+  <p>Responsible for refreshing the news feed and retrieving articles from the server.
+Then it filters out the articles that are already in the news feed and pushes in the feed the new
+articles.</p>
 
 
   <div class='pre p1 fill-light mt0'>doRefresh()</div>
@@ -3228,54 +4541,7 @@ new articles from the server.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsnewsfeedctrlloadmore'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>loadMore()</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>This function is responsible for loading more articles in the feed from the
-articles that have already been fetched from the server.</p>
-
-
-  <div class='pre p1 fill-light mt0'>loadMore()</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='controllerjsnewsfeedctrlgetbackgroundclass'>
+    <div class='border-bottom' id='newsfeedctrlgetbackgroundclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -3287,8 +4553,9 @@ articles that have already been fetched from the server.</p>
 
   
 
-  <p>This function is responsible for retrieving the class used in the the background
-in order to set the background to nightmode/normalmode.</p>
+  <p>Sets the appropriate background class in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+background.</p>
 
 
   <div class='pre p1 fill-light mt0'>getBackgroundClass()</div>
@@ -3322,7 +4589,7 @@ in order to set the background to nightmode/normalmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsnewsfeedctrlgetfontclass'>
+    <div class='border-bottom' id='newsfeedctrlgetfontclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -3334,8 +4601,9 @@ in order to set the background to nightmode/normalmode.</p>
 
   
 
-  <p>This function is responsible for retrieving the class used in the font style
-in order to set the font style to nightmode/lightmode.</p>
+  <p>Sets the appropriate font color class in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+font-color.</p>
 
 
   <div class='pre p1 fill-light mt0'>getFontClass()</div>
@@ -3369,7 +4637,7 @@ in order to set the font style to nightmode/lightmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsnewsfeedctrlgetnightmodeheaderclass'>
+    <div class='border-bottom' id='newsfeedctrlgetnightmodeheaderclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -3381,8 +4649,9 @@ in order to set the font style to nightmode/lightmode.</p>
 
   
 
-  <p>This function is responsible for retrieving the class used in the header<br>
-in order to set the header to nightmode/lightmode.</p>
+  <p>Sets the appropriate font style class for headers in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+font-color.</p>
 
 
   <div class='pre p1 fill-light mt0'>getNightmodeHeaderClass()</div>
@@ -3416,11 +4685,11 @@ in order to set the header to nightmode/lightmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsnewsfeedctrlarticletapped'>
+    <div class='border-bottom' id='newsfeedctrlarticletapped'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>articleTapped(sourceid)</span>
+            <span class='code strong strong truncate'>articleTapped(aid)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3428,11 +4697,12 @@ in order to set the header to nightmode/lightmode.</p>
 
   
 
-  <p>This function is responsible for sending a request to the server in order
-to increase the click counter of a source</p>
+  <p>Responsible for redirecting the app to the article view and passes as a parameter the article's id
+in order to fetch the article later in the article view. Also it sends a request to the server in order to
+increase the click counter for the article's source.</p>
 
 
-  <div class='pre p1 fill-light mt0'>articleTapped(sourceid: any)</div>
+  <div class='pre p1 fill-light mt0'>articleTapped(aid: int)</div>
   
   
 
@@ -3449,8 +4719,9 @@ to increase the click counter of a source</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>sourceid</span> <code class='quiet'>(any)</code>
-	    
+            <span class='code bold'>aid</span> <code class='quiet'>(int)</code>
+	    The id of the article to be viewed
+
           </div>
           
         </div>
@@ -3476,7 +4747,7 @@ to increase the click counter of a source</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsnewsfeedctrlcachearticles'>
+    <div class='border-bottom' id='newsfeedctrlcachearticles'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -3488,8 +4759,7 @@ to increase the click counter of a source</p>
 
   
 
-  <p>This function is responsible for caching the 10 top articles in the
-current news feed under the username of the current user in the local storage</p>
+  <p>Responsible for saving the cached articles of the current user to the local storage.</p>
 
 
   <div class='pre p1 fill-light mt0'>cacheArticles()</div>
@@ -3523,11 +4793,11 @@ current news feed under the username of the current user in the local storage</p
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsnewsfeedctrlmanagetutorialmodal'>
+    <div class='border-bottom' id='newsfeedctrlemptycache'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>manageTutorialModal()</span>
+            <span class='code strong strong truncate'>emptyCache()</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3535,12 +4805,11 @@ current news feed under the username of the current user in the local storage</p
 
   
 
-  <p>This function is responsible for checking if this is the first time the
-current user is logging in the application. If it is, then it displays the tutorial
-modal.</p>
+  <p>Responsible for emptying out the cached news if the cache news option is disabled
+in the settings.</p>
 
 
-  <div class='pre p1 fill-light mt0'>manageTutorialModal()</div>
+  <div class='pre p1 fill-light mt0'>emptyCache()</div>
   
   
 
@@ -3571,7 +4840,149 @@ modal.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsnewsfeedctrlinit'>
+    <div class='border-bottom' id='newsfeedctrlopentutorial'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>openTutorial()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Responsible for checking if this is the first time the current user is logging in
+the application. If it is, then it displays the tutorial.</p>
+
+
+  <div class='pre p1 fill-light mt0'>openTutorial()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='newsfeedctrlrequestarticles'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>requestArticles()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Responsible for retrieving articles from the server
+every 15 minutes in order to keep the feed updated in real time.</p>
+
+
+  <div class='pre p1 fill-light mt0'>requestArticles()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='newsfeedctrlloadnecessarydata'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>loadNecessaryData()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Responsible for loading all the necessary information of the current user
+that are needed from the local storage, such as: deleted articles, selected sources,
+settings, saved articles, reported articles.</p>
+
+
+  <div class='pre p1 fill-light mt0'>loadNecessaryData()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='newsfeedctrlinit'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -3583,8 +4994,14 @@ modal.</p>
 
   
 
-  <p>This function is responsible for calling all the functions that need to
-be executed when the page is initialized.</p>
+  <p>Responsible for calling all the functions and executing necessary functionalities
+once the page is loaded.
+Such functionalities include:
+1) Initializing the tutorial modal.
+2) Loading necessary data with the loadNecessaryData function
+3) If the user is online it retrieves articles from the server
+4) If the user is online and caching is enabled, it caches the top 10 articles in the feed.
+5) If the user is offline and if there are cached articles, it loads the cached articles in view.</p>
 
 
   <div class='pre p1 fill-light mt0'>init()</div>
@@ -3627,22 +5044,23 @@ be executed when the page is initialized.</p>
   
 </section>
 
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='controllerjsprofilectrl'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>profileCtrl</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='profilectrl'>
+      profileCtrl
+    </h3>
+    
+    
+  </div>
+  
 
-  <p>Controller controlling the functionalities implemented for the profile view.</p>
+  <p>Controller for the functionalities implemented for the profile view.</p>
 
 
   <div class='pre p1 fill-light mt0'>profileCtrl</div>
@@ -3670,7 +5088,7 @@ be executed when the page is initialized.</p>
     <div class='py1 quiet mt1 prose-big'>Static Members</div>
     <div class="clearfix">
   
-    <div class='border-bottom' id='controllerjsprofilectrlioniconbeforeenter'>
+    <div class='border-bottom' id='profilectrlioniconbeforeenter'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -3718,7 +5136,7 @@ Actions taken: 1) Gets the nightmode setting value in order to set the page to n
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsprofilectrlgetfontsize'>
+    <div class='border-bottom' id='profilectrlgetfontsize'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -3730,9 +5148,8 @@ Actions taken: 1) Gets the nightmode setting value in order to set the page to n
 
   
 
-  <p>This function is responsible for retrieving the selected font size from the
-shared properties space and set the value into scope variables in order to be used in
-the page and set the page's font size.</p>
+  <p>Sets 2 scope variables that represent 2 different font-sizes. These variables
+are used in the page as ng-style attributes.</p>
 
 
   <div class='pre p1 fill-light mt0'>getFontSize()</div>
@@ -3766,7 +5183,7 @@ the page and set the page's font size.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsprofilectrlgetbackgroundclass'>
+    <div class='border-bottom' id='profilectrlgetbackgroundclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -3778,8 +5195,9 @@ the page and set the page's font size.</p>
 
   
 
-  <p>This function is responsible for retrieving the class used in the background
-in order to set the background to nightmode/lightmode.</p>
+  <p>Sets the appropriate background class in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+background.</p>
 
 
   <div class='pre p1 fill-light mt0'>getBackgroundClass()</div>
@@ -3813,7 +5231,7 @@ in order to set the background to nightmode/lightmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsprofilectrlgetfontclass'>
+    <div class='border-bottom' id='profilectrlgetfontclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -3825,8 +5243,9 @@ in order to set the background to nightmode/lightmode.</p>
 
   
 
-  <p>This function is responsible for retrieving the class used in the font style
-in order to set the font style to nightmode/lightmode.</p>
+  <p>Sets the appropriate font color class in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+font-color.</p>
 
 
   <div class='pre p1 fill-light mt0'>getFontClass()</div>
@@ -3860,7 +5279,7 @@ in order to set the font style to nightmode/lightmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsprofilectrlinit'>
+    <div class='border-bottom' id='profilectrlinit'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -3872,8 +5291,10 @@ in order to set the font style to nightmode/lightmode.</p>
 
   
 
-  <p>This function is responsible for calling all the functions that need to
-be executed when the page is initialized.</p>
+  <p>Responsible for calling all the functions and executing necessary functionalities
+once the page is loaded.
+Such functionalities include:
+1) Loading current user.</p>
 
 
   <div class='pre p1 fill-light mt0'>init()</div>
@@ -3916,22 +5337,23 @@ be executed when the page is initialized.</p>
   
 </section>
 
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='controllerjssavedarticlesctrl'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>savedArticlesCtrl</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='savedarticlesctrl'>
+      savedArticlesCtrl
+    </h3>
+    
+    
+  </div>
+  
 
-  <p>Controller controlling the functionalities implemented for the saved articles view.</p>
+  <p>Controller for the functionalities implemented for the saved articles view.</p>
 
 
   <div class='pre p1 fill-light mt0'>savedArticlesCtrl</div>
@@ -3959,7 +5381,78 @@ be executed when the page is initialized.</p>
     <div class='py1 quiet mt1 prose-big'>Static Members</div>
     <div class="clearfix">
   
-    <div class='border-bottom' id='controllerjssavedarticlesctrlbeforeenter'>
+    <div class='border-bottom' id='savedarticlesctrldisplaytoast'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>displayToast(message, duration)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Executes actions before this page is loaded into view.
+Actions taken: 1) Gets the nightmode setting value in order to set the page to nightmode
+2) Gets the font size selected by the user in order to set it to the whole page</p>
+
+
+  <div class='pre p1 fill-light mt0'>displayToast(message: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, duration: int)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>message</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    The message to display
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>duration</span> <code class='quiet'>(int)</code>
+	    The duration of the display
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='savedarticlesctrlbeforeenter'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -4007,67 +5500,7 @@ Actions taken: 1) Gets the nightmode setting value in order to set the page to n
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjssavedarticlesctrlisdeleted'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>isDeleted(id)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Function that checks if an article id is included in the deleted articles array.
-If it is, then its not displayed on the html.</p>
-
-
-  <div class='pre p1 fill-light mt0'>isDeleted(id: any)</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>id</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='controllerjssavedarticlesctrlgetfontsize'>
+    <div class='border-bottom' id='savedarticlesctrlgetfontsize'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -4079,9 +5512,8 @@ If it is, then its not displayed on the html.</p>
 
   
 
-  <p>This function is responsible for retrieving the selected font size from the
-shared properties space and set the value into scope variables in order to be used in
-the page and set the page's font size.</p>
+  <p>Sets 2 scope variables that represent 2 different font-sizes. These variables
+are used in the page as ng-style attributes.</p>
 
 
   <div class='pre p1 fill-light mt0'>getFontSize()</div>
@@ -4115,7 +5547,7 @@ the page and set the page's font size.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjssavedarticlesctrlgetbackgroundclass'>
+    <div class='border-bottom' id='savedarticlesctrlgetbackgroundclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -4127,8 +5559,9 @@ the page and set the page's font size.</p>
 
   
 
-  <p>This function is responsible for retrieving the class used in the background
-in order to set the background to nightmode/lightmode.</p>
+  <p>Sets the appropriate background class in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+background.</p>
 
 
   <div class='pre p1 fill-light mt0'>getBackgroundClass()</div>
@@ -4162,7 +5595,7 @@ in order to set the background to nightmode/lightmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjssavedarticlesctrlgetfontclass'>
+    <div class='border-bottom' id='savedarticlesctrlgetfontclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -4174,8 +5607,9 @@ in order to set the background to nightmode/lightmode.</p>
 
   
 
-  <p>This function is responsible for retrieving the class used in the font style
-in order to set the font style to nightmode/lightmode.</p>
+  <p>Sets the appropriate font color class in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+font-color.</p>
 
 
   <div class='pre p1 fill-light mt0'>getFontClass()</div>
@@ -4209,7 +5643,7 @@ in order to set the font style to nightmode/lightmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjssavedarticlesctrlgetnightmodeheaderclass'>
+    <div class='border-bottom' id='savedarticlesctrlgetnightmodeheaderclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -4221,8 +5655,9 @@ in order to set the font style to nightmode/lightmode.</p>
 
   
 
-  <p>This function is responsible for retrieving the class used in the header<br>
-in order to set the header to nightmode/lightmode.</p>
+  <p>Sets the appropriate font style class for headers in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+font-color.</p>
 
 
   <div class='pre p1 fill-light mt0'>getNightmodeHeaderClass()</div>
@@ -4256,7 +5691,7 @@ in order to set the header to nightmode/lightmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjssavedarticlesctrlunsavearticle'>
+    <div class='border-bottom' id='savedarticlesctrlunsavearticle'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -4317,11 +5752,11 @@ the array with the saved articles by splicing the array on the article's positio
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjssavedarticlesctrlshowremovedtoast'>
+    <div class='border-bottom' id='savedarticlesctrlshowreportoptions'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>showRemovedToast()</span>
+            <span class='code strong strong truncate'>showReportOptions(id)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4329,58 +5764,12 @@ the array with the saved articles by splicing the array on the article's positio
 
   
 
-  <p>This function is responsible for displaying an informative text
-when the article is removed from saved.</p>
+  <p>Responsible for displaying the report modal template. If the user selects either one
+or both of the options and clicks "Confirm", then a request is sent to the server with the reported
+article's source title for further statistics calculations.</p>
 
 
-  <div class='pre p1 fill-light mt0'>showRemovedToast()</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='controllerjssavedarticlesctrlshowreportoptions'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>showReportOptions(sourceid)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>This function is responsible for displaying the popup when a user wants to report
-an article. The popup is ionic's default and uses the reportArticle.html temlpate.</p>
-
-
-  <div class='pre p1 fill-light mt0'>showReportOptions(sourceid: any)</div>
+  <div class='pre p1 fill-light mt0'>showReportOptions(id: int)</div>
   
   
 
@@ -4397,8 +5786,9 @@ an article. The popup is ionic's default and uses the reportArticle.html temlpat
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>sourceid</span> <code class='quiet'>(any)</code>
-	    
+            <span class='code bold'>id</span> <code class='quiet'>(int)</code>
+	    The reported article's id
+
           </div>
           
         </div>
@@ -4424,7 +5814,77 @@ an article. The popup is ionic's default and uses the reportArticle.html temlpat
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjssavedarticlesctrlinit'>
+    <div class='border-bottom' id='savedarticlesctrlisarticlereported'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>isArticleReported(id)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Responsible for checking whether the current article has already been reported.
+It searches in an array, that is saved in the local storage and returns true if the article is contained
+or false if it's not.</p>
+
+
+  <div class='pre p1 fill-light mt0'>isArticleReported(id: int): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>id</span> <code class='quiet'>(int)</code>
+	    The id of the article that is currently being checked
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
+        True if it's reported, False if it's not
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='savedarticlesctrlinit'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -4436,8 +5896,11 @@ an article. The popup is ionic's default and uses the reportArticle.html temlpat
 
   
 
-  <p>This function is responsible for calling all the functions that need to
-be executed when the page is initialized.</p>
+  <p>Responsible for calling all the functions and executing necessary functionalities
+once the page is loaded.
+Such functionalities include:
+1) Loading user's saved articles.
+2) Loading user's reported articles.</p>
 
 
   <div class='pre p1 fill-light mt0'>init()</div>
@@ -4480,22 +5943,23 @@ be executed when the page is initialized.</p>
   
 </section>
 
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='controllerjssettingsctrl'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>settingsCtrl</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='settingsctrl'>
+      settingsCtrl
+    </h3>
+    
+    
+  </div>
+  
 
-  <p>Controller controlling the functionalities implemented for the Settings page.</p>
+  <p>Controller for the functionalities implemented for the settings view.</p>
 
 
   <div class='pre p1 fill-light mt0'>settingsCtrl</div>
@@ -4523,7 +5987,7 @@ be executed when the page is initialized.</p>
     <div class='py1 quiet mt1 prose-big'>Static Members</div>
     <div class="clearfix">
   
-    <div class='border-bottom' id='controllerjssettingsctrlsaveusersettings'>
+    <div class='border-bottom' id='settingsctrlsaveusersettings'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -4535,8 +5999,8 @@ be executed when the page is initialized.</p>
 
   
 
-  <p>This function is responsible for saving the selected settings in the user's
-settings in the device's local storage</p>
+  <p>Responsible for saving the new settings under the user's entry in the local storage.
+Also it saved in the session storage the font size used for easier font management across pages.</p>
 
 
   <div class='pre p1 fill-light mt0'>saveUserSettings()</div>
@@ -4570,68 +6034,7 @@ settings in the device's local storage</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjssettingsctrlgetfontsizerangeval'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getFontsizeRangeVal(f)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>This function is responsible for matching the selected value from the font size
-range bar to the actual font size value.
-(font size of range bar is in pixel values and the actual font size metric used is percentage)</p>
-
-
-  <div class='pre p1 fill-light mt0'>getFontsizeRangeVal(f: any)</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>f</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='controllerjssettingsctrlsetnightmode'>
+    <div class='border-bottom' id='settingsctrlsetnightmode'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -4643,9 +6046,9 @@ range bar to the actual font size value.
 
   
 
-  <p>This function is responsible for adding the value of the nightmode toggle to the
-shared properties space and to broadcast it to the other controllers in order for the sidemenu
-controller to recieve it and change it's background value according to the toggle's value.</p>
+  <p>Responsible for broadcasting across the application the value of the nightmode toggle.
+Also it saves the value of the nightmode in the session storage for easier background class management
+across the pages.</p>
 
 
   <div class='pre p1 fill-light mt0'>setNightmode()</div>
@@ -4679,7 +6082,7 @@ controller to recieve it and change it's background value according to the toggl
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjssettingsctrlwatch'>
+    <div class='border-bottom' id='settingsctrlwatch'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -4691,9 +6094,8 @@ controller to recieve it and change it's background value according to the toggl
 
   
 
-  <p>This function is responsible for matching the selected value from the font size
-range bar to the actual font size value in order to display it in pixels in the page.
-(font size of range bar is in pixel values and the actual font size metric used is percentage)</p>
+  <p>Responsible for matching the value of the font size range bar to the appropriate font size
+percentage used. Also it broadcasts the changed value across the app.</p>
 
 
   <div class='pre p1 fill-light mt0'>$watch()</div>
@@ -4727,7 +6129,7 @@ range bar to the actual font size value in order to display it in pixels in the 
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjssettingsctrlgetbackgroundclass'>
+    <div class='border-bottom' id='settingsctrlgetbackgroundclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -4739,12 +6141,9 @@ range bar to the actual font size value in order to display it in pixels in the 
 
   
 
-  <p>This function is responsible for retrieving the class used in the background
-in order to set the ba
-sharedProps.addData("cachenewsEnabled", $scope.data.cachenewsEnabled);
-sharedProps.addData("markupEnabled", $scope.data.markupEnabled);
-sharedProps.addData("hideEnabled", $scope.data.hideEnabled);
-sharedProps.addData("tolerance", $scope.data.tolerance);ckground to nightmode/lightmode.</p>
+  <p>Sets the appropriate background class in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+background.</p>
 
 
   <div class='pre p1 fill-light mt0'>getBackgroundClass()</div>
@@ -4778,7 +6177,7 @@ sharedProps.addData("tolerance", $scope.data.tolerance);ckground to nightmode/li
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjssettingsctrlgetfontclass'>
+    <div class='border-bottom' id='settingsctrlgetfontclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -4790,8 +6189,9 @@ sharedProps.addData("tolerance", $scope.data.tolerance);ckground to nightmode/li
 
   
 
-  <p>This function is responsible for retrieving the class used in the font style
-in order to set the font style to nightmode/lightmode.</p>
+  <p>Sets the appropriate font color class in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+font-color.</p>
 
 
   <div class='pre p1 fill-light mt0'>getFontClass()</div>
@@ -4825,7 +6225,7 @@ in order to set the font style to nightmode/lightmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjssettingsctrlinit'>
+    <div class='border-bottom' id='settingsctrlinit'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -4837,8 +6237,10 @@ in order to set the font style to nightmode/lightmode.</p>
 
   
 
-  <p>This function is responsible for calling all the functions that need to
-be executed when the page is initialized.</p>
+  <p>Responsible for calling all the functions and executing necessary functionalities
+once the page is loaded.
+Such functionalities include:
+1) Loading current user's settings.</p>
 
 
   <div class='pre p1 fill-light mt0'>init()</div>
@@ -4881,22 +6283,23 @@ be executed when the page is initialized.</p>
   
 </section>
 
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='controllerjssignupctrl'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>signupCtrl</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='signupctrl'>
+      signupCtrl
+    </h3>
+    
+    
+  </div>
+  
 
-  <p>Controller controlling the functionalities implemented for the edit sign up view.</p>
+  <p>Controller for the functionalities implemented for the sign up view.</p>
 
 
   <div class='pre p1 fill-light mt0'>signupCtrl</div>
@@ -4924,7 +6327,7 @@ be executed when the page is initialized.</p>
     <div class='py1 quiet mt1 prose-big'>Static Members</div>
     <div class="clearfix">
   
-    <div class='border-bottom' id='controllerjssignupctrlregister'>
+    <div class='border-bottom' id='signupctrlregister'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -4936,9 +6339,9 @@ be executed when the page is initialized.</p>
 
   
 
-  <p>This function is responsible for sending the values of the new user's profile
-to be saved in the device's local storage and changes from the current page to the login page.
-If the profile saving fails, then an informative message is displayed.</p>
+  <p>Responsible for registering the new user. It sends the new user's info in the UserService
+and if the registration was successful it logins the user, else it displays an informational popup with
+the according error message.</p>
 
 
   <div class='pre p1 fill-light mt0'>register()</div>
@@ -4972,7 +6375,7 @@ If the profile saving fails, then an informative message is displayed.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjssignupctrlshowfailedtoregisterpopup'>
+    <div class='border-bottom' id='signupctrlshowfailedtoregisterpopup'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -4984,8 +6387,7 @@ If the profile saving fails, then an informative message is displayed.</p>
 
   
 
-  <p>This function is responsible for displaying an informative message that the new profile could not
-be created.</p>
+  <p>Responsible for displaying an informational error message if the registration has failed.</p>
 
 
   <div class='pre p1 fill-light mt0'>showFailedToRegisterPopup(resp: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</div>
@@ -5033,7 +6435,108 @@ be created.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjssignupctrlinit'>
+    <div class='border-bottom' id='signupctrlcreateusersettings'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>createUserSettings()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Responsible for creating the local storage entries for the current user.
+These entries are:
+1) User Settings
+2) Deleted Articles
+3) Selected Sources
+4) Cached Articles
+5) Saved Articles
+6) Reported Articles</p>
+
+
+  <div class='pre p1 fill-light mt0'>createUserSettings()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='signupctrllogin'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>login()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Responsible for attempting to login the user. It passes the user's username and password
+in the Authentication Service. If the login was successful then the user is redirected tot he news feed
+page. If not then the login failure popup is displayed.</p>
+
+
+  <div class='pre p1 fill-light mt0'>login()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='signupctrlinit'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -5045,8 +6548,11 @@ be created.</p>
 
   
 
-  <p>This function is responsible for calling all the functions that need to
-be executed when the page is initialized.</p>
+  <p>Responsible for calling all the functions and executing necessary functionalities
+once the page is loaded.
+Such functionalities include:
+1) Initialize sex options for the sex selection dropdown.
+2) Initialized birthday, sex and firstTime login values for the new user.</p>
 
 
   <div class='pre p1 fill-light mt0'>init()</div>
@@ -5089,22 +6595,23 @@ be executed when the page is initialized.</p>
   
 </section>
 
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='controllerjsstatisticsctrl'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>statisticsCtrl</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='statisticsctrl'>
+      statisticsCtrl
+    </h3>
+    
+    
+  </div>
+  
 
-  <p>Controller controlling the functionalities implemented for the statistics view.</p>
+  <p>Controller for the functionalities implemented for the statistics view.</p>
 
 
   <div class='pre p1 fill-light mt0'>statisticsCtrl</div>
@@ -5132,7 +6639,7 @@ be executed when the page is initialized.</p>
     <div class='py1 quiet mt1 prose-big'>Static Members</div>
     <div class="clearfix">
   
-    <div class='border-bottom' id='controllerjsstatisticsctrlioniconbeforeenter'>
+    <div class='border-bottom' id='statisticsctrlioniconbeforeenter'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -5180,7 +6687,7 @@ Actions taken: 1) Gets the nightmode setting value in order to set the page to n
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsstatisticsctrlgetfontsize'>
+    <div class='border-bottom' id='statisticsctrlgetfontsize'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -5192,9 +6699,8 @@ Actions taken: 1) Gets the nightmode setting value in order to set the page to n
 
   
 
-  <p>This function is responsible for retrieving the selected font size from the
-shared properties space and set the value into scope variables in order to be used in
-the page and set the page's font size.</p>
+  <p>Sets 2 scope variables that represent 2 different font-sizes. These variables
+are used in the page as ng-style attributes.</p>
 
 
   <div class='pre p1 fill-light mt0'>getFontSize()</div>
@@ -5228,7 +6734,7 @@ the page and set the page's font size.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsstatisticsctrlgetbackgroundclass'>
+    <div class='border-bottom' id='statisticsctrlgetbackgroundclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -5240,8 +6746,9 @@ the page and set the page's font size.</p>
 
   
 
-  <p>This function is responsible for retrieving the class used in the background
-in order to set the background to nightmode/lightmode.</p>
+  <p>Sets the appropriate background class in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+background.</p>
 
 
   <div class='pre p1 fill-light mt0'>getBackgroundClass()</div>
@@ -5275,7 +6782,7 @@ in order to set the background to nightmode/lightmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsstatisticsctrlgetfontclass'>
+    <div class='border-bottom' id='statisticsctrlgetfontclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -5287,8 +6794,9 @@ in order to set the background to nightmode/lightmode.</p>
 
   
 
-  <p>This function is responsible for retrieving the class used in the font style
-in order to set the font style to nightmode/lightmode.</p>
+  <p>Sets the appropriate font color class in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+font-color.</p>
 
 
   <div class='pre p1 fill-light mt0'>getFontClass()</div>
@@ -5322,7 +6830,7 @@ in order to set the font style to nightmode/lightmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsstatisticsctrlgetnightmodeheaderclass'>
+    <div class='border-bottom' id='statisticsctrlgetnightmodeheaderclass'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -5334,8 +6842,9 @@ in order to set the font style to nightmode/lightmode.</p>
 
   
 
-  <p>This function is responsible for retrieving the class used in the header<br>
-in order to set the header to nightmode/lightmode.</p>
+  <p>Sets the appropriate font style class for headers in a scope variable that will be used
+in the page as ng-class attribute. The classes are either for nightmode or normal mode
+font-color.</p>
 
 
   <div class='pre p1 fill-light mt0'>getNightmodeHeaderClass()</div>
@@ -5369,7 +6878,53 @@ in order to set the header to nightmode/lightmode.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsstatisticsctrlinit'>
+    <div class='border-bottom' id='statisticsctrlsetgraphoptions'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>setGraphOptions()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Responsible for initialization of the selection dropdowns and the graphs' options.</p>
+
+
+  <div class='pre p1 fill-light mt0'>setGraphOptions()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='statisticsctrlinit'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -5381,8 +6936,12 @@ in order to set the header to nightmode/lightmode.</p>
 
   
 
-  <p>This function is responsible for calling all the functions that need to
-be executed when the page is initialized.</p>
+  <p>Responsible for calling all the functions and executing necessary functionalities
+once the page is loaded.
+Such functionalities include:
+1) Initialize the graphs' options
+2) Executes a request to the server to get all the sources.
+3) Adds the sources in the sources dropdown selection.</p>
 
 
   <div class='pre p1 fill-light mt0'>init()</div>
@@ -5416,7 +6975,43 @@ be executed when the page is initialized.</p>
       </div>
     </div>
   
-</div>
+    <div class='border-bottom' id='statisticsctrlrequeststatistics'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>requestStatistics()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Responsible for executing a request to the server in order to retrieve the requested
+statistics information. When the response is retrieved, it adds the response values to the chart data
+and also creates the chart's labels according to the request.</p>
+
+
+  <div class='pre p1 fill-light mt0'>requestStatistics()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
 
   
 
@@ -5428,19 +7023,32 @@ be executed when the page is initialized.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='controllerjsreportarticlectrl'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>reportArticleCtrl</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
+</div>
 
   
 
-  <p>Controller controlling the functionalities implemented for the report article template.</p>
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='reportarticlectrl'>
+      reportArticleCtrl
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Controller for the functionalities implemented for the tutorial template.</p>
 
 
   <div class='pre p1 fill-light mt0'>reportArticleCtrl</div>
@@ -5471,22 +7079,23 @@ be executed when the page is initialized.</p>
   
 </section>
 
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='controllerjswelcomectrl'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>welcomeCtrl</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='welcomectrl'>
+      welcomeCtrl
+    </h3>
+    
+    
+  </div>
+  
 
-  <p>Controller controlling the functionalities implemented for the welcome template.</p>
+  <p>Controller for the functionalities implemented for the welcome view.</p>
 
 
   <div class='pre p1 fill-light mt0'>welcomeCtrl</div>
@@ -5514,7 +7123,7 @@ be executed when the page is initialized.</p>
     <div class='py1 quiet mt1 prose-big'>Static Members</div>
     <div class="clearfix">
   
-    <div class='border-bottom' id='controllerjswelcomectrlgotologin'>
+    <div class='border-bottom' id='welcomectrlgotologin'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -5526,9 +7135,9 @@ be executed when the page is initialized.</p>
 
   
 
-  <p>This function is responsible to set the initial run of the application to false
-in order to disable the welcome screen from displaying when the app is relaunched and then
-redirect the app to the login page.</p>
+  <p>Responsible for setting the application's initial run value to false so that
+the welcome page will not be displayed again if the application will be run again on the
+current device. Then it redirects the application to the login view.</p>
 
 
   <div class='pre p1 fill-light mt0'>goToLogin()</div>
@@ -5551,18 +7160,6 @@ redirect the app to the login page.</p>
   
 
   
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-</div>
 
   
 
@@ -5639,8 +7236,8 @@ redirect the app to the login page.</p>
 
   
 
-  <p>Factory stores and checks a boolean in the local storage in order to know
-if this is the application's first run.</p>
+  <p>Stores in the local storage if this is or not the application's first run
+on this device.</p>
 
 
   <div class='pre p1 fill-light mt0'>Application</div>
@@ -5663,252 +7260,6 @@ if this is the application's first run.</p>
   
 
   
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='servicesjssharedprops'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>sharedProps</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Shared properties space that works like a local storage.</p>
-
-
-  <div class='pre p1 fill-light mt0'>sharedProps</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Static Members</div>
-    <div class="clearfix">
-  
-    <div class='border-bottom' id='servicesjssharedpropsadddata'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>addData(key, value)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>This function is responsible for searching context if a value
-under the @param key is already stored. If true then it overwrites it, else it
-creates a new one.</p>
-
-
-  <div class='pre p1 fill-light mt0'>addData(key: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, value: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>key</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    The key under which the value will be saved
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>value</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
-	    The value that will be saved under the key
-
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='servicesjssharedpropsgetdata'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getData(key)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>This function is responsible for searching the "obj" object if a value
-under the @param key is already stored and return it.</p>
-
-
-  <div class='pre p1 fill-light mt0'>getData(key: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>key</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    The key under which a value is saved
-
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></code>:
-        The object under the {@param key}
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='servicesjssharedpropsdatalength'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>dataLength()</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>This function is responsible for returning the length of the context.</p>
-
-
-  <div class='pre p1 fill-light mt0'>dataLength(): int</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code>int</code>:
-        The length of the context
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-</div>
 
   
 
@@ -5972,8 +7323,7 @@ under the @param key is already stored and return it.</p>
 
   
 
-  <p>This function is responsible for returning all the registered users' info in
-the devices local storage.</p>
+  <p>Responsible for returning all the registered users' info from the devices local storage.</p>
 
 
   <div class='pre p1 fill-light mt0'>GetAll(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></div>
@@ -6027,7 +7377,7 @@ the devices local storage.</p>
 
   
 
-  <p>This function is responsible for returning the username of the currently logged in user.</p>
+  <p>Responsible for returning the username of the currently logged in user.</p>
 
 
   <div class='pre p1 fill-light mt0'>GetByUsername(username: any): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
@@ -6094,8 +7444,8 @@ the devices local storage.</p>
 
   
 
-  <p>This function is responsible for searching the usernames registered so far in the app
-to check if the new profile's username is not already registered. If not then a new profile is created
+  <p>Responsible for searching the usernames registered in the app to check if the
+new profile's username is not already registered. If not then a new profile is created
 with the input details and a success promise is returned. If it is, then a failed promise is returned.</p>
 
 
@@ -6164,8 +7514,8 @@ with the input details and a success promise is returned. If it is, then a faile
 
   
 
-  <p>This function is responsible for searching to find the given user's profile details and
-update them with the new given details. If the process is successful then a success promise is returned,
+  <p>Responsible for searching to find the given user's profile details and update them with
+the new given details. If the process is successful then a success promise is returned,
 else a failed promise is returned.</p>
 
 
@@ -6234,7 +7584,7 @@ else a failed promise is returned.</p>
 
   
 
-  <p>This function is responsible for retrieving and returning all the users' profile details.</p>
+  <p>Responsible for retrieving and returning all the users' profile details.</p>
 
 
   <div class='pre p1 fill-light mt0'>getUsers(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></div>
@@ -6288,7 +7638,7 @@ else a failed promise is returned.</p>
 
   
 
-  <p>This function is responsible for storing the users' profile details in the local storage.</p>
+  <p>Responsible for storing the users' profile details in the local storage.</p>
 
 
   <div class='pre p1 fill-light mt0'>setUsers(users: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</div>
@@ -6360,7 +7710,7 @@ else a failed promise is returned.</p>
 
   
 
-  <p>Factory that works like an offline user service.</p>
+  <p>Factory that works like an offline user authentication service.</p>
 
 
   <div class='pre p1 fill-light mt0'>AuthenticationService</div>
@@ -6400,11 +7750,10 @@ else a failed promise is returned.</p>
 
   
 
-  <p>This function is responsible for searching all the users' profiles to find the
-matching username in the users' list. If the username is not found then a failure callback is returned.
-Else if the username is found, then it checks if the password matches. If it does, it returns a success callback.
-If not, then it returns a failure callback. Also, it updates the logged in user's profile value: firstTime, in order
-to keep track if this is the first time a user is logging in.</p>
+  <p>Responsible for searching all the users' profiles to find the matching username in the
+users' list. If the username is not found then a failure callback is returned. Else if the username is
+found, then it checks if the password matches. If it does, it returns a success callback. If not,
+then it returns a failure callback.</p>
 
 
   <div class='pre p1 fill-light mt0'>Login(username: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, password: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
@@ -6443,7 +7792,7 @@ to keep track if this is the first time a user is logging in.</p>
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>callback</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    The response back to the caller
+	    The response message back to the caller function
 
           </div>
           
@@ -6482,8 +7831,7 @@ to keep track if this is the first time a user is logging in.</p>
 
   
 
-  <p>This function is responsible for setting the logged in user's username and password
-in global view.</p>
+  <p>Responsible for setting the logged in user's username and password in global view.</p>
 
 
   <div class='pre p1 fill-light mt0'>SetCredentials(username: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, password: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
@@ -6552,7 +7900,7 @@ in global view.</p>
 
   
 
-  <p>This function is responsible for clearing the global username and password values.</p>
+  <p>Responsible for clearing the global username and password values.</p>
 
 
   <div class='pre p1 fill-light mt0'>ClearCredentials()</div>

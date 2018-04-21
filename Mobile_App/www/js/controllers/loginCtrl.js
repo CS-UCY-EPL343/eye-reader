@@ -4,18 +4,23 @@ angular
     /**
      * @module loginCtrl
      * @memberof controllerjs
-     * @description Controller controlling the functionalities implemented for the edit login view.
+     * @description Controller for the functionalities implemented for the login view.
      */
-    .controller("loginCtrl", ["$scope", "AuthenticationService",
-        "$state", "$window", "$ionicPopup", "$ionicLoading", "$rootScope",
-        function ($scope, AuthenticationService, $state, $window,
-            $ionicPopup, $ionicLoading, $rootScope) {
+    .controller("loginCtrl", ["$scope", "AuthenticationService", "$state", "$window", "$ionicPopup", "$ionicLoading", "$rootScope",
+        function ($scope, AuthenticationService, $state, $window, $ionicPopup, $ionicLoading, $rootScope) {
             var usersSettings;
+
             /**
               * @function
               * @memberof controllerjs.loginCtrl
-              * @description This function is responsible for creating new values in the shared properties 
-              * space for the new user's settings.
+              * @description Responsible for creating the local storage entries for the current user.
+              * These entries are:
+              * 1) User Settings
+              * 2) Deleted Articles
+              * 3) Selected Sources
+              * 4) Cached Articles
+              * 5) Saved Articles
+              * 6) Reported Articles
               */
             function createUserSettings() {
 
@@ -37,6 +42,9 @@ angular
                 usersSettings.push(currentUserSettings);
 
                 $window.localStorage.setItem("usersSettings", JSON.stringify(usersSettings));
+
+                $window.sessionStorage.setItem("isNightmode", JSON.stringify(false));
+                $window.sessionStorage.setItem("fontsize", JSON.stringify(currentUserSettings.settings.fontsize));
 
                 //creates users deleted articles local storage entry
                 var usersDeletedArticles = $window.localStorage.getItem("usersDeletedArticles");
@@ -107,17 +115,16 @@ angular
                 }
                 usersReportedArticles.push(reportedArticles);
                 $window.localStorage.setItem("usersReportedArticles", JSON.stringify(usersReportedArticles));
-
-                $window.sessionStorage.setItem("isNightmode", JSON.stringify(false));
             }
 
             /**
               * @function
               * @memberof controllerjs.loginCtrl
-              * @description This function is responsible for finding the logged in user's settings from 
-              * the local storage and save them to shared properties space.
+              * @description Responsible for searching for the current user's settings in the local storage. 
+              * If there aren't any, it calls createUserSettings() in order to generate all the necessary entires
+              * in the local storage.
               */
-            function loadUserSettings() {
+            function findUserSettings() {
                 usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
                 var currentUserSettings = _.find(usersSettings, function (userSettings) {
                     return userSettings.username == $scope.login.username;
@@ -132,8 +139,7 @@ angular
             /**
               * @function
               * @memberof controllerjs.loginCtrl
-              * @description This function is responsible for displaying an informative message if there was 
-              * a problem with the user logging in the app.
+              * @description Responsible for displaying an informational popup if the user failed to login.
               */
             function showFailedToLoginPopup(resp) {
                 var promptAlert = $ionicPopup.show({
@@ -150,9 +156,9 @@ angular
             /**
               * @function
               * @memberof controllerjs.loginCtrl
-              * @description This function is responsible for requesting from the authentication service to 
-              * login the user in the app. If the service replies with success, then the view is transfered to 
-              * the news feed view. Else an informative message is displayed.
+              * @description Responsible for attempting to login the user. It passes the user's username and password
+              * in the Authentication Service. If the login was successful then the user is redirected tot he news feed 
+              * page. If not then the login failure popup is displayed.
               */
             $scope.login = function () {
                 $ionicLoading.show({
@@ -167,7 +173,7 @@ angular
                                 $scope.login.username,
                                 $scope.login.password
                             );
-                            loadUserSettings();
+                            findUserSettings();
                             $ionicLoading.hide();
                             $state.go("eyeReader.newsFeed");
                         } else {

@@ -5,19 +5,32 @@ angular
     /**
      * @module savedArticlesCtrl
      * @memberof controllerjs
-     * @description Controller controlling the functionalities implemented for the saved articles view.
+     * @description Controller for the functionalities implemented for the saved articles view.
      */
     .controller("savedArticlesCtrl", ["$scope", "Server", "$http", "$window", "$rootScope", "ConnectionMonitor", "$notificationBar", "$ionicPopup",
         function ($scope, Server, $http, $window, $rootScope, ConnectionMonitor, $notificationBar, $ionicPopup) {
             $scope.isOnline = ConnectionMonitor.isOnline();
-            var data = {};
-            var usersReportedArticles = [];
             $scope.input = {};
-            var usersSavedArticles = [];
             $scope.isLoading = true;
             $scope.checkboxes = {};
+            var data = {};
+            var usersReportedArticles = [];
+            var usersSavedArticles = [];
             init();
 
+            /**
+             * @function
+             * @memberof controllerjs.savedArticlesCtrl
+             * @param {string} message The message to display
+             * @param {int} duration The duration of the display
+             * @description Executes actions before this page is loaded into view.
+             *  Actions taken: 1) Gets the nightmode setting value in order to set the page to nightmode
+             *           2) Gets the font size selected by the user in order to set it to the whole page
+             */
+            function displayToast(message, duration) {
+                $notificationBar.setDuration(duration);
+                $notificationBar.show(message, $notificationBar.EYEREADERCUSTOM);
+            }
             /**
              * @name beforeEnter
              * @memberof controllerjs.savedArticlesCtrl
@@ -26,15 +39,18 @@ angular
              *           2) Gets the font size selected by the user in order to set it to the whole page
              */
             $scope.$on("$ionicView.beforeEnter", function () {
+                var n = JSON.parse($window.sessionStorage.getItem("isNightmode"));
+                if (n != undefined)
+                    $scope.isNightmode = n;
+                data.fontsize = JSON.parse($window.sessionStorage.getItem("fontsize"));
                 getFontSize();
             });
-            
+
             /**
              * @function
              * @memberof controllerjs.savedArticlesCtrl
-             * @description This function is responsible for retrieving the selected font size from the 
-             * shared properties space and set the value into scope variables in order to be used in 
-             * the page and set the page's font size.
+             * @description Sets 2 scope variables that represent 2 different font-sizes. These variables
+             * are used in the page as ng-style attributes. 
              */
             function getFontSize() {
                 //font size for normal letters
@@ -46,8 +62,9 @@ angular
             /**
               * @function
               * @memberof controllerjs.savedArticlesCtrl
-              * @description This function is responsible for retrieving the class used in the background
-              * in order to set the background to nightmode/lightmode.
+              * @description Sets the appropriate background class in a scope variable that will be used 
+              * in the page as ng-class attribute. The classes are either for nightmode or normal mode 
+              * background.
               */
             $scope.getBackgroundClass = function () {
                 return $scope.isNightmode ? "nightmodeBackground" : "normalmodeBackground";
@@ -56,8 +73,9 @@ angular
             /**
               * @function
               * @memberof controllerjs.savedArticlesCtrl
-              * @description This function is responsible for retrieving the class used in the font style 
-              * in order to set the font style to nightmode/lightmode.
+              * @description Sets the appropriate font color class in a scope variable that will be used 
+              * in the page as ng-class attribute. The classes are either for nightmode or normal mode
+              * font-color.
               */
             $scope.getFontClass = function () {
                 return $scope.isNightmode ? "nightmodeFontColor" : "normalBlackLetters";
@@ -66,13 +84,13 @@ angular
             /**
               * @function
               * @memberof controllerjs.savedArticlesCtrl
-              * @description This function is responsible for retrieving the class used in the header  
-              * in order to set the header to nightmode/lightmode.
+              * @description Sets the appropriate font style class for headers in a scope variable that will be used 
+              * in the page as ng-class attribute. The classes are either for nightmode or normal mode
+              * font-color.
               */
             $scope.getNightmodeHeaderClass = function () {
                 return $scope.isNightmode ? "nightmodeHeaderClass" : "normalHeaderClass";
             };
-
 
             /**
               * @function
@@ -88,36 +106,24 @@ angular
                         for (let i = 0; i < el.articles.length; i++) {
                             if (el.articles[i].Id == id) {
                                 articleIndex = i;
-                                $scope.savedArticles.articles.splice(articleIndex,0);
-                                el.articles.splice(articleIndex,1);
+                                $scope.savedArticles.articles.splice(articleIndex, 0);
+                                el.articles.splice(articleIndex, 1);
                                 break;
                             }
                         }
                     }
                 });
-                
                 $window.localStorage.setItem("usersSavedArticles", JSON.stringify(usersSavedArticles));
-
-                showRemovedToast();
-            }
-
-
-            /**
-              * @function
-              * @memberof controllerjs.savedArticlesCtrl
-              * @description This function is responsible for displaying an informative text 
-              * when the article is removed from saved.
-              */
-            function showRemovedToast() {
-                $notificationBar.setDuration(1000);
-                $notificationBar.show("Article removed from saved!", $notificationBar.EYEREADERCUSTOM);
+                displayToast("Article removed from saved!", 1000);
             }
 
             /**
               * @function
               * @memberof controllerjs.savedArticlesCtrl
-              * @description This function is responsible for displaying the popup when a user wants to report 
-              * an article. The popup is ionic's default and uses the reportArticle.html temlpate.
+              * @param {int} id The reported article's id
+              * @description Responsible for displaying the report modal template. If the user selects either one
+              * or both of the options and clicks "Confirm", then a request is sent to the server with the reported
+              * article's source title for further statistics calculations.
               */
             $scope.showReportOptions = function (id) {
                 $scope.checkboxes.hatespeech = false;
@@ -136,8 +142,7 @@ angular
                         onTap: function (e) {
                             if ($scope.checkboxes.hatespeech || $scope.checkboxes.fakenews) {
                                 $http.get(Server.baseUrl + "articles/" + id + "/report");
-                                $notificationBar.setDuration(1000);
-                                $notificationBar.show("Article reported!", $notificationBar.EYEREADERCUSTOM);
+                                displayToast("Article reported!", 1000);
                                 $scope.reportedArticles.articles.push(id);
 
                                 usersReportedArticles = _.filter(usersReportedArticles, function (ura) {
@@ -146,8 +151,7 @@ angular
                                 usersReportedArticles.push($scope.reportedArticles);
                                 $window.localStorage.setItem("usersReportedArticles", JSON.stringify(usersReportedArticles));
                             } else {
-                                $notificationBar.setDuration(1500);
-                                $notificationBar.show("Please check at least one option!", $notificationBar.EYEREADERCUSTOM);
+                                displayToast("Please check at least one option!", 1500);
                                 e.preventDefault();
                             }
                         }
@@ -159,8 +163,11 @@ angular
             /**
               * @function
               * @memberof controllerjs.savedArticlesCtrl
-              * @param {int} id - The id of the article to check
-              * @description This function is responsible for checking if the article given is saved or not.
+              * @param {int} id The id of the article that is currently being checked
+              * @returns {boolean} True if it's reported, False if it's not
+              * @description Responsible for checking whether the current article has already been reported.
+              * It searches in an array, that is saved in the local storage and returns true if the article is contained
+              * or false if it's not. 
               */
             $scope.isArticleReported = function (id) {
                 if ($scope.reportedArticles.articles.length == 0)
@@ -176,38 +183,23 @@ angular
             /**
               * @function
               * @memberof controllerjs.savedArticlesCtrl
-              * @description This function is responsible for calling all the functions that need to 
-              * be executed when the page is initialized.
+              * @description Responsible for calling all the functions and executing necessary functionalities 
+              * once the page is loaded.
+              * Such functionalities include: 
+              * 1) Loading user's saved articles.
+              * 2) Loading user's reported articles.
               */
             function init() {
                 usersSavedArticles = JSON.parse($window.localStorage.getItem("usersSavedArticles"));
                 $scope.savedArticles = _.find(usersSavedArticles, function (usa) {
                     return usa.username == $rootScope.activeUser.username;
                 })
-                var n = JSON.parse($window.sessionStorage.getItem("isNightmode"));
-                if (n != undefined) {
-                    $scope.isNightmode = n;
-                }
 
                 usersReportedArticles = JSON.parse($window.localStorage.getItem("usersReportedArticles"));
 
                 $scope.reportedArticles = _.find(usersReportedArticles, function (ura) {
                     return ura.username == $rootScope.activeUser.username;
                 });
-
-                var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
-
-                var currentUserSettings = _.find(usersSettings, function (userSettings) {
-                    return userSettings.username == $rootScope.activeUser.username;
-                });
-
-                data = {
-                    cachenewsEnabled: currentUserSettings.settings.cachenewsEnabled,
-                    fontsize: currentUserSettings.settings.fontsize,
-                    markupEnabled: currentUserSettings.settings.markupEnabled,
-                    hideEnabled: currentUserSettings.settings.hideEnabled,
-                    tolerance: currentUserSettings.settings.tolerance,
-                };
 
                 $scope.isLoading = false;
             }
