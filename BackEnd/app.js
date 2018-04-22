@@ -81,6 +81,29 @@ app.listen(PORT, function () {
 	console.log('Example app listening on port' + PORT + '!');
 });
 
+app.get('/sources/:SourceTitle/sentimentalAnalysis/', function (req, res) {
+  let sum= 0;
+  let i;
+	for (i=0; i<Article.length; i++) {
+		if (Article[i].SourceTitle.localeCompare(req.params.SourceTitle)== 0) {
+			// Handle undefined
+			sum= sum + Article[i].SentimentGrade;
+		}
+	}
+	
+	res.send(sum.toString());
+});
+
+app.get('/sources/:SourceTitle/click/', function (req, res) {
+  let sumClicks= 0;
+	res.send(sumClicks.toString());
+});
+
+app.get('/sources/:SourceTitle/report/', function (req, res) {
+  let sumReports= 0;
+	res.send(sumReports.toString());
+});
+
 function loadArticleData () {
 	let templateArticles= [];
 
