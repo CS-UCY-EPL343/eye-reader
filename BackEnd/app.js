@@ -96,11 +96,26 @@ app.get('/sources/:SourceTitle/sentimentalAnalysis/', function (req, res) {
 
 app.get('/sources/:SourceTitle/click/', function (req, res) {
   let sumClicks= 0;
+  let i;
+	for (i=0; i<Article.length; i++) {
+		if (Article[i].SourceTitle.localeCompare(req.params.SourceTitle)== 0) {
+			// Handle undefined
+			sumClicks= sumClicks + Article[i].clickCount;
+		}
+	}
 	res.send(sumClicks.toString());
 });
 
 app.get('/sources/:SourceTitle/report/', function (req, res) {
   let sumReports= 0;
+  let i;
+	for (i=0; i<Article.length; i++) {
+		if (Article[i].SourceTitle.localeCompare(req.params.SourceTitle)== 0) {
+			// Handle undefined
+			sumReports= sumReports + Article[i].reportCount;
+		}
+	}
+	
 	res.send(sumReports.toString());
 });
 
