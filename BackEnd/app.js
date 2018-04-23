@@ -4,17 +4,18 @@
  */
 var express = require('express');
 var app = express();
-var About;
 
 const PORT = process.env.PORT || 80;
 
-var Article = loadArticleData();
-var Source = loadSourceData();
+var Article= loadArticleData ();
+var Source= loadSourceData ();
+var About;
+
 // Enable Cross-Origin Resource Sharing (CORS)
-app.use(function (req, res, next) {
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	next();
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
 });
 
 /**
@@ -23,7 +24,7 @@ app.use(function (req, res, next) {
  * @return {string} 'EyeReader Backend Restful Service!'
  */
 app.get('/', function (req, res) {
-	res.send('EyeReader Backend Restful Service!');
+  res.send('EyeReader Backend Restful Service!');
 });
 
 /**
@@ -32,66 +33,19 @@ app.get('/', function (req, res) {
  * @return {JSON} JSON file with all the sources
  */
 app.get('/sources/', function (req, res) {
-	res.json(Source);
+  res.json(Source);
 });
 
-/**
- * @module get/about
- * @memberof backend
- * @return {string} 'Readme + Licence + Credits'
- */
-app.get('/about/', function (req, res) {
-	res.send(About);
-});
-
-/**
- * @module get/articles
- * @memberof backend
- * @return {JSON} JSON file with all the articles
- */
-app.get('/articles/', function (req, res) {
-	res.json(Article);
-});
-
-/**
- * @module get/articles/id/click
- * @memberof backend
- * @param {int} id - The ID of the Article clicked
- * @description Increase by 1 the click counter for the specific (:id) article
- */
-app.get('/articles/:id/click/', function (req, res) {
-	//req.params.id
-	//click_count++
-	res.json({ "Message": "Success" });
-});
-
-/**
- * @module get/articles/id/report
- * @memberof backend
- * @param {int} id - The ID of the Article reported
- * @description Increase by 1 the report counter for the specific (:id) article
- */
-app.get('/articles/:id/report/', function (req, res) {
-	//req.params.id
-	//report_count++
-	res.json({ "Message": "Success" });
-});
-
-app.listen(PORT, function () {
-	console.log('Example app listening on port' + PORT + '!');
-});
-
-app.get('/sources/:SourceTitle/sentimentalAnalysis/', function (req, res) {
-  let sum= 0;
-  let i;
-	for (i=0; i<Article.length; i++) {
-		if (Article[i].SourceTitle.localeCompare(req.params.SourceTitle)== 0) {
-			// Handle undefined
-			sum= sum + Article[i].SentimentGrade;
+app.get('/sources/:title/', function (req, res) {
+	let i;
+	for (i=0; i<Source.length; i++) {
+		// Handle undefined
+		if (Source[i].Title.localeCompare(req.params.title)== 0) {
+			res.json(Source[i]);
+			break;
 		}
 	}
-	
-	res.send(sum.toString());
+  res.json({"Message" : "Error: There is no source with the requested Title."});
 });
 
 app.get('/sources/:SourceTitle/click/', function (req, res) {
@@ -117,6 +71,109 @@ app.get('/sources/:SourceTitle/report/', function (req, res) {
 	}
 	
 	res.send(sumReports.toString());
+});
+
+app.get('/sources/:SourceTitle/sentimentalAnalysis/', function (req, res) {
+  let sum= 0;
+  let i;
+	for (i=0; i<Article.length; i++) {
+		if (Article[i].SourceTitle.localeCompare(req.params.SourceTitle)== 0) {
+			// Handle undefined
+			sum= sum + Article[i].SentimentGrade;
+		}
+	}
+	
+	res.send(sum.toString());
+});
+
+/**
+ * @module get/about
+ * @memberof backend
+ * @return {string} 'Readme + Licence + Credits'
+ */
+app.get('/about/', function (req, res) {
+  res.send(About);
+});
+
+/**
+ * @module get/articles
+ * @memberof backend
+ * @return {JSON} JSON file with all the articles
+ */
+app.get('/articles/', function (req, res) {
+  res.json(Article);
+});
+
+app.get('/articles/from/:SourceTitle/', function (req, res) {
+	let i;
+	let listArticles= [];
+	for (i=0; i<Article.length; i++) {
+		if (Article[i].SourceTitle.localeCompare(req.params.SourceTitle)== 0) {
+			// Handle undefined
+			listArticles.push (Article[i]);
+		}
+	}
+	if (listArticles.length== 0) {
+		res.json({"Message" : "There are no articles with the requested Source."});
+	} else {
+		res.json(listArticles);
+	}
+});
+
+app.get('/articles/:Id/', function (req, res) {
+	let i;
+	for (i=0; i<Article.length; i++) {
+		if (Article[i].Id== req.params.Id) {
+			// Handle undefined
+			res.json(Article[i]);
+			break;
+		}
+	}
+  res.json({"Message" : "Error: There is no article with the requested ID."});
+});
+
+/**
+ * @module get/articles/id/click
+ * @memberof backend
+ * @param {int} id - The ID of the Article clicked
+ * @description Increase by 1 the click counter for the specific (:id) article
+ */
+app.get('/articles/:Id/click/', function (req, res) {
+	//click_count++
+	let i;
+	for (i=0; i<Article.length; i++) {
+		if (Article[i].Id== req.params.Id) {
+			// Handle undefined
+			Article[i].clickCount= Article[i].clickCount + 1;
+			res.json({"Message" : "Success"});
+			break;
+		}
+	}
+  res.json({"Message" : "Error: There is no article with the requested ID."});
+});
+
+/**
+ * @module get/articles/id/report
+ * @memberof backend
+ * @param {int} id - The ID of the Article reported
+ * @description Increase by 1 the report counter for the specific (:id) article
+ */
+app.get('/articles/:Id/report/', function (req, res) {
+	//report_count++
+  let i;
+	for (i=0; i<Article.length; i++) {
+		if (Article[i].Id== req.params.Id) {
+			// Handle undefined
+			Article[i].reportCount= Article[i].reportCount + 1;
+			res.json({"Message" : "Success"});
+			break;
+		}
+	}
+  res.json({"Message" : "Error: There is no article with the requested ID."});
+});
+
+app.listen(PORT, function () {
+  console.log('Example app listening on port' + PORT + '!');
 });
 
 function loadArticleData () {
