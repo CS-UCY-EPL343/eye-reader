@@ -411,7 +411,7 @@ angular
               * increase the click counter for the article's source.
               */
             $scope.articleTapped = function (aid) {
-                $http.get(Server.baseUrl + 'articles/' + sourceid + "/click");
+                $http.get(Server.baseUrl + 'articles/' + aid + "/click");
                 $state.go("eyeReader.article", { id: aid });
             }
 
