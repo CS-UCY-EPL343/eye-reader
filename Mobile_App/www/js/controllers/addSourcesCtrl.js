@@ -8,8 +8,8 @@ angular
      * @memberof controllerjs
      * @description Controller for the functionalities implemented for the add sources view.
      */
-    .controller("addSourcesCtrl", ["$scope", "$http", "$window", "$rootScope", "ConnectionMonitor", "Server",
-        function ($scope, $http, $window, $rootScope, ConnectionMonitor, Server) {
+    .controller("addSourcesCtrl", ["$scope", "$http", "$window", "$rootScope", "ConnectionMonitor", "Server", "$ionicHistory",
+        function ($scope, $http, $window, $rootScope, ConnectionMonitor, Server, $ionicHistory) {
             $scope.isOnline = ConnectionMonitor.isOnline();
             $scope.isLoading = true;
             $scope.currentUserSources = {};
@@ -80,7 +80,7 @@ angular
               */
             $scope.select_deselectSource = function (sourceTitle) {
                 if ($scope.currentUserSources != null || $scope.currentUserSources != undefined) {
-
+                    $ionicHistory.clearCache();
                     var index = $scope.currentUserSources.sources.indexOf(sourceTitle);
                     if (index > -1) {
                         deselectSource(index);

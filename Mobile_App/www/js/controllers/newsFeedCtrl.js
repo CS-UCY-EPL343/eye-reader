@@ -16,12 +16,16 @@ angular
             $scope.isOnline = ConnectionMonitor.isOnline();
             $scope.checkboxes = {};
             $scope.isLoading = true;
+            var article_resp = [];
             var usersDeletedArticles = [];
             var articleCache = [];
             var data = {};
             var usersSavedArticles = [];
             var usersReportedArticles = [];
             var repeatArticleFetch;
+            var articles_toload_infinite = 5;
+            $scope.all_loaded_infinite = false;
+
             init();
 
             /**
@@ -334,14 +338,16 @@ angular
                                     return art.Id == d.Id;
                                 })
                                 if (isContained == undefined || isContained == null)
-                                    $scope.articles.push(d);
+                                    $scope.articles.unshift(d);
                             });
                         }
                     });
                     if (data.cachenewsEnabled) {
-                        for (var i = 0; i < $scope.articles.length; i++) {
+                        //for (var i = 0; i < $scope.articles.length; i++) {
+                        for (var i = 0; i < article_resp.length; i++) {
                             if (i < 10)
-                                $scope.cachedArticles.push($scope.articles[i]);
+                                //$scope.cachedArticles.push($scope.articles[i]);
+                                $scope.cachedArticles.push(article_resp[i]);
                         }
                         cacheArticles();
                     }
@@ -349,23 +355,35 @@ angular
                 }).catch(function (error) { });
             }
 
+            /**
+              * @function
+              * @memberof controllerjs.newsFeedCtrl
+              * @description Implements infinite-scroll functionality. When the bottom 1% of the screen has been reached 
+              * the next x articles [defined by the variable articles_toload_infinite], if they are available, from the 
+              * preloaded articles are added at the bottom of the news feed.
+              */
             $scope.loadMore = function () {
                 //TODO
-                // $http.get("./test_data/articles/templateArticle.js").then(function (res) {
-                //     $scope.articles = res.data;
-                // }).then(function () {
+                if ($scope.all_loaded_infinite) {
+                    $scope.$broadcast('scroll.infiniteScrollComplete');
+                    return;
+                }
+                for (var i = 0; i < articles_toload_infinite; i++) {
+                    if (article_resp.length == 0) {
+                        $scope.all_loaded_infinite = true;
+                        $scope.$broadcast('scroll.infiniteScrollComplete');
+                        return;
+                    }
 
-                //     if (data.cachenewsEnabled) {
-                //         for (var i = 0; i < $scope.articles.length; i++) {
-                //             if (i < 5) {
-                //                 $scope.cachedArticles.push($scope.articles[i]);
-                //             }
-                //         }
-                //     }
-                //     cacheArticles();
+                    let isContained = _.find($scope.articles, function (art) {
+                        return art.Id == article_resp[0].Id;
+                    })
+                    if (isContained == undefined || isContained == null) {
+                        $scope.articles.push(article_resp[0]);
+                        article_resp.splice(0, 1);
+                    }
+                }
 
-                //     $ionicLoading.hide();
-                // });
                 $scope.$broadcast('scroll.infiniteScrollComplete');
             }
 
@@ -568,16 +586,18 @@ angular
                             if (Array.isArray(el.data)) {
                                 el.data.forEach(d => {
                                     if (!_.contains($scope.deletedArticles.articles, d.Id)) {
-                                        $scope.articles.push(d);
+                                        article_resp.push(d);
+                                        //$scope.articles.push(d);
                                     }
                                 });
                             }
                         });
                         $scope.isLoading = false;
                         if (data.cachenewsEnabled) {
-                            for (var i = 0; i < $scope.articles.length; i++) {
+                            //for (var i = 0; i < $scope.articles.length; i++) {
+                            for (var i = 0; i < article_resp.length; i++) {
                                 if (i < 10) {
-                                    $scope.cachedArticles.push($scope.articles[i]);
+                                    $scope.cachedArticles.push(article_resp[i]);
                                 }
                             }
                             cacheArticles();
@@ -585,6 +605,20 @@ angular
                             emptyCache();
                         }
                         startRepeatArticleFetch();
+
+                        for (var i = 0; i < articles_toload_infinite; i++) {
+                            if (article_resp.length == 0) {
+                                break;
+                            }
+
+                            let isContained = _.find($scope.articles, function (art) {
+                                return art.Id == article_resp[0].Id;
+                            })
+                            if (isContained == undefined || isContained == null) {
+                                $scope.articles.push(article_resp[0]);
+                                article_resp.splice(0, 1);
+                            }
+                        }
 
                         $scope.isLoading = false;
                     }).catch(function (error) {

@@ -20,7 +20,7 @@ angular.module('app.routes', [])
             .state("eyeReader.newsFeed", {
 
                 url: "/newsfeed",
-                cache: "false",
+                cache: "true",
                 views: {
                     "side-menu21": {
                         templateUrl: "templates/newsFeed.html",

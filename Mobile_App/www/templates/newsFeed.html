@@ -18,7 +18,7 @@
             <ion-list id="newsFeed-list9" ng-repeat="article in articles | filter: { Title:input.onlineSearch } " ng-class="getBackgroundClass()">
                 <ion-item class="item-thumbnail-left item-icon-right" ng-click="articleTapped({{article.Id}})" ng-class="getBackgroundClass()">
                     <img alt="img" ng-src=".{{article.PictureSrc}}">
-                    <h2 ng-style="fontsize" ng-class="getFontClass()">{{article.Title}}</h2>
+                    <h2 ng-style="fontsize" ng-class="getFontClass()">{{article.Id}} - {{article.Title}}</h2>
                     <p ng-style="fontsizeSmaller" ng-class="getFontClass()">Source: {{article.SourceTitle}}</p>
                     <p ng-style="fontsizeSmaller" class="sideLetters">{{article.Content}}</p>
                     <i class="icon ion-ios-arrow-right icon-accessory"></i>
@@ -36,7 +36,7 @@
                     </ion-option-button>
                 </ion-item>
             </ion-list>
-            <ion-infinite-scroll on-infinite="loadMore()" distance="1%">
+            <ion-infinite-scroll ng-if="!all_loaded_infinite" on-infinite="loadMore()" distance="1%">
             </ion-infinite-scroll>
         </div>
         <div ng-if="!isLoading && cachedArticles.articles.length > 0 && !isOnline" ng-class="getBackgroundClass()">
