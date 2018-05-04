@@ -6,10 +6,26 @@ angular
      * @memberof controllerjs
      * @description Controller for the functionalities implemented for the profile view.
      */
-    .controller("profileCtrl", ["$scope", "$rootScope", "$window",
-        function ($scope, $rootScope, $window) {
+    .controller("profileCtrl", ["$scope", "$rootScope", "$window", "$ionicPopup", "$state",
+        function ($scope, $rootScope, $window, $ionicPopup, $state) {
             var data = {};
+            var networkAlert;
             init();
+
+            var networkChange = $scope.$on("networkChange", function (event, args) {
+                if (!networkAlert)
+                    networkAlert = $ionicPopup.alert({
+                        title: "Warning",
+                        template: "<span>Internet connection changed. Please login again!</span>",
+                    }).then(function (res) {
+                        $scope.isOnline = args;
+                        $state.go("login", { reload: true, inherit: false, cache: false });
+                    });
+            });
+
+            $scope.$on("$destroy", function () {
+                networkChange();
+            })
             //sets the value of the user's sex based on their decision
             if ($scope.user.sex == 0)
                 $scope.displaySex = "Female";

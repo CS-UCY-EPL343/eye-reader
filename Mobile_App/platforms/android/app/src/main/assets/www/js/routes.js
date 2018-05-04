@@ -1,148 +1,144 @@
 angular.module('app.routes', [])
 
-.config(function($stateProvider, $urlRouterProvider) {
+    .config(function ($stateProvider, $urlRouterProvider) {
 
-    // Ionic uses AngularUI Router which uses the concept of states
-    // Learn more here: https://github.com/angular-ui/ui-router
-    // Set up the various states which the app can be in.
-    // Each state's controller can be found in controllers.js
-    $stateProvider
+        // Ionic uses AngularUI Router which uses the concept of states
+        // Learn more here: https://github.com/angular-ui/ui-router
+        // Set up the various states which the app can be in.
+        // Each state's controller can be found in controllers.js
+        $stateProvider
 
 
-    .state("welcome", {
+            .state("welcome", {
 
-        url: "/welcome",
-        templateUrl: "templates/welcome.html",
-        controller: "welcomeCtrl",
-        cache: false
-    })
+                url: "/welcome",
+                templateUrl: "templates/welcome.html",
+            })
 
-    .state("eyeReader.newsFeed", {
+            .state("eyeReader.newsFeed", {
 
-        url: "/newsfeed",
-        cache: "false",
-        views: {
-            "side-menu21": {
-                templateUrl: "templates/newsFeed.html",
-                controller: "newsFeedCtrl"
-            }
-        }
-    })
+                url: "/newsfeed",
+                cache: "false",
+                views: {
+                    "side-menu21": {
+                        templateUrl: "templates/newsFeed.html",
+                    }
+                }
+            })
 
-    .state("eyeReader.settings", {
+            .state("eyeReader.cachedNewsFeed", {
 
-        url: "/settings",
-        cache: "false",
-        views: {
-            "side-menu21": {
-                templateUrl: "templates/settings.html",
-                controller: "settingsCtrl"
-            }
-        }
-    })
+                url: "/cachednewsfeed",
+                cache: "false",
+                views: {
+                    "side-menu21": {
+                        templateUrl: "templates/cachedNewsFeed.html",
+                    }
+                }
+            })
 
-    .state("eyeReader.addSources", {
+            .state("eyeReader.settings", {
 
-        url: "/addsources",
-        cache: "false",
-        views: {
-            "side-menu21": {
-                templateUrl: "templates/addSources.html",
-                controller: "addSourcesCtrl"
-            }
-        }
-    })
+                url: "/settings",
+                cache: "false",
+                views: {
+                    "side-menu21": {
+                        templateUrl: "templates/settings.html",
+                    }
+                }
+            })
 
-    .state("eyeReader", {
+            .state("eyeReader.addSources", {
 
-        url: "/side-menu",
-        cache: "false",
-        templateUrl: "templates/eyeReader.html",
-        controller: "eyeReaderCtrl"
-    })
+                url: "/addsources",
+                cache: "false",
+                views: {
+                    "side-menu21": {
+                        templateUrl: "templates/addSources.html",
+                    }
+                }
+            })
 
-    .state("eyeReader.profile", {
+            .state("eyeReader", {
 
-        url: "/Profile",
-        cache: "false",
-        views: {
-            "side-menu21": {
-                templateUrl: "templates/profile.html",
-                controller: "profileCtrl"
-            }
-        }
-    })
+                url: "/side-menu",
+                cache: "false",
+                templateUrl: "templates/eyeReader.html",
+            })
 
-    .state("eyeReader.editProfile", {
+            .state("eyeReader.profile", {
 
-        url: "/EditProfile",
-        cache: "false",
-        views: {
-            "side-menu21": {
-                templateUrl: "templates/editProfile.html",
-                controller: "editProfileCtrl"
-            }
-        }
-    })
+                url: "/Profile",
+                cache: "false",
+                views: {
+                    "side-menu21": {
+                        templateUrl: "templates/profile.html",
+                    }
+                }
+            })
 
-    .state("signup", {
+            .state("eyeReader.editProfile", {
 
-        url: "/signup",
-        cache: "false",
-        templateUrl: "templates/signup.html",
-        controller: "signupCtrl"
-    })
+                url: "/EditProfile",
+                cache: "false",
+                views: {
+                    "side-menu21": {
+                        templateUrl: "templates/editProfile.html",
+                    }
+                }
+            })
 
-    .state("login", {
+            .state("signup", {
 
-        url: "/login",
-        cache: "false",
-        templateUrl: "templates/login.html",
-        controller: "loginCtrl",
-        cache: false
-    })
+                url: "/signup",
+                cache: "false",
+                templateUrl: "templates/signup.html",
+            })
 
-    .state("eyeReader.article", {
+            .state("login", {
 
-        url: "/article/:id",
-        cache: "false",
-        views: {
-            "side-menu21": {
-                templateUrl: "templates/article.html",
-                controller: "articleCtrl"
-            }
-        }
-    })
+                url: "/login",
+                cache: "false",
+                templateUrl: "templates/login.html",
+            })
 
-    .state("eyeReader.savedArticles", {
+            .state("eyeReader.article", {
 
-        url: "/savedArticles",
-        cache: "false",
-        views: {
-            "side-menu21": {
-                templateUrl: "templates/savedArticles.html",
-                controller: "savedArticlesCtrl"
-            }
-        }
-    })
+                url: "/article/:id",
+                cache: "false",
+                views: {
+                    "side-menu21": {
+                        templateUrl: "templates/article.html",
+                    }
+                }
+            })
 
-    .state("eyeReader.statistics", {
+            .state("eyeReader.savedArticles", {
 
-        url: "/Statistics",
-        cache: "false",
-        views: {
-            "side-menu21": {
-                templateUrl: "templates/statistics.html",
-                controller: "statisticsCtrl"
-            }
-        }
-    })
+                url: "/savedArticles",
+                cache: "false",
+                views: {
+                    "side-menu21": {
+                        templateUrl: "templates/savedArticles.html",
+                    }
+                }
+            })
 
-    .state("reportArticle", {
+            .state("eyeReader.statistics", {
 
-        url: "/reportArticle",
-        cache: "false",
-        templateUrl: "templates/reportArticle.html",
-        controller: "reportArticleCtrl"
+                url: "/Statistics",
+                cache: "false",
+                views: {
+                    "side-menu21": {
+                        templateUrl: "templates/statistics.html",
+                    }
+                }
+            })
+
+            .state("reportArticle", {
+
+                url: "/reportArticle",
+                cache: "false",
+                templateUrl: "templates/reportArticle.html",
+            });
     });
-});

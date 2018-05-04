@@ -7,8 +7,9 @@ angular
      * @memberof controllerjs
      * @description Controller for the functionalities implemented for the saved articles view.
      */
-    .controller("savedArticlesCtrl", ["$scope", "Server", "$http", "$window", "$rootScope", "ConnectionMonitor", "$notificationBar", "$ionicPopup",
-        function ($scope, Server, $http, $window, $rootScope, ConnectionMonitor, $notificationBar, $ionicPopup) {
+    .controller("savedArticlesCtrl", ["$scope", "Server", "$http", "$window", "$rootScope", "ConnectionMonitor",
+        "$notificationBar", "$ionicPopup", "$state",
+        function ($scope, Server, $http, $window, $rootScope, ConnectionMonitor, $notificationBar, $ionicPopup, $state) {
             $scope.isOnline = ConnectionMonitor.isOnline();
             $scope.input = {};
             $scope.isLoading = true;
@@ -16,7 +17,24 @@ angular
             var data = {};
             var usersReportedArticles = [];
             var usersSavedArticles = [];
+            var networkAlert;
             init();
+
+            
+            var networkChange = $scope.$on("networkChange", function (event, args) {
+                if (!networkAlert)
+                    networkAlert = $ionicPopup.alert({
+                        title: "Warning",
+                        template: "<span>Internet connection changed. Please login again!</span>",
+                    }).then(function (res) {
+                        $scope.isOnline = args;
+                        $state.go("login", { reload: true, inherit: false, cache: false });
+                    });
+            });
+
+            $scope.$on("$destroy", function () {
+                networkChange();
+            })
 
             /**
              * @function

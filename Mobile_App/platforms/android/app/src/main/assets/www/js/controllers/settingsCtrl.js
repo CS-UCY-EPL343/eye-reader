@@ -5,33 +5,43 @@ angular
     /**
      * @module settingsCtrl
      * @memberof controllerjs
-     * @description Controller controlling the functionalities implemented for the Settings page.
+     * @description Controller for the functionalities implemented for the settings view.
      */
-    .controller("settingsCtrl", ["$scope", "$rootScope", "sharedProps",
-        "$window", "$ionicLoading", "$ionicSideMenuDelegate",
-        function ($scope, $rootScope, sharedProps, $window, $ionicLoading, $ionicSideMenuDelegate) {
+    .controller("settingsCtrl", ["$scope", "$rootScope", "$window", "$ionicSideMenuDelegate", "$ionicPopup", "$state", "$q", "Server", "$http", "ConnectionMonitor",
+        function ($scope, $rootScope, $window, $ionicSideMenuDelegate, $ionicPopup, $state, $q, Server, $http, ConnectionMonitor) {
+            $scope.isOnline = ConnectionMonitor.isOnline();
+            const _ArticlesToCache = 10;
             var usersSettings = {};
             var currentUserSettings = {};
             var tempSettings = {};
+            var networkAlert;
+            var usersArticleCache;
+            var cachedArticles = [];
             init();
+
+            var networkChange = $scope.$on("networkChange", function (event, args) {
+                if (!networkAlert)
+                    networkAlert = $ionicPopup.alert({
+                        title: "Warning",
+                        template: "<span>Internet connection changed. Please login again!</span>",
+                    }).then(function (res) {
+                        $scope.isOnline = args;
+                        $state.go("login", { reload: true, inherit: false, cache: false });
+                    });
+            });
+
+            $scope.$on("$destroy", function () {
+                networkChange();
+            })
 
             /**
               * @function
               * @memberof controllerjs.settingsCtrl
-              * @description This function is responsible for saving the selected settings in the user's 
-              * settings in the device's local storage
+              * @description Responsible for saving the new settings under the user's entry in the local storage.
+              * Also it saved in the session storage the font size used for easier font management across pages.
               */
             function saveUserSettings() {
-                $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Saving Settings</p>',
-                });
-                sharedProps.addData("isNightmode", $scope.data.isNightmode);
-                sharedProps.addData("cachenewsEnabled", $scope.data.cachenewsEnabled);
-                sharedProps.addData("fontsize", $scope.data.fontsize);
-                sharedProps.addData("fontsizeRange", $scope.data.fontsizeRange);
-                sharedProps.addData("markupEnabled", $scope.data.markupEnabled);
-                sharedProps.addData("hideEnabled", $scope.data.hideEnabled);
-                sharedProps.addData("tolerance", $scope.data.tolerance);
+                $window.sessionStorage.setItem("isNightmode", JSON.stringify($scope.data.isNightmode));
 
                 currentUserSettings.settings.cachenewsEnabled = $scope.data.cachenewsEnabled;
                 currentUserSettings.settings.fontsize = $scope.fontsize;
@@ -46,59 +56,30 @@ angular
 
                 usersSettings.push(currentUserSettings);
                 $window.localStorage.setItem("usersSettings", JSON.stringify(usersSettings));
-                $ionicLoading.hide();
+                $window.sessionStorage.setItem("fontsize", JSON.stringify(currentUserSettings.settings.fontsize));
             }
 
-            /**
-             * @function
-             * @memberof controllerjs.settingsCtrl
-             * @description This function is responsible for matching the selected value from the font size 
-             * range bar to the actual font size value.
-             * (font size of range bar is in pixel values and the actual font size metric used is percentage)
-             */
-            function getFontsizeRangeVal(f) {
-                if (!f)
-                    f = sharedProps.getData("fontsize");
-                if (f == undefined)
-                    return 16;
-                else {
-                    if (f.value == 87.5)
-                        return 14;
-                    else if (f.value == 100)
-                        return 16;
-                    else if (f.value == 112.5)
-                        return 18;
-                    else
-                        return 20;
-                }
-            }
-
-            $scope.$watch(function () {
-                return $ionicSideMenuDelegate.getOpenRatio();
-            }, function (ratio) {
-                if (ratio == 1) {
-                    saveUserSettings();
-                }
+            $scope.$on('$ionicView.beforeLeave', function () {
+                saveUserSettings();
             });
 
             /**
               * @function
               * @memberof controllerjs.settingsCtrl
-              * @description This function is responsible for adding the value of the nightmode toggle to the 
-              * shared properties space and to broadcast it to the other controllers in order for the sidemenu 
-              * controller to recieve it and change it's background value according to the toggle's value.
+              * @description Responsible for broadcasting across the application the value of the nightmode toggle.
+              * Also it saves the value of the nightmode in the session storage for easier background class management
+              * across the pages.
               */
             $scope.setNightmode = function () {
                 $rootScope.$broadcast("nightmodeChange", $scope.data.isNightmode);
-                sharedProps.addData("isNightmode", $scope.data.isNightmode);
+                $window.sessionStorage.setItem("isNightmode", JSON.stringify($scope.data.isNightmode));
             };
 
             /**
               * @function
               * @memberof controllerjs.settingsCtrl
-              * @description This function is responsible for matching the selected value from the font size 
-              * range bar to the actual font size value in order to display it in pixels in the page. 
-              * (font size of range bar is in pixel values and the actual font size metric used is percentage)
+              * @description Responsible for matching the value of the font size range bar to the appropriate font size
+              * percentage used. Also it broadcasts the changed value across the app.
               */
             $scope.$watch("data.fontsizeRange", function () {
                 if ($scope.data.fontsizeRange == 14)
@@ -116,12 +97,9 @@ angular
             /**
              * @function
              * @memberof controllerjs.settingsCtrl
-             * @description This function is responsible for retrieving the class used in the background
-             * in order to set the ba
-                sharedProps.addData("cachenewsEnabled", $scope.data.cachenewsEnabled);
-                sharedProps.addData("markupEnabled", $scope.data.markupEnabled);
-                sharedProps.addData("hideEnabled", $scope.data.hideEnabled);
-                sharedProps.addData("tolerance", $scope.data.tolerance);ckground to nightmode/lightmode.
+              * @description Sets the appropriate background class in a scope variable that will be used 
+              * in the page as ng-class attribute. The classes are either for nightmode or normal mode 
+              * background.
              */
             $scope.getBackgroundClass = function () {
                 return $scope.data.isNightmode ?
@@ -132,8 +110,9 @@ angular
             /**
               * @function
               * @memberof controllerjs.settingsCtrl
-              * @description This function is responsible for retrieving the class used in the font style 
-              * in order to set the font style to nightmode/lightmode.
+              * @description Sets the appropriate font color class in a scope variable that will be used 
+              * in the page as ng-class attribute. The classes are either for nightmode or normal mode
+              * font-color.
               */
             $scope.getFontClass = function () {
                 return $scope.data.isNightmode ?
@@ -141,17 +120,88 @@ angular
                     "normalBlackLetters";
             };
 
-            /**
-              * @function
-              * @memberof controllerjs.settingsCtrl
-              * @description This function is responsible for calling all the functions that need to 
-              * be executed when the page is initialized.
-              */
-            function init() {
-                $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading settings...</p>',
+            $scope.checkCache = function () {
+                $scope.isLoading = true;
+                if (!$scope.data.cachenewsEnabled) {
+                    usersArticleCache = _.filter(usersArticleCache, function (ac) {
+                        return ac.username != $rootScope.activeUser.username;
+                    });
+                    $window.localStorage.setItem("usersArticleCache", JSON.stringify(usersArticleCache));
+                } else {
+                    var usersSources = JSON.parse($window.localStorage.getItem("usersSources"));
+
+                    var selectedSources = _.find(usersSources, function (userSources) {
+                        return userSources.username == $rootScope.activeUser.username;
+                    });
+                    if ($scope.isOnline && selectedSources.sources.length > 0) {
+                        var usersDeletedArticles = JSON.parse($window.localStorage.getItem("usersDeletedArticles"));
+                        
+                        var deletedArticles = _.find(usersDeletedArticles, function (uda) {
+                            return uda.username == $rootScope.activeUser.username;
+                        });
+
+                        var requests = [];
+                        var article_resp = [];
+                        for (var i = 0; i < selectedSources.sources.length; i++) {
+                            requests.push($http.get(Server.baseUrl + 'articles/from/' + selectedSources.sources[i]));
+                        }
+                        $q.all(requests).then(function (res) {
+                            res.forEach(el => {
+                                if (Array.isArray(el.data)) {
+                                    el.data.forEach(d => {
+                                        if (!_.contains(deletedArticles.articles, d.Id)) {
+                                            article_resp.push(d);
+                                        }
+                                    });
+                                }
+                            });
+                            for (var i = 0; i < article_resp.length; i++) {
+                                if (i < _ArticlesToCache) {
+                                    cachedArticles.push(article_resp[i]);
+                                }
+                            }
+                            cacheArticles();
+
+                            $scope.isLoading = false;
+                        }).catch(function (error) {
+                            $ionicPopup.alert({
+                                title: "ERROR",
+                                template: "<span>An error has occured! Cannot cache articles!</span>",
+                            });
+                            $scope.isLoading = false;
+                        });
+                    }
+                }
+            };
+
+            function cacheArticles() {
+                var articleCache = _.filter(articleCache, function (ac) {
+                    return ac.username != $rootScope.activeUser.username;
                 });
 
+                var cached = {
+                    username: $rootScope.activeUser.username,
+                    articles: cachedArticles
+                };
+
+                articleCache.push(cached);
+
+                $window.localStorage.setItem("usersArticleCache", JSON.stringify(articleCache));
+            }
+
+            $scope.updateSettings = function(){
+                saveUserSettings();
+            }
+
+            /**
+             * @function
+          * @memberof controllerjs.settingsCtrl
+          * @description Responsible for calling all the functions and executing necessary functionalities 
+          * once the page is loaded.
+          * Such functionalities include: 
+          * 1) Loading current user's settings.
+          */
+            function init() {
                 usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
 
                 currentUserSettings = _.find(usersSettings, function (userSettings) {
@@ -159,7 +209,7 @@ angular
                 });
 
                 $scope.data = {
-                    isNightmode: sharedProps.getData("isNightmode").value,
+                    isNightmode: JSON.parse($window.sessionStorage.getItem("isNightmode")),
                     cachenewsEnabled: currentUserSettings.settings.cachenewsEnabled,
                     fontsize: currentUserSettings.settings.fontsize,
                     fontsizeRange: currentUserSettings.settings.fontsizeRange,
@@ -167,14 +217,8 @@ angular
                     hideEnabled: currentUserSettings.settings.hideEnabled,
                     tolerance: currentUserSettings.settings.tolerance,
                 };
-                sharedProps.addData("cachenewsEnabled", $scope.data.cachenewsEnabled);
-                sharedProps.addData("fontsize", $scope.data.fontsize);
-                sharedProps.addData("fontsizeRange", $scope.data.fontsizeRange);
-                sharedProps.addData("markupEnabled", $scope.data.markupEnabled);
-                sharedProps.addData("hideEnabled", $scope.data.hideEnabled);
-                sharedProps.addData("tolerance", $scope.data.tolerance);
 
-                $ionicLoading.hide();
+                usersArticleCache = JSON.parse($window.localStorage.getItem("usersArticleCache"));
             }
         }
     ])

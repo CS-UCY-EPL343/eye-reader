@@ -7,8 +7,8 @@ angular
      * @memberof controllerjs
      * @description Controller for the functionalities implemented for the sign up view.
      */
-    .controller("signupCtrl", ["$scope", "UserService", "$window", "$state", "$ionicPopup", "$ionicLoading", "AuthenticationService", "$rootScope",
-        function ($scope, UserService, $window, $state, $ionicPopup, $ionicLoading, AuthenticationService, $rootScope) {
+    .controller("signupCtrl", ["$scope", "UserService", "$window", "$state", "$ionicPopup", "$ionicLoading", "AuthenticationService", "$rootScope", "ConnectionMonitor",
+        function ($scope, UserService, $window, $state, $ionicPopup, $ionicLoading, AuthenticationService, $rootScope, ConnectionMonitor) {
             var usersSettings = [];
             init();
 
@@ -81,6 +81,9 @@ angular
 
                 $window.localStorage.setItem("usersSettings", JSON.stringify(usersSettings));
 
+                $window.sessionStorage.setItem("isNightmode", JSON.stringify(false));
+                $window.sessionStorage.setItem("fontsize", JSON.stringify(100));
+
                 //creates users deleted articles local storage entry
                 var usersDeletedArticles = $window.localStorage.getItem("usersDeletedArticles");
                 if (usersDeletedArticles == null || usersDeletedArticles == undefined) {
@@ -150,8 +153,6 @@ angular
                 }
                 usersReportedArticles.push(reportedArticles);
                 $window.localStorage.setItem("usersReportedArticles", JSON.stringify(usersReportedArticles));
-
-                $window.sessionStorage.setItem("isNightmode", JSON.stringify(false));
             }
 
             /**
@@ -176,7 +177,10 @@ angular
                             );
                             createUserSettings();
                             $ionicLoading.hide();
-                            $state.go("eyeReader.newsFeed");
+                            if (ConnectionMonitor.isOnline())
+                                $state.go("eyeReader.newsFeed");
+                            else
+                                $state.go("eyeReader.cachedNewsFeed");
                         }
                     }
                 );

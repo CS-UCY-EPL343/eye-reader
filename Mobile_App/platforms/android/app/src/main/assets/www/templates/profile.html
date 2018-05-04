@@ -1,5 +1,5 @@
-<ion-view title="Profile" id="page5">
-    <ion-content padding="true" class="has-header" ng-controller="profileCtrl" ng-class="getBackgroundClass()">
+<ion-view title="Profile" id="page5" ng-controller="profileCtrl">
+    <ion-content padding="true" class="has-header" ng-class="getBackgroundClass()">
         <h4 id="profile-heading3" class="boldLetters" style="text-align:center;">{{user.username}}</h4>
         <button ui-sref="eyeReader.editProfile()" id="profile-button1" class="button button-clear button-small button-block" ng-class="getBackgroundClass()">
             <span class="sideLetters">Edit Profile</span>

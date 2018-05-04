@@ -8,24 +8,24 @@ angular
      * @description Controller for the functionalities implemented for the news feed view.
      */
     .controller("newsFeedCtrl", ["$scope", "$q", "Server", "$http", "$ionicPopup", "$ionicModal",
-        "$localStorage", "$window", "$notificationBar", "$rootScope", "ConnectionMonitor", "$interval", "$state",
+        "$localStorage", "$window", "$notificationBar", "$rootScope", "ConnectionMonitor", "$interval", "$state", "$stateParams", "$ionicSideMenuDelegate",
         function ($scope, $q, Server, $http, $ionicPopup, $ionicModal, $localStorage, $window, $notificationBar,
-            $rootScope, ConnectionMonitor, $interval, $state) {
+            $rootScope, ConnectionMonitor, $interval, $state, $stateParams, $ionicSideMenuDelegate) {
+            $scope.isOnline = ConnectionMonitor.isOnline();
             $scope.input = {};
             $scope.articles = [];
-            $scope.isOnline = ConnectionMonitor.isOnline();
             $scope.checkboxes = {};
             $scope.isLoading = true;
             var article_resp = [];
             var usersDeletedArticles = [];
-            var articleCache = [];
             var data = {};
             var usersSavedArticles = [];
             var usersReportedArticles = [];
             var repeatArticleFetch;
             var articles_toload_infinite = 5;
             $scope.all_loaded_infinite = false;
-
+            var networkChange;
+            var networkAlert;
             init();
 
             /**
@@ -48,6 +48,8 @@ angular
              * @description Invokes a repeat that every 15 minutes it calls the requestArticles function.
              */
             function startRepeatArticleFetch() {
+                if (!$scope.isOnline)
+                    return;
                 if (angular.isDefined(repeatArticleFetch)) return;
                 repeatArticleFetch = $interval(function () {
                     requestArticles();
@@ -66,9 +68,13 @@ angular
                 }
             }
 
-            $rootScope.$on('$locationChangeSuccess', function () {
+            var locationChange = $rootScope.$on('$locationChangeSuccess', function () {
                 stopRepeatArticleFetch();
             });
+
+            $scope.$on("$destroy", function () {
+                locationChange();
+            })
 
             /**
              * @name $ionic.on.beforeEnter
@@ -109,46 +115,52 @@ angular
             $scope.showReportOptions = function (id) {
                 $scope.checkboxes.hatespeech = false;
                 $scope.checkboxes.fakenews = false;
-                var promptAlert = $ionicPopup.show({
-                    title: "Report",
-                    templateUrl: "templates/reportArticle.html",
-                    scope: $scope,
-                    buttons: [{
-                        text: "Cancel",
-                        type: "button-stable button-outline"
-                    },
-                    {
-                        text: "Confirm",
-                        type: "button-positive",
-                        onTap: function (e) {
-                            if ($scope.checkboxes.hatespeech || $scope.checkboxes.fakenews) {
-                                $http.get(Server.baseUrl + 'articles/' + id + "/report");
-                                displayToast("Article reported!", 1000);
+                if (!$scope.isOnline) {
+                    $ionicPopup.alert({
+                        title: "Report",
+                        template: "<span>Cannot report article. No internet connection available!</span>",
+                    });
+                } else {
+                    var promptAlert = $ionicPopup.show({
+                        title: "Report",
+                        templateUrl: "templates/reportArticle.html",
+                        scope: $scope,
+                        buttons: [{
+                            text: "Cancel",
+                            type: "button-stable"
+                        },
+                        {
+                            text: "Confirm",
+                            type: "button-positive",
+                            onTap: function (e) {
+                                if ($scope.checkboxes.hatespeech || $scope.checkboxes.fakenews) {
+                                    $http.get(Server.baseUrl + 'articles/' + id + "/report");
+                                    displayToast("Article reported!", 1000);
 
-                                $scope.reportedArticles.articles.push(id);
+                                    $scope.reportedArticles.articles.push(id);
 
-                                usersReportedArticles = _.filter(usersReportedArticles, function (ura) {
-                                    return ura.username != $scope.reportedArticles.username;
-                                });
-                                usersReportedArticles.push($scope.reportedArticles);
-                                $window.localStorage.setItem("usersReportedArticles", JSON.stringify(usersReportedArticles));
+                                    usersReportedArticles = _.filter(usersReportedArticles, function (ura) {
+                                        return ura.username != $scope.reportedArticles.username;
+                                    });
+                                    usersReportedArticles.push($scope.reportedArticles);
+                                    $window.localStorage.setItem("usersReportedArticles", JSON.stringify(usersReportedArticles));
 
-                            } else {
-                                displayToast("Please check at least one option!", 2000);
-                                e.preventDefault();
+                                } else {
+                                    displayToast("Please check at least one option!", 2000);
+                                    e.preventDefault();
+                                }
                             }
-                        }
-                    }
-                    ]
-                });
+                        }]
+                    });
+                }
             };
 
             /**
-              * @function
-              * @memberof controllerjs.newsFeedCtrl
-              * @param {int} id The id of the article that is currently being checked
-              * @returns {boolean} True if it's reported, False if it's not
-              * @description Responsible for checking whether the current article has already been reported.
+             * @function
+             * @memberof controllerjs.newsFeedCtrl
+             * @param {int} id The id of the article that is currently being checked
+             * @returns {boolean} True if it's reported, False if it's not
+             * @description Responsible for checking whether the current article has already been reported.
               * It searches in an array, that is saved in the local storage and returns true if the article is contained
               * or false if it's not. 
               */
@@ -193,12 +205,6 @@ angular
             function saveArticle(id) {
                 if ($scope.isOnline) {
                     $scope.articles.find(function (s) {
-                        if (s.Id === id) {
-                            $scope.savedArticles.articles.push(s);
-                        }
-                    });
-                } else {
-                    $scope.cachedArticles.articles.find(function (s) {
                         if (s.Id === id) {
                             $scope.savedArticles.articles.push(s);
                         }
@@ -325,6 +331,18 @@ angular
               * articles.
               */
             $scope.doRefresh = function () {
+                if (!$scope.isOnline) {
+                    var promptAlert = $ionicPopup.show({
+                        title: "Report",
+                        template: "<span>Cannot refresh news feed. No internet connection available!</span>",
+                        buttons: [{
+                            text: "OK",
+                            type: "button-positive"
+                        }]
+                    })
+                    $scope.$broadcast('scroll.refreshComplete');
+                    return;
+                }
                 var requests = [];
 
                 for (var i = 0; i < $scope.selectedSources.sources.length; i++) {
@@ -342,15 +360,6 @@ angular
                             });
                         }
                     });
-                    if (data.cachenewsEnabled) {
-                        //for (var i = 0; i < $scope.articles.length; i++) {
-                        for (var i = 0; i < article_resp.length; i++) {
-                            if (i < 10)
-                                //$scope.cachedArticles.push($scope.articles[i]);
-                                $scope.cachedArticles.push(article_resp[i]);
-                        }
-                        cacheArticles();
-                    }
                     $scope.$broadcast('scroll.refreshComplete');
                 }).catch(function (error) { });
             }
@@ -363,7 +372,10 @@ angular
               * preloaded articles are added at the bottom of the news feed.
               */
             $scope.loadMore = function () {
-                //TODO
+                if (!$scope.isOnline) {
+                    $scope.$broadcast('scroll.infiniteScrollComplete');
+                    return;
+                }
                 if ($scope.all_loaded_infinite) {
                     $scope.$broadcast('scroll.infiniteScrollComplete');
                     return;
@@ -429,43 +441,36 @@ angular
               * increase the click counter for the article's source.
               */
             $scope.articleTapped = function (aid) {
-                $http.get(Server.baseUrl + 'articles/' + aid + "/click");
-                $state.go("eyeReader.article", { id: aid });
+                if (!$scope.isOnline) {
+                    var promptAlert = $ionicPopup.show({
+                        title: "Warning",
+                        template: "<span>Cannot open article. No internet connection available!</span>",
+                        buttons: [{
+                            text: "OK",
+                            type: "button-positive",
+                            onTap: function (e) {
+                            }
+                        }]
+                    })
+                } else {
+                    $http.get(Server.baseUrl + 'articles/' + aid + "/click");
+                    $state.go("eyeReader.article", { id: aid });
+                }
             }
 
-            /**
-              * @function
-              * @memberof controllerjs.newsFeedCtrl
-              * @description Responsible for saving the cached articles of the current user to the local storage.
-              */
-            function cacheArticles() {
-                articleCache = _.filter(articleCache, function (ac) {
-                    return ac.username != $rootScope.activeUser.username;
-                });
-
-                var cached = {
-                    username: $rootScope.activeUser.username,
-                    articles: $scope.cachedArticles
-                };
-
-                articleCache.push(cached);
-
-                $window.localStorage.setItem("usersArticleCache", JSON.stringify(articleCache));
-            }
-
-            /**
-              * @function
-              * @memberof controllerjs.newsFeedCtrl
-              * @description Responsible for emptying out the cached news if the cache news option is disabled
-              * in the settings.
-              */
-            function emptyCache() {
-                articleCache = _.filter(articleCache, function (ac) {
-                    return ac.username != $rootScope.activeUser.username;
-                });
-
-                $window.localStorage.setItem("usersArticleCache", JSON.stringify(articleCache));
-            }
+            var networkChange = $scope.$on("networkChange", function (event, args) {
+                if (!networkAlert)
+                    networkAlert = $ionicPopup.alert({
+                        title: "Warning",
+                        template: "<span>Internet connection changed. Please login again!</span>",
+                    }).then(function (res) {
+                        $scope.isOnline = args;
+                        $state.go("login", { reload: true, inherit: false, cache: false });
+                    });
+            });
+            $scope.$on("$destroy", function () {
+                networkChange();
+            })
 
             /**
               * @function
@@ -534,10 +539,18 @@ angular
                 });
 
                 data = {
-                    cachenewsEnabled: currentUserSettings.settings.cachenewsEnabled,
-                    fontsize: currentUserSettings.settings.fontsize
+                    fontsize: currentUserSettings.settings.fontsize,
+                    tolerance: currentUserSettings.settings.tolerance,
+                    markupEnabled: currentUserSettings.settings.markupEnabled,
+                    hideEnabled: currentUserSettings.settings.hideEnabled
                 };
             }
+
+
+            $scope.countOf = function (text) {
+                var s = text ? text.split(/\s+/) : 0; // it splits the text on space/tab/enter
+                return s ? s.length : '';
+            };
 
             /**
               * @function
@@ -548,8 +561,6 @@ angular
               * 1) Initializing the tutorial modal.
               * 2) Loading necessary data with the loadNecessaryData function
               * 3) If the user is online it retrieves articles from the server
-              * 4) If the user is online and caching is enabled, it caches the top 10 articles in the feed.
-              * 5) If the user is offline and if there are cached articles, it loads the cached articles in view.
               */
             function init() {
                 $scope.openModal = function () {
@@ -573,8 +584,6 @@ angular
 
                 loadNecessaryData();
 
-                articleCache = JSON.parse($window.localStorage.getItem("usersArticleCache"));
-                $scope.cachedArticles = [];
                 if ($scope.isOnline && $scope.selectedSources.sources.length > 0) {
                     var requests = [];
 
@@ -587,23 +596,11 @@ angular
                                 el.data.forEach(d => {
                                     if (!_.contains($scope.deletedArticles.articles, d.Id)) {
                                         article_resp.push(d);
-                                        //$scope.articles.push(d);
                                     }
                                 });
                             }
                         });
                         $scope.isLoading = false;
-                        if (data.cachenewsEnabled) {
-                            //for (var i = 0; i < $scope.articles.length; i++) {
-                            for (var i = 0; i < article_resp.length; i++) {
-                                if (i < 10) {
-                                    $scope.cachedArticles.push(article_resp[i]);
-                                }
-                            }
-                            cacheArticles();
-                        } else {
-                            emptyCache();
-                        }
                         startRepeatArticleFetch();
 
                         for (var i = 0; i < articles_toload_infinite; i++) {
@@ -615,20 +612,32 @@ angular
                                 return art.Id == article_resp[0].Id;
                             })
                             if (isContained == undefined || isContained == null) {
-                                $scope.articles.push(article_resp[0]);
+                                var total_words = 0;
+                                article_resp[0].NegativeWords.forEach(e => {
+                                    if (e != "***")
+                                        total_words += article_resp[0].Content.match(new RegExp(e, "gi") || []).length;
+                                })
+
+                                var negative_pct = article_resp[0].NegativeWords.length / total_words * 100;
+                                if (data.markupEnabled || data.hideEnabled) {
+                                    if (negative_pct <= data.tolerance) {
+                                        $scope.articles.push(article_resp[0]);
+                                    }
+                                }else{
+                                    $scope.articles.push(article_resp[0]);
+                                }
                                 article_resp.splice(0, 1);
                             }
                         }
 
                         $scope.isLoading = false;
                     }).catch(function (error) {
+                        $ionicPopup.alert({
+                            title: "ERROR",
+                            template: "<span>An error has occured! Cannot load articles!</span>",
+                        });
                         $scope.isLoading = false;
                     });
-                } else if (!$scope.isOnline) {
-                    $scope.cachedArticles = _.find(articleCache, function (ac) {
-                        return ac.username == $rootScope.activeUser.username;
-                    });
-                    $scope.isLoading = false;
                 } else {
                     $scope.isLoading = false;
                 }

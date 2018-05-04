@@ -18,6 +18,7 @@ angular
             var usersSavedArticles = [];
             var usersDeletedArticles = [];
             var usersReportedArticles = [];
+            var networkAlert;
 
             /**
              * @function
@@ -34,6 +35,21 @@ angular
             }
 
             init();
+
+            var networkChange = $scope.$on("networkChange", function (event, args) {
+                if (!networkAlert)
+                    networkAlert = $ionicPopup.alert({
+                        title: "Warning",
+                        template: "<span>Internet connection changed. Please login again!</span>",
+                    }).then(function (res) {
+                        $scope.isOnline = args;
+                        $state.go("login", { reload: true, inherit: false, cache: false });
+                    });
+            });
+
+            $scope.$on("$destroy", function () {
+                networkChange();
+            })
 
             /**
              * @name $ionic.on.beforeEnter
@@ -229,25 +245,14 @@ angular
               * has been deleted. 
               */
             $scope.showDeleteConfirm = function () {
-                var promptAlert = $ionicPopup.show({
+                $ionicPopup.confirm({
                     title: "Warning",
                     template: "<span>Are you sure you want to delete this article?</span>",
-                    buttons: [{
-                        text: "Cancel",
-                        type: "button-stable button-outline",
-                        onTap: function (e) {
-                            //e.preventDefault();
-                        }
-                    },
-                    {
-                        text: "Confirm",
-                        type: "button-positive",
-                        onTap: function (e) {
-                            deleteArticle();
-                            displayToast("Article deleted!", 1000);
-                        }
+                }).then(function (res) {
+                    if (res) {
+                        deleteArticle();
+                        displayToast("Article deleted!", 1000);
                     }
-                    ]
                 });
             };
 
@@ -293,7 +298,7 @@ angular
 
             $scope.goBack = function () {
                 $scope.isLoading = true;
-                $state.go("eyeReader.newsFeed");
+                $ionicHistory.goBack();
             };
 
             /**
@@ -393,20 +398,33 @@ angular
                 }
             }
 
-            function applyMandolaFiltering() {
-                //TODO: USE THIS TO CHANGE STUFF FOR MANDOLA
-                // var temp = $scope.article.Content.toString().replace("/smartphones/g","<span style='background-color:yellow'>smartphones</span>");
-                // var temp = $scope.article.Content.toString().replace("/smartphones/g","<span style='display:none'>smartphones</span>");
-                // $scope.article.Content = $sce.trustAsHtml(temp);
+            function applyContentFiltering() {
                 var tempStr = $scope.article.Content;
+                var tempComment;
                 $scope.article.NegativeWords.forEach(el => {
-                    if (data.markupEnabled) {
-                        tempStr = $scope.article.Content.toString().replace("/" + el + "/g", "<span style='background-color:yellow'>" + el + "</span>");
-                    } else if (data.hideEnabled) {
-                        tempStr = $scope.article.Content.toString().replace("/" + el + "/g", "<span style='display:none'>" + el + "</span>");
+                    if (el != "***") {
+                        if (data.markupEnabled) {
+                            tempStr = tempStr.replace(new RegExp(el, "gi"), "<span style='background-color:yellow'>$&</span>");
+
+                            $scope.article.comments.forEach(c => {
+                                tempComment = c;
+                                c.Content = c.Content.replace(new RegExp(el, "gi"), "<span style='background-color:yellow'>$&</span>");
+                            })
+                        } else if (data.hideEnabled) {
+                            tempStr = tempStr.replace(new RegExp(el, "gi"), "<span style='display:none'>$&</span>[...]");
+
+                            $scope.article.comments.forEach(c => {
+                                tempComment = c;
+                                c.Content = c.Content.replace(new RegExp(el, "gi"), "<span style='display:none'>$&</span>[...]");
+                            })
+                        }
                     }
                 });
-                $scope.article.newContent = $sce.trustAsHtml(tempStr);
+
+                $scope.article.comments.forEach(el => {
+                    el.Content = $sce.trustAsHtml(el.Content.toString());
+                });
+                $scope.article.filteredContent = $sce.trustAsHtml(tempStr);
             }
 
             /**
@@ -504,7 +522,7 @@ angular
 
                     loadNotes();
                     getNecessaryData();
-                    applyMandolaFiltering();
+                    applyContentFiltering();
                     $scope.isLoading = false;
                 } else {
                     if ($scope.isOnline) {
@@ -512,7 +530,7 @@ angular
                             $scope.article = res.data;
                             loadNotes();
                             getNecessaryData();
-                            applyMandolaFiltering();
+                            applyContentFiltering();
                             $scope.isLoading = false;
                         });
                     } else {
@@ -526,7 +544,7 @@ angular
                         });
                         loadNotes();
                         getNecessaryData();
-                        applyMandolaFiltering();
+                        applyContentFiltering();
                         $scope.isLoading = false;
                     }
                 }

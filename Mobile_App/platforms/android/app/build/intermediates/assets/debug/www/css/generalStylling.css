@@ -7,8 +7,25 @@ sub {
     color: #90A4AE;
 }
 
-select[disabled] {
-   background-color: #F5F5F5;  //use your prefered color here
+@media screen {
+    .modal-backdrop-bg {
+    -webkit-transition: opacity 300ms ease-in-out;
+    transition: opacity 300ms ease-in-out;
+    background-color: #000;
+    opacity: 0; }
+  .active .modal-backdrop-bg {
+    opacity: 0.5; }
+}
+
+.popover {
+    height: auto !important;
+}
+.popover ion-header-bar {
+    position: relative;
+}
+.popover ion-content {
+    top: 0;
+    position: relative;
 }
 
 .chartWrapper {
@@ -176,15 +193,6 @@ select[disabled] {
     padding-left: 5% !important;
     padding-right: 5% !important;
 }
-
-/*CSS for Mainition animation from nightmode to normalmode and back*/
-
-/* .normalBackgroundMain-add,
-.normalBackgroundMain-remove,
-.nightmodeBackgroundMain-add,
-.nightmodeBackgroundMain-remove {
-    transition: background-color 150ms linear;
-} */
 
 /*
 * Popup class

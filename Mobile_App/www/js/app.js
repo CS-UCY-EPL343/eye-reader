@@ -9,8 +9,21 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
 
     })
 
-    .run(function ($ionicPlatform, $rootScope, $window, Application, $state, $cordovaNetwork) {
+    .run(function ($ionicPlatform, $rootScope, $window, Application, $state, ConnectionMonitor, $ionicPopup, AuthenticationService, $stateParams) {
+        // Disable BACK button on home
+        $ionicPlatform.registerBackButtonAction(function (event) {
+            $ionicPopup.confirm({
+                title: "Warning",
+                template: '<span>Are you sure you want to <strong>logout</strong>?</span>',
+            }).then(function (res) {
+                if (res) {
+                    AuthenticationService.ClearCredentials();
+                    $state.go("login", $stateParams, { reload: true, inherit: false });
+                }
+            })
+        }, 100);
         $ionicPlatform.ready(function () {
+
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
             if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -19,18 +32,23 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
             }
             // if (window.StatusBar) {
             //     // org.apache.cordova.statusbar required
-            //     // StatusBar.styleDefault();
-            //     return StatusBar.hide();
+            //     StatusBar.styleDefault();
             // }
-            // if this is the first run of the application then show welcome screen,
-            // else skip to the login page
+
+            // document.addEventListener("backbutton", function (e) {
+            //     AuthenticationService.ClearCredentials();
+            //     // $state.go("login", {}, { reload: true, inherit: false });
+            //     window.location("login");
+            // }, false);
+
+            ConnectionMonitor.startWatching();
+
             if (Application.isInitialRun()) {
                 $state.go('welcome');
             } else {
                 $state.go('login');
             }
         });
-
     })
 
     .directive('disableSideMenuDrag', ['$ionicSideMenuDelegate', '$rootScope', function ($ionicSideMenuDelegate, $rootScope) {

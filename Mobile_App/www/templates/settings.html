@@ -1,5 +1,5 @@
-<ion-view title="Settings" id="page2">
-    <ion-content padding="false" class="has-header generalPadding" ng-controller="settingsCtrl" ng-class="getBackgroundClass()">
+<ion-view title="Settings" id="page2" ng-controller="settingsCtrl">
+    <ion-content padding="false" class="has-header generalPadding" ng-class="getBackgroundClass()">
         <h3 id="settings-heading1" class="boldLetters">Display</h3>
         <div class="list" ng-cloak>
             <ion-toggle ng-class="getBackgroundClass()" ng-model="data.isNightmode" ng-change="setNightmode()" ng-cloak>
@@ -12,13 +12,13 @@
                     </li>
                 </ul>
             </ion-toggle>
-            <ion-toggle ng-class="getBackgroundClass()" ng-model="data.cachenewsEnabled" type="checkbox" ng-cloak>
+            <ion-toggle ng-class="getBackgroundClass()" ng-change="checkCache()" ng-model="data.cachenewsEnabled" type="checkbox" ng-cloak>
                 <ul>
                     <li>
                         <span ng-class="getFontClass()" ng-style="selectedFontsize">Cache News</span>
                     </li>
                     <li>
-                        <sub>Saves temporarily the first 10 articles</sub>
+                        <sub>Saves temporarily the 10 first articles</sub>
                     </li>
                 </ul>
             </ion-toggle>
@@ -39,7 +39,7 @@
         </div>
         <h3 id="settings-heading2" class="boldLetters">Filtering</h3>
         <ul class="list">
-            <ion-toggle ng-class="getBackgroundClass()" ng-model="data.markupEnabled" ng-disabled="data.hideEnabled" type="checkbox"
+            <ion-toggle ng-class="getBackgroundClass()" ng-change="updateSettings()" ng-model="data.markupEnabled" ng-disabled="data.hideEnabled" type="checkbox"
                 ng-cloak>
                 <ul>
                     <li>
@@ -50,7 +50,7 @@
                     </li>
                 </ul>
             </ion-toggle>
-            <ion-toggle ng-class="getBackgroundClass()" ng-model="data.hideEnabled" ng-disabled="data.markupEnabled" type="checkbox"
+            <ion-toggle ng-class="getBackgroundClass()" ng-change="updateSettings()" ng-model="data.hideEnabled" ng-disabled="data.markupEnabled" type="checkbox"
                 ng-cloak>
                 <ul>
                     <li>
@@ -78,7 +78,7 @@
             </li>
             <li ng-hide="!data.markupEnabled && !data.hideEnabled" ng-class="getBackgroundClass()" style="border-top:0px;padding-bottom:16px"
                 class="item range" ng-cloak>
-                <input ng-model="data.tolerance" type="range" min="0" max="100" step="1" name="Tolerance Level Range">
+                <input ng-model="data.tolerance"  ng-change="updateSettings()" type="range" min="0" max="100" step="1" name="Tolerance Level Range">
             </li>
         </ul>
 

@@ -7,12 +7,32 @@ angular
      * @memberof controllerjs
      * @description Controller for the functionalities implemented for the settings view.
      */
-    .controller("settingsCtrl", ["$scope", "$rootScope", "$window", "$ionicSideMenuDelegate",
-        function ($scope, $rootScope, $window, $ionicSideMenuDelegate) {
+    .controller("settingsCtrl", ["$scope", "$rootScope", "$window", "$ionicSideMenuDelegate", "$ionicPopup", "$state", "$q", "Server", "$http", "ConnectionMonitor",
+        function ($scope, $rootScope, $window, $ionicSideMenuDelegate, $ionicPopup, $state, $q, Server, $http, ConnectionMonitor) {
+            $scope.isOnline = ConnectionMonitor.isOnline();
+            const _ArticlesToCache = 10;
             var usersSettings = {};
             var currentUserSettings = {};
             var tempSettings = {};
+            var networkAlert;
+            var usersArticleCache;
+            var cachedArticles = [];
             init();
+
+            var networkChange = $scope.$on("networkChange", function (event, args) {
+                if (!networkAlert)
+                    networkAlert = $ionicPopup.alert({
+                        title: "Warning",
+                        template: "<span>Internet connection changed. Please login again!</span>",
+                    }).then(function (res) {
+                        $scope.isOnline = args;
+                        $state.go("login", { reload: true, inherit: false, cache: false });
+                    });
+            });
+
+            $scope.$on("$destroy", function () {
+                networkChange();
+            })
 
             /**
               * @function
@@ -39,11 +59,8 @@ angular
                 $window.sessionStorage.setItem("fontsize", JSON.stringify(currentUserSettings.settings.fontsize));
             }
 
-            $scope.$watch(function () {
-                return $ionicSideMenuDelegate.getOpenRatio();
-            }, function (ratio) {
-                if (ratio == 1)
-                    saveUserSettings();
+            $scope.$on('$ionicView.beforeLeave', function () {
+                saveUserSettings();
             });
 
             /**
@@ -103,14 +120,87 @@ angular
                     "normalBlackLetters";
             };
 
+            $scope.checkCache = function () {
+                $scope.isLoading = true;
+                if (!$scope.data.cachenewsEnabled) {
+                    usersArticleCache = _.filter(usersArticleCache, function (ac) {
+                        return ac.username != $rootScope.activeUser.username;
+                    });
+                    $window.localStorage.setItem("usersArticleCache", JSON.stringify(usersArticleCache));
+                } else {
+                    var usersSources = JSON.parse($window.localStorage.getItem("usersSources"));
+
+                    var selectedSources = _.find(usersSources, function (userSources) {
+                        return userSources.username == $rootScope.activeUser.username;
+                    });
+                    if ($scope.isOnline && selectedSources.sources.length > 0) {
+                        var usersDeletedArticles = JSON.parse($window.localStorage.getItem("usersDeletedArticles"));
+                        
+                        var deletedArticles = _.find(usersDeletedArticles, function (uda) {
+                            return uda.username == $rootScope.activeUser.username;
+                        });
+
+                        var requests = [];
+                        var article_resp = [];
+                        for (var i = 0; i < selectedSources.sources.length; i++) {
+                            requests.push($http.get(Server.baseUrl + 'articles/from/' + selectedSources.sources[i]));
+                        }
+                        $q.all(requests).then(function (res) {
+                            res.forEach(el => {
+                                if (Array.isArray(el.data)) {
+                                    el.data.forEach(d => {
+                                        if (!_.contains(deletedArticles.articles, d.Id)) {
+                                            article_resp.push(d);
+                                        }
+                                    });
+                                }
+                            });
+                            for (var i = 0; i < article_resp.length; i++) {
+                                if (i < _ArticlesToCache) {
+                                    cachedArticles.push(article_resp[i]);
+                                }
+                            }
+                            cacheArticles();
+
+                            $scope.isLoading = false;
+                        }).catch(function (error) {
+                            $ionicPopup.alert({
+                                title: "ERROR",
+                                template: "<span>An error has occured! Cannot cache articles!</span>",
+                            });
+                            $scope.isLoading = false;
+                        });
+                    }
+                }
+            };
+
+            function cacheArticles() {
+                var articleCache = _.filter(articleCache, function (ac) {
+                    return ac.username != $rootScope.activeUser.username;
+                });
+
+                var cached = {
+                    username: $rootScope.activeUser.username,
+                    articles: cachedArticles
+                };
+
+                articleCache.push(cached);
+
+                $window.localStorage.setItem("usersArticleCache", JSON.stringify(articleCache));
+            }
+
+            $scope.updateSettings = function(){
+                saveUserSettings();
+            }
+
             /**
-              * @function
-              * @memberof controllerjs.settingsCtrl
-              * @description Responsible for calling all the functions and executing necessary functionalities 
-              * once the page is loaded.
-              * Such functionalities include: 
-              * 1) Loading current user's settings.
-              */
+             * @function
+          * @memberof controllerjs.settingsCtrl
+          * @description Responsible for calling all the functions and executing necessary functionalities 
+          * once the page is loaded.
+          * Such functionalities include: 
+          * 1) Loading current user's settings.
+          */
             function init() {
                 usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
 
@@ -127,6 +217,8 @@ angular
                     hideEnabled: currentUserSettings.settings.hideEnabled,
                     tolerance: currentUserSettings.settings.tolerance,
                 };
+
+                usersArticleCache = JSON.parse($window.localStorage.getItem("usersArticleCache"));
             }
         }
     ])

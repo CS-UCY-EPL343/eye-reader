@@ -13,18 +13,26 @@ angular.module('app.routes', [])
 
                 url: "/welcome",
                 templateUrl: "templates/welcome.html",
-                controller: "welcomeCtrl",
-                cache: false
             })
 
             .state("eyeReader.newsFeed", {
 
                 url: "/newsfeed",
-                cache: "true",
+                cache: "false",
                 views: {
                     "side-menu21": {
                         templateUrl: "templates/newsFeed.html",
-                        controller: "newsFeedCtrl"
+                    }
+                }
+            })
+
+            .state("eyeReader.cachedNewsFeed", {
+
+                url: "/cachednewsfeed",
+                cache: "false",
+                views: {
+                    "side-menu21": {
+                        templateUrl: "templates/cachedNewsFeed.html",
                     }
                 }
             })
@@ -36,7 +44,6 @@ angular.module('app.routes', [])
                 views: {
                     "side-menu21": {
                         templateUrl: "templates/settings.html",
-                        controller: "settingsCtrl"
                     }
                 }
             })
@@ -48,7 +55,6 @@ angular.module('app.routes', [])
                 views: {
                     "side-menu21": {
                         templateUrl: "templates/addSources.html",
-                        controller: "addSourcesCtrl"
                     }
                 }
             })
@@ -58,7 +64,6 @@ angular.module('app.routes', [])
                 url: "/side-menu",
                 cache: "false",
                 templateUrl: "templates/eyeReader.html",
-                controller: "eyeReaderCtrl"
             })
 
             .state("eyeReader.profile", {
@@ -68,7 +73,6 @@ angular.module('app.routes', [])
                 views: {
                     "side-menu21": {
                         templateUrl: "templates/profile.html",
-                        controller: "profileCtrl"
                     }
                 }
             })
@@ -80,7 +84,6 @@ angular.module('app.routes', [])
                 views: {
                     "side-menu21": {
                         templateUrl: "templates/editProfile.html",
-                        controller: "editProfileCtrl"
                     }
                 }
             })
@@ -90,7 +93,6 @@ angular.module('app.routes', [])
                 url: "/signup",
                 cache: "false",
                 templateUrl: "templates/signup.html",
-                controller: "signupCtrl"
             })
 
             .state("login", {
@@ -98,8 +100,6 @@ angular.module('app.routes', [])
                 url: "/login",
                 cache: "false",
                 templateUrl: "templates/login.html",
-                controller: "loginCtrl",
-                cache: false
             })
 
             .state("eyeReader.article", {
@@ -109,7 +109,6 @@ angular.module('app.routes', [])
                 views: {
                     "side-menu21": {
                         templateUrl: "templates/article.html",
-                        controller: "articleCtrl"
                     }
                 }
             })
@@ -121,7 +120,6 @@ angular.module('app.routes', [])
                 views: {
                     "side-menu21": {
                         templateUrl: "templates/savedArticles.html",
-                        controller: "savedArticlesCtrl"
                     }
                 }
             })
@@ -133,7 +131,6 @@ angular.module('app.routes', [])
                 views: {
                     "side-menu21": {
                         templateUrl: "templates/statistics.html",
-                        controller: "statisticsCtrl"
                     }
                 }
             })
@@ -143,6 +140,5 @@ angular.module('app.routes', [])
                 url: "/reportArticle",
                 cache: "false",
                 templateUrl: "templates/reportArticle.html",
-                controller: "reportArticleCtrl"
             });
     });

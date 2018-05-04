@@ -1,49 +1,84 @@
-<ion-view hide-back-button="true" title="Article" id="page9">
+<ion-view hide-back-button="true" title="Article" id="page9" ng-controller="articleCtrl">
     <ion-nav-buttons side="left">
         <a ng-click="goBack()" class="button button-icon icon ion-android-arrow-back" style="color:white"></a>
     </ion-nav-buttons>
-    <ion-content padding="false" class="has-header generalPadding" ng-controller="articleCtrl" ng-class="getBackgroundClass()">
+    <ion-content padding="false" class="has-header generalPadding" ng-class="getBackgroundClass()">
         <h2 ng-class="getNightmodeHeaderClass()" id="article-heading4">
             <span class="boldLetters" ng-style="fontsize">{{article.Title}}</span>
         </h2>
         <div id="article-markdown3" class="show-list-numbers-and-dots">
-            <p ng-class="getNightmodeHeaderClass()" ng-style="fontsize" class="sideLetters">Source: {{article.SourceTitle}}</p>
-            <p ng-class="getNightmodeHeaderClass()" ng-style="fontsize" class="sideLetters">{{article.Author}} | {{article.Date}}</p>
-        </div>
-        <div style="margin-top :5%; margin-bottom:5%;">
-            <img alt="Article image" ng-src=".{{article.PictureSrc}}" height="100%" width="100%" style="vertical-align: middle;">
-        </div>
-        <div id="article-markdown2" class="show-list-numbers-and-dots normalBlackLetters">
-            <span ng-class="getFontClass()" style="line-height: 1.2" ng-style="fontsize">{{article.Content}}</span>
-        </div>
-        <div class="spacer" style="width: 100%; height: 2%;"></div>
-
-        <div ng-click="visible = !visible">
-            <p ng-class="getFontClass()" style="margin-bottom: 0;">
-                <i class="icon" ng-class="visible ? 'ion-ios-arrow-right' : 'ion-ios-arrow-down'"></i> Comments</p>
-        </div>
-        <div ng-hide="visible">
-            <div class="list card" ng-repeat="comment in article.comments" ng-class="getBackgroundClass()">
-                <div class="item item-avatar">
-                    <img src="img/avatar.png">
-                    <h2>{{comment.Name}}</h2>
-                </div>
-
-                <div class="item item-body">
-                    <p style="margin-top:0">{{comment.Content}}</p>
+            <div style="position:relative;">
+                <p ng-class="getNightmodeHeaderClass()" ng-style="fontsize" class="sideLetters">Source: {{article.SourceTitle}}</p>
+                <p ng-class="getNightmodeHeaderClass()" ng-style="fontsize" class="sideLetters">{{article.Author}} | {{article.Date}}</p>
+                <div>
+                    <img ng-click="openPopover($event)" style="position:absolute;top:0;bottom:0;right:0;margin:auto;width:20%;" ng-if="article.SentimentGrade > 0"
+                        src="img/happy_face.png">
+                    <img ng-click="openPopover($event)" style="position:absolute;top:0;bottom:0;right:0;margin:auto;width:20%;" ng-if="article.SentimentGrade == 0"
+                        src="img/neutral_face.png">
+                    <img ng-click="openPopover($event)" style="position:absolute;top:0;bottom:0;right:0;margin:auto;width:20%;" ng-if="article.SentimentGrade < 0"
+                        src="img/sad_face.png">
                 </div>
             </div>
-        </div>
+            <div>
+            </div>
+            <div style="margin-top :5%; margin-bottom:5%;">
+                <img alt="Article image" ng-src=".{{article.PictureSrc}}" height="100%" width="100%" style="vertical-align: middle;">
+            </div>
+            <div id="article-markdown2" class="show-list-numbers-and-dots normalBlackLetters">
+                <span ng-class="getFontClass()" style="line-height: 1.2" ng-style="fontsize" ng-bind-html="article.filteredContent"></span>
+            </div>
+            <div class="row" style="margin-top:3%; margin-bottom:3%; padding-top:0; padding-bottom:0;">
+                <div class="col">
+                    <button ng-show="isArticleSaved()" class="button button-balanced" ng-click="save_unsaveArticle()">
+                        <ion-icon name="favorite" class="icon ion-android-star"></ion-icon>
+                    </button>
+                    <button ng-show="!isArticleSaved()" class="button button-balanced" ng-click="save_unsaveArticle()">
+                        <ion-icon name="favorite" class="icon ion-android-star-outline"></ion-icon>
+                    </button>
+                    <button ng-show="isOnline && !isDeleted()" class="button button-assertive" ng-click="showDeleteConfirm()">
+                        <ion-icon name="delete" class="icon ion-trash-a"></ion-icon>
+                    </button>
+                    <button ng-show="isOnline && !isArticleReported()" class="button button-energized" ng-click="showReportOptions()">
+                        <ion-icon name="report" class="icon ion-alert-circled"></ion-icon>
+                    </button>
+                </div>
+            </div>
 
-        <div class="spaced" style="width: 100%; height:2%" ng-hide="!visible"></div>
+            <div ng-click="visible = !visible">
+                <p ng-class="getFontClass()" style="margin-bottom: 0;">
+                    <i class="icon" ng-class="visible ? 'ion-ios-arrow-right' : 'ion-ios-arrow-down'"></i> Comments</p>
+            </div>
+            <div ng-hide="visible">
+                <div class="list card" ng-repeat="comment in article.comments" ng-class="getBackgroundClass()">
+                    <div class="item item-avatar">
+                        <img src="img/avatar.png">
+                        <h2>{{comment.Name}}</h2>
+                    </div>
 
-        <div ng-class="getBackgroundClass()" ng-if="user.isJournalist">
-            <p ng-class="getFontClass()">Notes</p>
-            <ion-item style="height:200px;">
-                <textarea type="note" ng-model="currentNotes.note" ng-blur="saveNotes()" style="width:100%; height:100%;"></textarea>
-            </ion-item>
-        </div>
-        <div class="spacer" style="width: 100%; height: 2%;"></div>
+                    <div class="item item-body">
+                        <p style="margin-top:0"  ng-bind-html="comment.Content"></p>
+                        <!-- <p style="margin-top:0">{{comment.Content}}</p> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="spacer" style="margin-top:3%" ng-hide="!visible"></div>
+
+            <div ng-class="getBackgroundClass()" ng-if="user.isJournalist">
+                <p ng-class="getFontClass()">Notes</p>
+                <ion-item style="height:200px;">
+                    <textarea type="note" ng-model="currentNotes.note" ng-blur="saveNotes()" style="width:100%; height:100%;"></textarea>
+                </ion-item>
+            </div>
+            <div class="spacer" style="padding-top:3%" ng-hide="!visible"></div>
 
     </ion-content>
 </ion-view>
+
+<script id="popover.html" type="text/ng-template">
+   <ion-popover-view>
+      <ion-header-bar>
+         <h1 style="text-align:center" class = "title">Sentiment Grade: {{article.SentimentGrade}}</h1>
+      </ion-header-bar>
+   </ion-popover-view>
+</script>

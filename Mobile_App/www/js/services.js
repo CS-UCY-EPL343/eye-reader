@@ -262,19 +262,23 @@ angular
                 if (ionic.Platform.isWebView()) {
 
                     $rootScope.$on('$cordovaNetwork:online', function (event, networkState) {
+                        $rootScope.$broadcast("networkChange", true);
                     });
 
                     $rootScope.$on('$cordovaNetwork:offline', function (event, networkState) {
+                        $rootScope.$broadcast("networkChange", false);
                     });
 
                 } else {
 
                     window.addEventListener("online", function (e) {
-                    }, false);
+                        $rootScope.$broadcast("networkChange", true);
+                    });
 
                     window.addEventListener("offline", function (e) {
-                    }, false);
+                        $rootScope.$broadcast("networkChange", false);
+                    });
                 }
             }
         }
-    });
+    })

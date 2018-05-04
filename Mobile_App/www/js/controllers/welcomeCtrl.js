@@ -9,7 +9,6 @@ angular
      */
     .controller("welcomeCtrl", ["$scope", "$state", "Application",
         function ($scope, $state, Application) {
-
             /**
              * @function
              * @memberof controllerjs.welcomeCtrl

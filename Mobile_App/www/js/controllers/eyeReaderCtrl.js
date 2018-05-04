@@ -94,22 +94,15 @@ angular
               * and applications rootScope.
               */
             $scope.logout = function () {
-                var promptAlert = $ionicPopup.show({
+                $ionicPopup.confirm({
                     title: "Warning",
                     template: '<span>Are you sure you want to <strong>logout</strong>?</span>',
-                    buttons: [{
-                        text: "Cancel",
-                        type: "button-stable button-outline",
-                        onTap: function (e) { }
-                    }, {
-                        text: "Confirm",
-                        type: "button-positive",
-                        onTap: function (e) {
-                            AuthenticationService.ClearCredentials();
-                            $state.go("login", $stateParams, { reload: true, inherit: false });
-                        }
-                    }]
-                });
+                }).then(function (res) {
+                    if (res) {
+                        AuthenticationService.ClearCredentials();
+                        $state.go("login", $stateParams, { reload: true, inherit: false });
+                    }
+                })
             };
 
             $ionicModal.fromTemplateUrl('templates/tutorial.html', {

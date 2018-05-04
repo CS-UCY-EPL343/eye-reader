@@ -6,12 +6,29 @@ angular
      * @memberof controllerjs
      * @description Controller for the functionalities implemented for the edit profile view.
      */
-    .controller("editProfileCtrl", ["$scope", "$rootScope", "$state", "UserService", "$window",
-        function ($scope, $rootScope, $state, UserService, $window) {
+    .controller("editProfileCtrl", ["$scope", "$rootScope", "$state", "UserService", "$window", "$ionicPopup",
+        function ($scope, $rootScope, $state, UserService, $window, $ionicPopup) {
             $scope.input = {};
             var data = {};
             var username = "";
+            var networkAlert;
             init();
+
+            
+            var networkChange = $scope.$on("networkChange", function (event, args) {
+                if (!networkAlert)
+                    networkAlert = $ionicPopup.alert({
+                        title: "Warning",
+                        template: "<span>Internet connection changed. Please login again!</span>",
+                    }).then(function (res) {
+                        $scope.isOnline = args;
+                        $state.go("login", { reload: true, inherit: false, cache: false });
+                    });
+            });
+
+            $scope.$on("$destroy", function () {
+                networkChange();
+            })
 
             /**
              * @name $ionic.on.beforeEnter
@@ -183,8 +200,8 @@ angular
                     { name: "Male", id: 1 },
                     { name: "Other", id: 2 }
                 ];
-                username = $scope.user.username;
                 $scope.user = $rootScope.activeUser;
+                username = $scope.user.username;
                 $scope.editedUser = $scope.user;
                 $scope.selectedSex = $scope.editedUser.sex;
                 $scope.editedUser.birthday = new Date($scope.editedUser.birthday);

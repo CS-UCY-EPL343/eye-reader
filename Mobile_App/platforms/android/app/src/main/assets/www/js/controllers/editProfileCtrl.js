@@ -4,15 +4,31 @@ angular
     /**
      * @module editProfileCtrl
      * @memberof controllerjs
-     * @description Controller controlling the functionalities implemented for the edit profile view.
+     * @description Controller for the functionalities implemented for the edit profile view.
      */
-    .controller("editProfileCtrl", ["$scope", "$rootScope", "sharedProps",
-        "$state", "UserService", "$ionicLoading", "$window", "$ionicHistory",
-        function ($scope, $rootScope, sharedProps, $state, UserService, $ionicLoading, $window, $ionicHistory) {
+    .controller("editProfileCtrl", ["$scope", "$rootScope", "$state", "UserService", "$window", "$ionicPopup",
+        function ($scope, $rootScope, $state, UserService, $window, $ionicPopup) {
+            $scope.input = {};
             var data = {};
             var username = "";
-            $scope.input = {};
+            var networkAlert;
             init();
+
+            
+            var networkChange = $scope.$on("networkChange", function (event, args) {
+                if (!networkAlert)
+                    networkAlert = $ionicPopup.alert({
+                        title: "Warning",
+                        template: "<span>Internet connection changed. Please login again!</span>",
+                    }).then(function (res) {
+                        $scope.isOnline = args;
+                        $state.go("login", { reload: true, inherit: false, cache: false });
+                    });
+            });
+
+            $scope.$on("$destroy", function () {
+                networkChange();
+            })
 
             /**
              * @name $ionic.on.beforeEnter
@@ -22,17 +38,18 @@ angular
              *           2) Gets the font size selected by the user in order to set it to the whole page
              */
             $scope.$on("$ionicView.beforeEnter", function () {
-                if (sharedProps.getData("isNightmode") != undefined)
-                    $scope.isNightmode = sharedProps.getData("isNightmode").value;
+                var n = JSON.parse($window.sessionStorage.getItem("isNightmode"));
+                if (n != undefined)
+                    $scope.isNightmode = n;
+                data.fontsize = JSON.parse($window.sessionStorage.getItem("fontsize"));
                 getFontSize();
             });
 
             /**
              * @function
              * @memberof controllerjs.editProfileCtrl
-             * @description This function is responsible for retrieving the selected font size from the 
-             * shared properties space and set the value into scope variables in order to be used in 
-             * the page and set the page's font size.
+             * @description Sets 2 scope variables that represent 2 different font-sizes. These variables
+             * are used in the page as ng-style attributes. 
              */
             function getFontSize() {
                 //font size for normal letters
@@ -44,8 +61,9 @@ angular
             /**
               * @function
               * @memberof controllerjs.editProfileCtrl
-              * @description This function is responsible for retrieving the class used in the background
-              * in order to set the background to nightmode/lightmode.
+              * @description Sets the appropriate background class in a scope variable that will be used 
+              * in the page as ng-class attribute. The classes are either for nightmode or normal mode 
+              * background.
               */
             $scope.getBackgroundClass = function () {
                 return $scope.isNightmode ? "nightmodeBackground" : "normalmodeBackground";
@@ -54,8 +72,9 @@ angular
             /**
               * @function
               * @memberof controllerjs.editProfileCtrl
-              * @description This function is responsible for retrieving the class used in the font style 
-              * in order to set the font style to nightmode/lightmode.
+              * @description Sets the appropriate font color class in a scope variable that will be used 
+              * in the page as ng-class attribute. The classes are either for nightmode or normal mode
+              * font-color.
               */
             $scope.getFontClass = function () {
                 return $scope.isNightmode ? "nightmodeFontColor" : "normalBlackLetters";
@@ -64,8 +83,8 @@ angular
             /**
               * @function
               * @memberof controllerjs.editProfileCtrl
-              * @description This function is responsible for updating all the stored values in the local
-              * storage with the new username.
+              * @description Responsible for updating all entries in the local storage with the new username
+              * if the username has changed.
               */
             function UpdateStorage() {
                 var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
@@ -73,8 +92,20 @@ angular
                 var usersSources = JSON.parse($window.localStorage.getItem("usersSources"));
                 var usersArticleCache = JSON.parse($window.localStorage.getItem("usersArticleCache"));
                 var usersSavedArticles = JSON.parse($window.localStorage.getItem("usersSavedArticles"));
+                var usersReportedArticles = JSON.parse($window.localStorage.getItem("usersReportedArticles"));
+                var usersArticlesNotes = JSON.parse($window.localStorage.getItem("usersArticlesNotes"));
 
                 usersSettings.forEach(el => {
+                    if (el.username == username)
+                        el.username = $scope.editedUser.username;
+                });
+                if (usersArticlesNotes != undefined || usersArticlesNotes != null) {
+                    usersArticlesNotes.forEach(el => {
+                        if (el.username == username)
+                            el.username = $scope.editedUser.username;
+                    });
+                }
+                usersReportedArticles.forEach(el => {
                     if (el.username == username)
                         el.username = $scope.editedUser.username;
                 });
@@ -100,21 +131,18 @@ angular
                 $window.localStorage.setItem("usersSources", JSON.stringify(usersSources));
                 $window.localStorage.setItem("usersArticleCache", JSON.stringify(usersArticleCache));
                 $window.localStorage.setItem("usersSavedArticles", JSON.stringify(usersSavedArticles));
-
+                $window.localStorage.setItem("usersReportedArticles", JSON.stringify(usersReportedArticles));
+                $window.localStorage.setItem("usersArticlesNotes", JSON.stringify(usersArticlesNotes));
             }
 
             /**
               * @function
               * @memberof controllerjs.editProfileCtrl
-              * @description This function is responsible for sending the new values of the newly edited profile 
-              * to be saved in the device's local storage, broadcasts the new username value for the sidemenu to 
-              * get and display and changes from the current page to the profile page.
+              * @description Responsible for setting a flag if the newly inserted username is already taken. If
+              * it's not, then it sends the data to the UserService to update the current user's information.
               */
             $scope.editProfile = function () {
-                $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Saving changes...</p>',
-                });
-                if (username != $scope.editedUser.username){
+                if (username != $scope.editedUser.username) {
                     for (let i = 0; i < users.length; i++) {
                         if (users[i].username == $scope.editedUser.username) {
                             $scope.input.usernameTaken = true;
@@ -128,7 +156,8 @@ angular
                 }
 
                 if (!$scope.input.usernameTaken) {
-                    UpdateStorage();
+                    if (username != $scope.editedUser.username)
+                        UpdateStorage();
                     UserService.Update($scope.editedUser).then(function (response) {
                         if (response.success) {
                             $rootScope.$broadcast("usernameChange", $scope.editedUser.username);
@@ -146,25 +175,23 @@ angular
                         }
                     });
                 }
-
-                $ionicLoading.hide();
             }
 
             $scope.goBack = function () {
-                $ionicHistory.goBack();
+                $state.go("eyeReader.profile");
             };
 
             /**
               * @function
               * @memberof controllerjs.editProfileCtrl
-              * @description This function is responsible for calling all the functions that need to 
-              * be executed when the page is initialized.
+              * @description Responsible for calling all the functions and executing necessary functionalities 
+              * once the page is loaded.
+              * Such functionalities include: 
+              * 1) Loading current user's detailes.
+              * 2) Loading all the users usernames.
+              * 3) Loading current user's details.
               */
             function init() {
-                $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles" class="spinner-light"></ion-spinner><p>Loading profile...</p>',
-                });
-
                 users = JSON.parse($window.localStorage.getItem("users"));
 
                 //sets the value of the user's sex based on their decision
@@ -175,26 +202,9 @@ angular
                 ];
                 $scope.user = $rootScope.activeUser;
                 username = $scope.user.username;
-                //creates a new objects with the current user details
                 $scope.editedUser = $scope.user;
                 $scope.selectedSex = $scope.editedUser.sex;
                 $scope.editedUser.birthday = new Date($scope.editedUser.birthday);
-
-                var usersSettings = JSON.parse($window.localStorage.getItem("usersSettings"));
-
-                var currentUserSettings = _.find(usersSettings, function (userSettings) {
-                    return userSettings.username == $rootScope.activeUser.username;
-                });
-
-                data = {
-                    cachenewsEnabled: currentUserSettings.settings.cachenewsEnabled,
-                    fontsize: currentUserSettings.settings.fontsize,
-                    markupEnabled: currentUserSettings.settings.markupEnabled,
-                    hideEnabled: currentUserSettings.settings.hideEnabled,
-                    tolerance: currentUserSettings.settings.tolerance,
-                };
-
-                $ionicLoading.hide();
             }
         }
     ])

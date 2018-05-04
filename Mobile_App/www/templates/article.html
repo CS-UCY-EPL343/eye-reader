@@ -1,8 +1,8 @@
-<ion-view hide-back-button="true" title="Article" id="page9">
+<ion-view hide-back-button="true" title="Article" id="page9" ng-controller="articleCtrl">
     <ion-nav-buttons side="left">
         <a ng-click="goBack()" class="button button-icon icon ion-android-arrow-back" style="color:white"></a>
     </ion-nav-buttons>
-    <ion-content padding="false" class="has-header generalPadding" ng-controller="articleCtrl" ng-class="getBackgroundClass()">
+    <ion-content padding="false" class="has-header generalPadding" ng-class="getBackgroundClass()">
         <h2 ng-class="getNightmodeHeaderClass()" id="article-heading4">
             <span class="boldLetters" ng-style="fontsize">{{article.Title}}</span>
         </h2>
@@ -25,7 +25,7 @@
                 <img alt="Article image" ng-src=".{{article.PictureSrc}}" height="100%" width="100%" style="vertical-align: middle;">
             </div>
             <div id="article-markdown2" class="show-list-numbers-and-dots normalBlackLetters">
-                <span ng-class="getFontClass()" style="line-height: 1.2" ng-style="fontsize" ng-bind-html="article.newContent"></span>
+                <span ng-class="getFontClass()" style="line-height: 1.2" ng-style="fontsize" ng-bind-html="article.filteredContent"></span>
             </div>
             <div class="row" style="margin-top:3%; margin-bottom:3%; padding-top:0; padding-bottom:0;">
                 <div class="col">
@@ -35,7 +35,7 @@
                     <button ng-show="!isArticleSaved()" class="button button-balanced" ng-click="save_unsaveArticle()">
                         <ion-icon name="favorite" class="icon ion-android-star-outline"></ion-icon>
                     </button>
-                    <button ng-show="!isDeleted()" class="button button-assertive" ng-click="showDeleteConfirm()">
+                    <button ng-show="isOnline && !isDeleted()" class="button button-assertive" ng-click="showDeleteConfirm()">
                         <ion-icon name="delete" class="icon ion-trash-a"></ion-icon>
                     </button>
                     <button ng-show="isOnline && !isArticleReported()" class="button button-energized" ng-click="showReportOptions()">
@@ -56,7 +56,8 @@
                     </div>
 
                     <div class="item item-body">
-                        <p style="margin-top:0">{{comment.Content}}</p>
+                        <p style="margin-top:0"  ng-bind-html="comment.Content"></p>
+                        <!-- <p style="margin-top:0">{{comment.Content}}</p> -->
                     </div>
                 </div>
             </div>

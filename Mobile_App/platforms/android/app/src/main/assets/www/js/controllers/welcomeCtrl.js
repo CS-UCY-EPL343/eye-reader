@@ -5,19 +5,18 @@ angular
     /**
      * @module welcomeCtrl
      * @memberof controllerjs
-     * @description Controller controlling the functionalities implemented for the welcome template.
+     * @description Controller for the functionalities implemented for the welcome view.
      */
     .controller("welcomeCtrl", ["$scope", "$state", "Application",
         function ($scope, $state, Application) {
-            
             /**
              * @function
              * @memberof controllerjs.welcomeCtrl
-             * @description This function is responsible to set the initial run of the application to false
-             * in order to disable the welcome screen from displaying when the app is relaunched and then
-             * redirect the app to the login page.
+             * @description Responsible for setting the application's initial run value to false so that
+             * the welcome page will not be displayed again if the application will be run again on the
+             * current device. Then it redirects the application to the login view.
              */
-            $scope.goToLogin = function(){
+            $scope.goToLogin = function () {
                 Application.setInitialRun(false);
                 $state.go("login");
             }

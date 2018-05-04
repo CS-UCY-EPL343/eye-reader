@@ -6,8 +6,9 @@ angular
      * @memberof controllerjs
      * @description Controller for the functionalities implemented for the statistics view.
      */
-    .controller("statisticsCtrl", ["$scope", "$q", "Server", "$http", "ConnectionMonitor", "$window",
-        function ($scope, $q, Server, $http, ConnectionMonitor, $window) {
+    .controller("statisticsCtrl", ["$scope", "$q", "Server", "$http", "ConnectionMonitor", "$window", "$ionicPopup", "$state",
+        function ($scope, $q, Server, $http, ConnectionMonitor, $window, $ionicPopup, $state) {
+            var networkAlert;
             Chart.pluginService.register({
                 beforeInit: function (chart) {
                     chart.data.labels.forEach(function (e, i, a) {
@@ -28,6 +29,21 @@ angular
             }
             var requests = [];
             var data = {};
+
+            var networkChange = $scope.$on("networkChange", function (event, args) {
+                if (!networkAlert)
+                    networkAlert = $ionicPopup.alert({
+                        title: "Warning",
+                        template: "<span>Internet connection changed. Please login again!</span>",
+                    }).then(function (res) {
+                        $scope.isOnline = args;
+                        $state.go("login", { reload: true, inherit: false, cache: false });
+                    });
+            });
+
+            $scope.$on("$destroy", function () {
+                networkChange();
+            })
 
             /**
              * @name $ionic.on.beforeEnter
@@ -213,6 +229,11 @@ angular
                             tempId++;
                         })
                         $scope.isLoadingOptions = false;
+                    }).catch(function (error) {
+                        $ionicPopup.alert({
+                            title: "ERROR",
+                            template: "<span>An error has occured! Cannot load sources!</span>",
+                        });
                     });
 
                 } else {
@@ -270,6 +291,10 @@ angular
                     $scope.barData.push(tempData);
                     $scope.isLoading = false;
                 }).catch(function (error) {
+                    $ionicPopup.alert({
+                        title: "ERROR",
+                        template: "<span>An error has occured! Cannot load statistics!</span>",
+                    });
                     $scope.isLoading = false;
                 });
             };

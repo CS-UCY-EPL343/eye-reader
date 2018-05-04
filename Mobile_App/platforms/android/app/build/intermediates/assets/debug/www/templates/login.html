@@ -1,6 +1,6 @@
-<ion-view hide-back-button="true" title="Login" id="page8" class="custom-background-img">
+<ion-view hide-back-button="true" title="Login" id="page8" ng-controller="loginCtrl" class="custom-background-img">
     <ion-nav-bar class="header"></ion-nav-bar>
-    <ion-content padding="true" class="has-header" ng-controller="loginCtrl">
+    <ion-content padding="true" class="has-header">
         <form id="loginform" name="loginform" class="list">
             <ul class="list">
                 <li class="item item-icon-left" style="border-top:none">
@@ -20,7 +20,7 @@
             </ul>
             <div class="spacer" style="height: 3%;"></div>
             <button ng-disabled="loginform.$invalid" class="button button-stable button-block" ng-click="login()">Log in</button>
-            <a ui-sref="signup()" style="color:#455A64" id="login-button4" class="button button-block button-clear">Or create an account</a>
+            <a ui-sref="signup()" style="color:#455A64; text-decoration: underline; font-size: 110%" id="login-button4" class="button button-block button-clear">Create an account</a>
         </form>
     </ion-content>
 </ion-view>

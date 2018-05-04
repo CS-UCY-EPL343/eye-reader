@@ -8,15 +8,32 @@ angular
      * @memberof controllerjs
      * @description Controller for the functionalities implemented for the add sources view.
      */
-    .controller("addSourcesCtrl", ["$scope", "$http", "$window", "$rootScope", "ConnectionMonitor", "Server", "$ionicHistory",
-        function ($scope, $http, $window, $rootScope, ConnectionMonitor, Server, $ionicHistory) {
+    .controller("addSourcesCtrl", ["$scope", "$http", "$window", "$rootScope", "ConnectionMonitor", "Server", "$ionicHistory", "$ionicPopup", "$state",
+        function ($scope, $http, $window, $rootScope, ConnectionMonitor, Server, $ionicHistory, $ionicPopup, $state) {
             $scope.isOnline = ConnectionMonitor.isOnline();
+            ConnectionMonitor.startWatching();
             $scope.isLoading = true;
             $scope.currentUserSources = {};
             $scope.input = {};
             var usersSources = {};
             var data = {};
+            var networkAlert;
             init();
+
+            var networkChange = $scope.$on("networkChange", function (event, args) {
+                if (!networkAlert)
+                    networkAlert = $ionicPopup.alert({
+                        title: "Warning",
+                        template: "<span>Internet connection changed. Please login again!</span>",
+                    }).then(function (res) {
+                        $scope.isOnline = args;
+                        $state.go("login", { reload: true, inherit: false, cache: false });
+                    });
+            });
+
+            $scope.$on("$destroy", function () {
+                networkChange();
+            })
 
             /**
              * @name $ionic.on.beforeEnter
@@ -148,6 +165,12 @@ angular
                                 }
                             })
                     }).then(function () {
+                        $scope.isLoading = false;
+                    }).catch(function (error) {
+                        $ionicPopup.alert({
+                            title: "ERROR",
+                            template: "<span>An error has occured! Cannot load sources!</span>",
+                        });
                         $scope.isLoading = false;
                     });
                 } else {

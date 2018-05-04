@@ -6,8 +6,8 @@ angular
      * @memberof controllerjs
      * @description Controller for the functionalities implemented for the login view.
      */
-    .controller("loginCtrl", ["$scope", "AuthenticationService", "$state", "$window", "$ionicPopup", "$ionicLoading", "$rootScope",
-        function ($scope, AuthenticationService, $state, $window, $ionicPopup, $ionicLoading, $rootScope) {
+    .controller("loginCtrl", ["$scope", "AuthenticationService", "$state", "$window", "$ionicPopup", "$ionicLoading", "$rootScope", "ConnectionMonitor",
+        function ($scope, AuthenticationService, $state, $window, $ionicPopup, $ionicLoading, $rootScope, ConnectionMonitor) {
             var usersSettings;
 
             /**
@@ -44,7 +44,7 @@ angular
                 $window.localStorage.setItem("usersSettings", JSON.stringify(usersSettings));
 
                 $window.sessionStorage.setItem("isNightmode", JSON.stringify(false));
-                $window.sessionStorage.setItem("fontsize", JSON.stringify(currentUserSettings.settings.fontsize));
+                $window.sessionStorage.setItem("fontsize", JSON.stringify(100));
 
                 //creates users deleted articles local storage entry
                 var usersDeletedArticles = $window.localStorage.getItem("usersDeletedArticles");
@@ -131,6 +131,7 @@ angular
                 });
                 if (currentUserSettings != null || currentUserSettings != undefined) {
                     $window.sessionStorage.setItem("isNightmode", JSON.stringify(false));
+                    $window.sessionStorage.setItem("fontsize", JSON.stringify(currentUserSettings.settings.fontsize));
                 } else {
                     createUserSettings();
                 }
@@ -142,14 +143,9 @@ angular
               * @description Responsible for displaying an informational popup if the user failed to login.
               */
             function showFailedToLoginPopup(resp) {
-                var promptAlert = $ionicPopup.show({
+                $ionicPopup.alert({
                     title: "Error",
                     template: '<span>Failed to login! ' + resp.message + '.</span>',
-                    buttons: [{
-                        text: "OK",
-                        type: "button-positive",
-                        onTap: function (e) { }
-                    }]
                 });
             };
 
@@ -175,7 +171,10 @@ angular
                             );
                             findUserSettings();
                             $ionicLoading.hide();
-                            $state.go("eyeReader.newsFeed");
+                            if (ConnectionMonitor.isOnline())
+                                $state.go("eyeReader.newsFeed");
+                            else
+                                $state.go("eyeReader.cachedNewsFeed");
                         } else {
                             $ionicLoading.hide();
                             showFailedToLoginPopup(response);
