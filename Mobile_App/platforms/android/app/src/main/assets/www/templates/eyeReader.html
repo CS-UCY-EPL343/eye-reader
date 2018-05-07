@@ -22,7 +22,15 @@
                     <h2 ng-class="getNightmodeHeaderClass()">{{currUser}}</h2>
                     <p class="sideLetters">View your profile</p>
                 </a>
-                <a ng-class="getBackgroundClass()" class="item item-icon-left" id="eyeReader-list-item6" ui-sref="eyeReader.newsFeed()" menu-close="">
+                <a ng-if="isOnline" ng-class="getBackgroundClass()" class="item item-icon-left" id="eyeReader-list-item6" ui-sref="eyeReader.newsFeed()"
+                    menu-close="">
+                    <i ng-class="getSidemenuIconClass()" class="icon ion-earth"></i>
+                    <span ng-class="getFontClass()" ng-style="selectedFontsize">
+                        News feed
+                    </span>
+                </a>
+                <a ng-if="!isOnline" ng-class="getBackgroundClass()" class="item item-icon-left" id="eyeReader-list-item6" ui-sref="eyeReader.cachedNewsFeed()"
+                    menu-close="">
                     <i ng-class="getSidemenuIconClass()" class="icon ion-earth"></i>
                     <span ng-class="getFontClass()" ng-style="selectedFontsize">
                         News feed

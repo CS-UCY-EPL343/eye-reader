@@ -7,9 +7,10 @@ angular
       * @description Controller for the functionalities implemented for the side menu.
       */
     .controller("eyeReaderCtrl", ["$scope", "$stateParams", "$rootScope", "$ionicPopup",
-        "$state", "AuthenticationService", "$ionicModal", "$window",
-        function ($scope, $stateParams, $rootScope, $ionicPopup, $state, AuthenticationService, $ionicModal, $window) {
+        "$state", "AuthenticationService", "$ionicModal", "$window", "ConnectionMonitor",
+        function ($scope, $stateParams, $rootScope, $ionicPopup, $state, AuthenticationService, $ionicModal, $window, ConnectionMonitor) {
             //the currently active usernewsfeed
+            $scope.isOnline = ConnectionMonitor.isOnline();
             $scope.currUser = $rootScope.activeUser.username;
             init();
             /**
@@ -132,6 +133,8 @@ angular
               */
             function init() {
                 $scope.selectedFontsize = { 'font-size': JSON.parse($window.sessionStorage.getItem("fontsize")) + '%' };
+
+                ConnectionMonitor.startWatching();
             }
         }
     ])

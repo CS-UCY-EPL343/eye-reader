@@ -12,7 +12,7 @@
                     </li>
                 </ul>
             </ion-toggle>
-            <ion-toggle ng-class="getBackgroundClass()" ng-change="checkCache()" ng-model="data.cachenewsEnabled" type="checkbox" ng-cloak>
+            <ion-toggle ng-if="isOnline" ng-class="getBackgroundClass()" ng-change="checkCache()" ng-model="data.cachenewsEnabled" type="checkbox" ng-cloak>
                 <ul>
                     <li>
                         <span ng-class="getFontClass()" ng-style="selectedFontsize">Cache News</span>
@@ -62,7 +62,7 @@
                 </ul>
             </ion-toggle>
 
-            <li ng-class="getBackgroundClass()" style="padding-top:16px" class="item range" ng-hide="!data.markupEnabled && !data.hideEnabled"
+            <li ng-class="getBackgroundClass()" style="padding-top:16px" class="item range" ng-hide="(!data.markupEnabled && !data.hideEnabled) || !isOnline"
                 ng-cloak>
                 <ul>
                     <li>
@@ -76,7 +76,7 @@
                     </li>
                 </ul>
             </li>
-            <li ng-hide="!data.markupEnabled && !data.hideEnabled" ng-class="getBackgroundClass()" style="border-top:0px;padding-bottom:16px"
+            <li ng-hide="(!data.markupEnabled && !data.hideEnabled) || !isOnline" ng-class="getBackgroundClass()" style="border-top:0px;padding-bottom:16px"
                 class="item range" ng-cloak>
                 <input ng-model="data.tolerance"  ng-change="updateSettings()" type="range" min="0" max="100" step="1" name="Tolerance Level Range">
             </li>

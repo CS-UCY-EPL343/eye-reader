@@ -35,14 +35,6 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
             //     StatusBar.styleDefault();
             // }
 
-            // document.addEventListener("backbutton", function (e) {
-            //     AuthenticationService.ClearCredentials();
-            //     // $state.go("login", {}, { reload: true, inherit: false });
-            //     window.location("login");
-            // }, false);
-
-            ConnectionMonitor.startWatching();
-
             if (Application.isInitialRun()) {
                 $state.go('welcome');
             } else {

@@ -2,16 +2,16 @@
   <ion-content ng-controller="tutorialCtrl">
     <ion-slides options="options" slider="data.slider">
       <ion-slide-page class="generalTutorial">
-        <button class="button button-right button-light icon ion-close" ng-click="closeModal()"></button>
+        <button class="button button-right button-clear button-light icon ion-close" ng-click="closeModal()"></button>
         <div>
           <h3 class="boldLetters">Edit Profile
           </h3>
         </div>
         <p>1. Click "View your profile" in the side menu.</p>
-        <img src="img/viewYourProfile.png">
+        <img ng-src="img/viewYourProfile.png">
         <p>2. Click "Edit Profile" to edit your personal information.</p>
         <p>3. Edit your information and save the changes.</p>
-        <img src="img/editProfile.png">
+        <img ng-src="img/editProfile.png">
       </ion-slide-page>
 
       <ion-slide-page class="generalTutorial">
@@ -21,7 +21,7 @@
         </div>
         <p>4. By checking the "Are you a journalist" you have the extra perk of adding personal notes, that only you can read
           and edit, to the articles.</p>
-        <img src="img/editProfile.png">
+        <img ng-src="img/editProfile.png">
       </ion-slide-page>
 
       <ion-slide-page class="generalTutorial">
@@ -32,7 +32,7 @@
         <br/>
         <p>1. Click "Add Sources" in the side menu.</p>
         <p>2. Select sources to read articles from.</p>
-        <img src="img/addSources.png">
+        <img ng-src="img/addSources.png">
       </ion-slide-page>
 
       <ion-slide-page class="generalTutorial">
@@ -43,7 +43,7 @@
         <p>1. Slide the small arrow '>' to the left.</p>
         <p>2. Select the
           <i style="display:inline-block;" class="icon ion-android-star-outline"></i> to save the article.</p>
-        <img src="img/articleSlide.png">
+        <img ng-src="img/articleSlide.png">
         <p>3. The article will be saved in the "Saved" in the side menu.</p>
       </ion-slide-page>
 
@@ -55,7 +55,7 @@
         <p>1. Slide the small arrow '>' to the left.</p>
         <p>2. Select the
           <i style="display:inline-block;" class="icon ion-alert-circled"></i> to report the article.</p>
-        <img src="img/articleSlide.png">
+        <img ng-src="img/articleSlide.png">
         <p>3. Check the reason you want to report the article.</p>
       </ion-slide-page>
 
@@ -67,7 +67,7 @@
         <p>1. Click "Statistics" in the side menu.</p>
         <p>2. By fetching statistics it present the statistics of all the sources or the one you select.</p>
         <p>3. Different type of statistics can be selected only for all sources.</p>
-        <img src="img/statistics.png">
+        <img ng-src="img/statistics.png">
       </ion-slide-page>
 
       <ion-slide-page class="generalTutorial">
@@ -76,7 +76,7 @@
           <h3 class="boldLetters">View Statistics</h3>
         </div>
         <p>4."View Statistics" (Report counter, Click counter and Setiment Analysis).</p>
-        <img src="img/graph.png">
+        <img ng-src="img/graph.png">
       </ion-slide-page>
 
       <ion-slide-page class="generalTutorial">
@@ -86,7 +86,7 @@
         </div>
         <p>1. Click "Settings" in the side menu.</p>
         <p>2. Enable night mode, change the app's font size and enable article caching for offline reading.</p>
-        <img src="img/settingsDisplay.png">
+        <img ng-src="img/settingsDisplay.png">
       </ion-slide-page>
 
       <ion-slide-page class="generalTutorial">
@@ -96,7 +96,7 @@
         </div>
         <p>3. Enable "Markup Toxic" or "Hide Toxic" to highlight or hide toxic content.</p>
         <p>4. Set your tolerance level against toxic content (the higher the value, the more tolerant you are).</p>
-        <img src="img/settingsFiltering.png">
+        <img ng-src="img/settingsFiltering.png">
       </ion-slide-page>
     </ion-slides>
   </ion-content>

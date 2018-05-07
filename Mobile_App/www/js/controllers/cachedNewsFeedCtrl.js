@@ -292,7 +292,8 @@ angular
 
                 data = {
                     cachenewsEnabled: currentUserSettings.settings.cachenewsEnabled,
-                    fontsize: currentUserSettings.settings.fontsize
+                    fontsize: currentUserSettings.settings.fontsize,
+                    tolerance: currentUserSettings.settings.tolerance
                 };
             }
 
@@ -333,6 +334,8 @@ angular
                 $scope.cachedArticles = _.find(articleCache, function (ac) {
                     return ac.username == $rootScope.activeUser.username;
                 });
+                console.log($scope.isLoading);
+                console.log($scope.cachedArticles);
                 $scope.isLoading = false;
             }
         }

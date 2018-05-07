@@ -18,7 +18,7 @@
             <ion-list id="newsFeed-list9" ng-repeat="article in articles | filter: { Title:input.onlineSearch } " ng-class="getBackgroundClass()">
                 <ion-item class="item-thumbnail-left item-icon-right" ng-click="articleTapped({{article.Id}})" ng-class="getBackgroundClass()">
                     <img alt="img" ng-src=".{{article.PictureSrc}}">
-                    <h2 ng-style="fontsize" ng-class="getFontClass()">{{article.Id}} - {{article.Title}}</h2>
+                    <h2 ng-style="fontsize" ng-class="getFontClass()">{{article.Title}}</h2>
                     <p ng-style="fontsizeSmaller" ng-class="getFontClass()">Source: {{article.SourceTitle}}</p>
                     <p ng-style="fontsizeSmaller" class="sideLetters">{{article.Content}}</p>
                     <i class="icon ion-ios-arrow-right icon-accessory"></i>
@@ -62,7 +62,7 @@
                 <h1 style="color: #90A4AE; font-size: 450%; text-align: center">Oops!</h1>
                 <h5 style="color: #90A4AE; text-align: center">There are no sources to read from.</h5>
             </ion-list>
-        </div>  
+        </div>
     </ion-content>
     <ion-footer-bar ng-if="!isOnline" align-title="middle" class="bar-assertive">
         <p class="title">NO INTERNET CONNECTION!</p>

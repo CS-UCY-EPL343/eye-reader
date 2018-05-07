@@ -612,18 +612,17 @@ angular
                                 return art.Id == article_resp[0].Id;
                             })
                             if (isContained == undefined || isContained == null) {
-                                var total_words = 0;
+                                var total_neg_words = 0;
                                 article_resp[0].NegativeWords.forEach(e => {
                                     if (e != "***")
-                                        total_words += article_resp[0].Content.match(new RegExp(e, "gi") || []).length;
+                                        total_neg_words += article_resp[0].Content.match(new RegExp(e, "gi") || []).length;
                                 })
-
-                                var negative_pct = article_resp[0].NegativeWords.length / total_words * 100;
+                                var negative_pct = total_neg_words / article_resp[0].Content.split(" ").length * 100;
                                 if (data.markupEnabled || data.hideEnabled) {
                                     if (negative_pct <= data.tolerance) {
                                         $scope.articles.push(article_resp[0]);
                                     }
-                                }else{
+                                } else {
                                     $scope.articles.push(article_resp[0]);
                                 }
                                 article_resp.splice(0, 1);

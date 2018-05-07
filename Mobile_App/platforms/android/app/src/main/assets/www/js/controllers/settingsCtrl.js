@@ -162,6 +162,8 @@ angular
                             }
                             cacheArticles();
 
+                            saveUserSettings();
+
                             $scope.isLoading = false;
                         }).catch(function (error) {
                             $ionicPopup.alert({
