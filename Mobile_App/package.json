@@ -4,17 +4,17 @@
   "description": "",
   "devDependencies": {
     "gulp": "^3.5.6",
-    "gulp-clean-css": "^3.9.3",
+    "gulp-clean-css": "^3.9.4",
     "gulp-rename": "^1.2.0",
-    "gulp-sass": "^3.2.0"
+    "gulp-sass": "^3.2.1"
   },
   "dependencies": {
     "angular-chart.js": "^1.1.1",
     "chart.js": "^2.7.2",
-    "cordova-android": "^6.2.2",
+    "cordova-android": "^6.4.0",
     "cordova-plugin-device": "^1.1.7",
     "cordova-plugin-fullscreen": "^1.2.0",
-    "cordova-plugin-ionic-webview": "^1.1.16",
+    "cordova-plugin-ionic-webview": "^1.2.1",
     "cordova-plugin-network-information": "^2.0.1",
     "cordova-plugin-splashscreen": "^4.1.0",
     "cordova-plugin-statusbar": "git+https://github.com/apache/cordova-plugin-statusbar.git",
