@@ -3,12 +3,19 @@ Development of a News Reader cross platform mobile App, enhanced with hate\toxic
 
 Synopsis
 -------------------
-The main design pattern of this project is Client-Server model. The client will be the mobile App we develop, which will communicate with the Backend server of our system to retrieve articles. The Backend server will be used as a crawler to collect the articles which will be sent to the users of our mobile App.
+The main design pattern of this project is the Client - Server model. The client will consist of the mobile App we develop, which will communicate with the Back-End server of our system to retrieve articles. The Backend server will be used as a crawler to collect the articles which will be sent to the users of our mobile App.
 
 How to Get Started
 -------------------
-In order to deploy the project on a live system, you will have to install the Mobile App on a smartphone (Android or iOS) and deploy the backend on Node.js environment.
-(At this point of the development, the Mobile App uses a local database for its' articles and doesn't use the backend server, which is not developed yet.)
+In order to deploy the project on a live system, you will have to install the Mobile App on a smartphone (Android or iOS) and deploy the Back-End on a Node.js environment.
+Our app consists of a Front-End and Back-End. The Front-End is a cross-platform mobile app which needs the Back-End service in order to function properly.
+The Back-End is a RESTful API service which offers a variety of background services such as storing the articles and sources as well as executing the required queries for the
+app to function. The Back-End service is implemented in a nodeJS environment and it can be deployed on any machine that runs the specific platform.
+
+For development purposes we have used the Heroku Service.
+
+The app's APK can be downloaded through the following GitHub link:
+https://github.com/CS-UCY-EPL361/eye-reader/blob/master/Prebuild_Mobile_App/EyeReader_Debug.apk
 
 For detailed instructions on how to build the Mobile App, follow the instructions in [Readme.md of the Mobile_App direcory](Mobile_App/README.md)
 
